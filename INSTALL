@@ -1,0 +1,27 @@
+#! /bin/bash
+
+# Dieharder installation
+
+apt-get install libgsl0-dev
+cd dieharder-src
+make
+cd ..
+ln -s dieharder-src/install/bin/dieharder dieharder
+
+# NIST STS installation
+cd nist-sts-src
+mkdir obj
+make
+cd experiments
+bash create-dir-script
+cd ../..
+ln -s nist-sts-src/assess nist-sts
+
+# TestU01 installation
+cd testu01-src
+make
+cd ..
+ln -s testu01-src/binary/TestU01 testu01
+
+printf "\n\nInstallation complete.\n"
+

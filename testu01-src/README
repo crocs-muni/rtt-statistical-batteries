@@ -1,0 +1,87 @@
+Directory contains source code of TestU01 library and code for executable using this library. Exacutable takes file with binary data and will execute specified statistical analysis on it.
+
+======== Build notes ========
+Before executable, library must be built. This can be done with following commands in sorce code root directory.
+
+    ./configure --prefix=<install-dir>
+    make
+    make install
+    
+Then you can built executable with make inside "binary" directory. Before make, set following variables.
+
+    export LD_LIBRARY_PATH=<install-dir>/install/lib
+    export LIBRARY_PATH=<install-dir>/install/lib
+    export C_INCLUDE_PATH=<install-dir>/install/include
+
+Note: Executable must be built with flags -ltestu01 -lprobdist -lmylib -lm. Makefile will do that for you.
+
+These steps can be done using Makefile located in testu01 directory. Default TestU01 installation location is directory "install".
+
+======== Running ========
+If you built executable using Makefile you can run it right away (static build is set). Otherwise you have to run following commands before each run.
+
+    export LD_LIBRARY_PATH=<install-dir>/install/lib
+    export LIBRARY_PATH=<install-dir>/install/lib
+    export C_INCLUDE_PATH=<install-dir>/install/include
+    
+
+================================== [USAGE] ==================================
+
+For information about tests, their parameters and such, see
+TestU01 library documentation.
+http://simul.iro.umontreal.ca/testu01/guideshorttestu01.pdf
+
+      ./TestU01 [-m <battery>] [-t <test>] [-i <in_path>]
+                [-r <reps>] [--bit_nb <nb>] [--bit_r <r>]
+                [--bit_s <s>] [--params <pars>]
+
+-m <battery>    (Mandatory) Option for choosing from which battery
+                the test will be picked. Possible values
+                for <battery> are: "small_crush", "crush",
+                "big_crush", "rabbit", "alphabit" or "block_alphabit".
+
+-t <test>       (Mandatory) Picks single test from <battery> that
+                will be executed. <test> is numeric constant of test.
+                For constants see library documetation.
+
+-i <in_path>    (Mandatory) Path to input file with binary data.
+                Analysis will be done on this data.
+
+-r <reps>       (Optional) Sets number of test repetitions. If set,
+                test will be executed <reps> times resulting in <reps>
+                p-values. Default is 1.
+
+--bit_nb <nb>   (Mandatory when <battery> is rabbit or (block_)alphabit )
+                Sets numbers of bits that will be taken from file
+                for analysis. The rest of the bits is left out.
+
+--bit_r <r>     (Optional when <battery> is (block) alphabit) Sets how
+                many most significant bits are left out from each
+                4 byte block in analysis. When <r> == 0, no bits
+                are dropped. Default is 0.
+
+--bit_s <s>     (Optional when <battery> is (block_)alphabit) Sets how many
+                consecutive bits after <r> will be processed. When
+                <r> == 0 and <s> == 32 full blocks are processed.
+                When <r> == 0 and <s> == 10 only first 10 bits from
+                each 32 bits are processed. Default is 32.
+
+--bit_w <w>     (Optional when <battery> is block_alphabit) Sets bit reordering
+                before applying alphabit battery to stream. When not set, values
+                from set {1, 2, 4, 8, 16, 32} that are lesser or equal to <s>
+                will be used.
+
+--params <pars> (Optional but ignored when <battery> is rabbit or
+                (block) alphabit)
+                Sets custom parameters for tests from Crush batteries.
+                <pars> is consecutive list of parameters. All parameters
+                must be set when using this option and must be in order
+                that is used in documentation.
+                Example: smarsa_BirthdaySpacings test takes 6 parameters:
+                N, n, r, d, t, p. If we wanted to run it in default settings,
+                then <pars> would be "1 5000000 0 1073741824 2 1".
+                Decimals can be used too, for Bool values use 1 for true
+                and 0 for false. If this option is ommited, test will be
+                run in default settings according to library documentation.
+
+================================== [USAGE] ==================================

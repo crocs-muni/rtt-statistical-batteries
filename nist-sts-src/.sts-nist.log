@@ -1,0 +1,13 @@
+           G E N E R A T O R    S E L E C T I O N 
+           ______________________________________
+
+    [0] Input File                 [1] Linear Congruential
+    [2] Quadratic Congruential I   [3] Quadratic Congruential II
+    [4] Cubic Congruential         [5] XOR
+    [6] Modular Exponentiation     [7] Blum-Blum-Shub
+    [8] Micali-Schnorr             [9] G Using SHA-1
+
+   Enter Choice: 
+
+		User Prescribed Input File: 
+File Error:  file 1 could not be opened.
