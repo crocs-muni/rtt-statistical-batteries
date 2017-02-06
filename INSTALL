@@ -1,9 +1,15 @@
 #! /bin/bash
 set -e
 
-# Dieharder installation
 
-apt-get install libgsl0-dev
+# Installing required packages for build
+sudo apt-get install libgsl0-dev
+sudo apt-get install build-essential
+sudo apt-get install autotools-dev
+sudo apt-get install automake
+sudo apt-get install libtool
+
+# Dieharder installation
 cd dieharder-src
 make
 cd ..
