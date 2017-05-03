@@ -1,7 +1,13 @@
 *************************************************************************
 *        Alternative (faster) implementation of the NIST STS tests      *
 *                                                                       *
-*            NIST STS Version 2.1.2 - Alt Version B                     *
+*            NIST STS Version 2.1.2 - Alt Version E (v5)                *
+*************************************************************************
+*                                                                       *
+*   Please write your bug reports, questions and comments to:           *
+*                        zriha@mail.muni.cz                             *
+*                        syso@mail.muni.cz                              *
+*                                                                       *
 *************************************************************************
 *                                                                       *
 *                         I N S T A L L                                 *
@@ -59,15 +65,13 @@ You can add new implementation of the arbitrary test as follows:
     //#define FILE_OUTPUT 1 
     define KS 1 
     if you want also to test uniformity using Kolmogorov-Smirnov test.
-    KS can compute p-value greater than 1 since it computes accurate 
-    p-values only for small p-values. 
     
  
 2. Usage: assess <stream length> [-fast] 
    <stream length> is the length of the individual bit stream(s) to be processed
    -fast           use the faster alternative implementation (version 2) of tests
    (set Command arguments: 10000 -fast if you want to test 10 000 bits with faster version of NIST tests)
-
+   No or incorrect arguments lead to usage message.
 *************************************************************************
 *                                                                       *
 *                           Performance testing                         *

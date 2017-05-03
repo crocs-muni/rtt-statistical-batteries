@@ -64,19 +64,21 @@ CumulativeSums(int n)
 #ifdef KS
 	pvals.cusum_pvals[0][pvals.seq_counter] = p_value;
 #endif
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (FORWARD) TEST\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", z);
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+ if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (FORWARD) TEST\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", z);
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
 
-	if ( isNegative(p_value) || isGreaterThanOne(p_value) )
-		fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
 
-	fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
-	fprintf(results[TEST_CUSUM], "%f\n", p_value);
+		fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
+		fprintf(results[TEST_CUSUM], "%f\n", p_value);
+	}
 #endif	
 	// backwards
 	sum1 = 0.0;
@@ -105,19 +107,21 @@ CumulativeSums(int n)
 #ifdef KS
 	pvals.cusum_pvals[1][pvals.seq_counter] = p_value;
 #endif
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (REVERSE) TEST\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", zrev);
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+ if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (REVERSE) TEST\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", zrev);
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
 
-	if ( isNegative(p_value) || isGreaterThanOne(p_value) )
-		fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
 
-	fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_CUSUM]);
-	fprintf(results[TEST_CUSUM], "%f\n", p_value); fflush(results[TEST_CUSUM]);
+		fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_CUSUM]);
+		fprintf(results[TEST_CUSUM], "%f\n", p_value); fflush(results[TEST_CUSUM]);
+	}
 #endif
 	//printf("sum1 %lf   sum2 %lf",sum1,sum2);
 }
@@ -228,19 +232,21 @@ unsigned int window;
 	pvals.cusum_pvals[0][pvals.seq_counter] = p_value;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (FORWARD) TEST\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", z);
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+ if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (FORWARD) TEST\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", z);
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
 
-	if ( isNegative(p_value) || isGreaterThanOne(p_value) )
-		fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
 
-	fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
-	fprintf(results[TEST_CUSUM], "%f\n", p_value);
+		fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
+		fprintf(results[TEST_CUSUM], "%f\n", p_value);
+	}
 #endif
 	// backwards
 	sum1 = 0.0;
@@ -268,19 +274,21 @@ unsigned int window;
 #ifdef KS
 	pvals.cusum_pvals[1][pvals.seq_counter] = p_value;
 #endif
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (REVERSE) TEST\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", zrev);
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+ if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (REVERSE) TEST\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", zrev);
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
 
-	if ( isNegative(p_value) || isGreaterThanOne(p_value) )
-		fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
 
-	fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_CUSUM]);
-	fprintf(results[TEST_CUSUM], "%f\n", p_value); fflush(results[TEST_CUSUM]);
+		fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_CUSUM]);
+		fprintf(results[TEST_CUSUM], "%f\n", p_value); fflush(results[TEST_CUSUM]);
+	}
 #endif
 	//printf("sum1 %lf   sum2 %lf\n\n",sum1,sum2);
 }
@@ -380,19 +388,21 @@ CumulativeSums3(int n)
 #ifdef KS
 	pvals.cusum_pvals[0][pvals.seq_counter] = p_value;
 #endif
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (FORWARD) TEST\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", z);
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+ if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (FORWARD) TEST\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", z);
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
 
-	if (isNegative(p_value) || isGreaterThanOne(p_value))
-		fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
 
-	fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
-	fprintf(results[TEST_CUSUM], "%f\n", p_value);
+		fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
+		fprintf(results[TEST_CUSUM], "%f\n", p_value);
+	}
 #endif
 	// backwards
 	sum1 = 0.0;
@@ -421,19 +431,21 @@ CumulativeSums3(int n)
 	pvals.cusum_pvals[1][pvals.seq_counter] = p_value;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (REVERSE) TEST\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", zrev);
-	fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+ if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_CUSUM], "\t\t      CUMULATIVE SUMS (REVERSE) TEST\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_CUSUM], "\t\t(a) The maximum partial sum = %d\n", zrev);
+		fprintf(stats[TEST_CUSUM], "\t\t-------------------------------------------\n");
 
-	if (isNegative(p_value) || isGreaterThanOne(p_value))
-		fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_CUSUM], "\t\tWARNING:  P_VALUE IS OUT OF RANGE\n");
 
-	fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_CUSUM]);
-	fprintf(results[TEST_CUSUM], "%f\n", p_value); fflush(results[TEST_CUSUM]);
+		fprintf(stats[TEST_CUSUM], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_CUSUM]);
+		fprintf(results[TEST_CUSUM], "%f\n", p_value); fflush(results[TEST_CUSUM]);
+	}
 #endif
 	//printf("sum1 %lf   sum2 %lf\n\n",sum1,sum2);
 }

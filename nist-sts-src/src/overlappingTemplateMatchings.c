@@ -30,11 +30,13 @@ OverlappingTemplateMatchings(int m, int n)
 	M = 1032;
 	N = n/M;
 	
-	if ( (sequence = (BitSequence *) calloc(m, sizeof(BitSequence))) == NULL ) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
-		fprintf(stats[TEST_OVERLAPPING], "\t\t---------------------------------------------\n");
-		fprintf(stats[TEST_OVERLAPPING], "\t\tTEMPLATE DEFINITION:  Insufficient memory, Overlapping Template Matchings test aborted!\n");
+	if ((sequence = (BitSequence *)calloc(m, sizeof(BitSequence))) == NULL) {
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
+			fprintf(stats[TEST_OVERLAPPING], "\t\t---------------------------------------------\n");
+			fprintf(stats[TEST_OVERLAPPING], "\t\tTEMPLATE DEFINITION:  Insufficient memory, Overlapping Template Matchings test aborted!\n");
+	}
 #endif
 		return;
 	}
@@ -86,32 +88,36 @@ OverlappingTemplateMatchings(int m, int n)
 	if(OverlappingTemplateMatchings_v1 == OverlappingTemplateMatchings) R1 = R_;
 	else R2 = R_;
 #endif
-#ifdef FILE_OUTPUT	
-	fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(a) n (sequence_length)      = %d\n", n);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(b) m (block length of 1s)   = %d\n", m);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(c) M (length of substring)  = %d\n", M);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(d) N (number of substrings) = %d\n", N);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(e) lambda [(M-m+1)/2^m]     = %f\n", lambda);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(f) eta                      = %f\n", eta);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t   F R E Q U E N C Y\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t  0   1   2   3   4 >=5   Chi^2   P-value  Assignment\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t%3d %3d %3d %3d %3d %3d  %f ",
-		nu[0], nu[1], nu[2], nu[3], nu[4], nu[5], chi2);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(a) n (sequence_length)      = %d\n", n);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(b) m (block length of 1s)   = %d\n", m);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(c) M (length of substring)  = %d\n", M);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(d) N (number of substrings) = %d\n", N);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(e) lambda [(M-m+1)/2^m]     = %f\n", lambda);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(f) eta                      = %f\n", eta);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t   F R E Q U E N C Y\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t  0   1   2   3   4 >=5   Chi^2   P-value  Assignment\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t%3d %3d %3d %3d %3d %3d  %f ",
+			nu[0], nu[1], nu[2], nu[3], nu[4], nu[5], chi2);
 
-	if ( isNegative(p_value) || isGreaterThanOne(p_value) )
-		fprintf(stats[TEST_OVERLAPPING], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_OVERLAPPING], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+	}
 #endif
 
 	free(sequence);
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_OVERLAPPING], "%f %s\n\n", p_value, p_value < ALPHA ? "FAILURE" : "SUCCESS"); fflush(stats[TEST_OVERLAPPING]);
-	fprintf(results[TEST_OVERLAPPING], "%f\n", p_value); fflush(results[TEST_OVERLAPPING]);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_OVERLAPPING], "%f %s\n\n", p_value, p_value < ALPHA ? "FAILURE" : "SUCCESS"); fflush(stats[TEST_OVERLAPPING]);
+		fprintf(results[TEST_OVERLAPPING], "%f\n", p_value); fflush(results[TEST_OVERLAPPING]);
+	}
 #endif
 #ifdef KS
 	pvals.overlapping_pvals[pvals.seq_counter] = p_value;
@@ -228,29 +234,31 @@ OverlappingTemplateMatchings2(int m, int n)
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(a) n (sequence_length)      = %d\n", n);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(b) m (block length of 1s)   = %d\n", m);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(c) M (length of substring)  = %d\n", M);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(d) N (number of substrings) = %d\n", N);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(e) lambda [(M-m+1)/2^m]     = %f\n", lambda);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(f) eta                      = %f\n", eta);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t   F R E Q U E N C Y\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t  0   1   2   3   4 >=5   Chi^2   P-value  Assignment\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t%3d %3d %3d %3d %3d %3d  %f ",
-		nu[0], nu[1], nu[2], nu[3], nu[4], nu[5], chi2);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(a) n (sequence_length)      = %d\n", n);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(b) m (block length of 1s)   = %d\n", m);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(c) M (length of substring)  = %d\n", M);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(d) N (number of substrings) = %d\n", N);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(e) lambda [(M-m+1)/2^m]     = %f\n", lambda);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(f) eta                      = %f\n", eta);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t   F R E Q U E N C Y\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t  0   1   2   3   4 >=5   Chi^2   P-value  Assignment\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t%3d %3d %3d %3d %3d %3d  %f ",
+			nu[0], nu[1], nu[2], nu[3], nu[4], nu[5], chi2);
 
-	if ( isNegative(p_value) || isGreaterThanOne(p_value) )
-		fprintf(stats[TEST_OVERLAPPING], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_OVERLAPPING], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
 
-	fprintf(stats[TEST_OVERLAPPING], "%f %s\n\n", p_value, p_value < ALPHA ? "FAILURE" : "SUCCESS"); fflush(stats[TEST_OVERLAPPING]);
-	fprintf(results[TEST_OVERLAPPING], "%f\n", p_value); fflush(results[TEST_OVERLAPPING]);
+		fprintf(stats[TEST_OVERLAPPING], "%f %s\n\n", p_value, p_value < ALPHA ? "FAILURE" : "SUCCESS"); fflush(stats[TEST_OVERLAPPING]);
+		fprintf(results[TEST_OVERLAPPING], "%f\n", p_value); fflush(results[TEST_OVERLAPPING]);
+	}
 #endif
 #ifdef KS
 	pvals.overlapping_pvals[pvals.seq_counter] = p_value;
@@ -327,29 +335,31 @@ OverlappingTemplateMatchings3(int m, int n) // formerly _effective
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(a) n (sequence_length)      = %d\n", n);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(b) m (block length of 1s)   = %d\n", m);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(c) M (length of substring)  = %d\n", M);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(d) N (number of substrings) = %d\n", N);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(e) lambda [(M-m+1)/2^m]     = %f\n", lambda);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(f) eta                      = %f\n", eta);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t   F R E Q U E N C Y\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t  0   1   2   3   4 >=5   Chi^2   P-value  Assignment\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t%3d %3d %3d %3d %3d %3d  %f ",
-		nu[0], nu[1], nu[2], nu[3], nu[4], nu[5], chi2);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(a) n (sequence_length)      = %d\n", n);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(b) m (block length of 1s)   = %d\n", m);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(c) M (length of substring)  = %d\n", M);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(d) N (number of substrings) = %d\n", N);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(e) lambda [(M-m+1)/2^m]     = %f\n", lambda);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(f) eta                      = %f\n", eta);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t   F R E Q U E N C Y\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t  0   1   2   3   4 >=5   Chi^2   P-value  Assignment\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t%3d %3d %3d %3d %3d %3d  %f ",
+			nu[0], nu[1], nu[2], nu[3], nu[4], nu[5], chi2);
 
-	if (isNegative(p_value) || isGreaterThanOne(p_value))
-		fprintf(stats[TEST_OVERLAPPING], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_OVERLAPPING], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
 
-	fprintf(stats[TEST_OVERLAPPING], "%f %s\n\n", p_value, p_value < ALPHA ? "FAILURE" : "SUCCESS"); fflush(stats[TEST_OVERLAPPING]);
-	fprintf(results[TEST_OVERLAPPING], "%f\n", p_value); fflush(results[TEST_OVERLAPPING]);
+		fprintf(stats[TEST_OVERLAPPING], "%f %s\n\n", p_value, p_value < ALPHA ? "FAILURE" : "SUCCESS"); fflush(stats[TEST_OVERLAPPING]);
+		fprintf(results[TEST_OVERLAPPING], "%f\n", p_value); fflush(results[TEST_OVERLAPPING]);
+	}
 #endif
 #ifdef KS
 	pvals.overlapping_pvals[pvals.seq_counter] = p_value;
@@ -454,29 +464,31 @@ OverlappingTemplateMatchings4(int m, int n)
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(a) n (sequence_length)      = %d\n", n);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(b) m (block length of 1s)   = %d\n", m);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(c) M (length of substring)  = %d\n", M);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(d) N (number of substrings) = %d\n", N);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(e) lambda [(M-m+1)/2^m]     = %f\n", lambda);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t(f) eta                      = %f\n", eta);
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t   F R E Q U E N C Y\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t  0   1   2   3   4 >=5   Chi^2   P-value  Assignment\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
-	fprintf(stats[TEST_OVERLAPPING], "\t\t%3d %3d %3d %3d %3d %3d  %f ",
-		nu[0], nu[1], nu[2], nu[3], nu[4], nu[5], chi2);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_OVERLAPPING], "\t\t    OVERLAPPING TEMPLATE OF ALL ONES TEST\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(a) n (sequence_length)      = %d\n", n);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(b) m (block length of 1s)   = %d\n", m);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(c) M (length of substring)  = %d\n", M);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(d) N (number of substrings) = %d\n", N);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(e) lambda [(M-m+1)/2^m]     = %f\n", lambda);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t(f) eta                      = %f\n", eta);
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t   F R E Q U E N C Y\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t  0   1   2   3   4 >=5   Chi^2   P-value  Assignment\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t-----------------------------------------------\n");
+		fprintf(stats[TEST_OVERLAPPING], "\t\t%3d %3d %3d %3d %3d %3d  %f ",
+			nu[0], nu[1], nu[2], nu[3], nu[4], nu[5], chi2);
 
-	if (isNegative(p_value) || isGreaterThanOne(p_value))
-		fprintf(stats[TEST_OVERLAPPING], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_OVERLAPPING], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
 
-	fprintf(stats[TEST_OVERLAPPING], "%f %s\n\n", p_value, p_value < ALPHA ? "FAILURE" : "SUCCESS"); fflush(stats[TEST_OVERLAPPING]);
-	fprintf(results[TEST_OVERLAPPING], "%f\n", p_value); fflush(results[TEST_OVERLAPPING]);
+		fprintf(stats[TEST_OVERLAPPING], "%f %s\n\n", p_value, p_value < ALPHA ? "FAILURE" : "SUCCESS"); fflush(stats[TEST_OVERLAPPING]);
+		fprintf(results[TEST_OVERLAPPING], "%f\n", p_value); fflush(results[TEST_OVERLAPPING]);
+	}
 #endif
 #ifdef KS
 	pvals.overlapping_pvals[pvals.seq_counter] = p_value;

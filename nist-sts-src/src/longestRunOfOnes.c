@@ -15,15 +15,17 @@
 void
 LongestRunOfOnes(int n)
 {
-	double			pval, chi2, pi[7];
+	double			p_value, chi2, pi[7];
 	int				run, v_n_obs, N, i, j, K, M, V[7];
 	unsigned int	nu[7] = { 0, 0, 0, 0, 0, 0, 0 };
 
-	if ( n < 128 ) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t   n=%d is too short\n", n);
+	if (n < 128) {
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t   n=%d is too short\n", n);
+	}
 #endif
 		return;
 	}
@@ -88,58 +90,60 @@ LongestRunOfOnes(int n)
 	for ( i=0; i<=K; i++ )
 		chi2 += ((nu[i] - N * pi[i]) * (nu[i] - N * pi[i])) / (N * pi[i]);
 
-	pval = cephes_igamc((double)(K/2.0), chi2 / 2.0);
+	p_value = cephes_igamc((double)(K / 2.0), chi2 / 2.0);
 
 	//for(i = 0; i < K; i++)
 	//	printf("%d ",nu[i]);
 
 #ifdef SPEED
-	dummy_result = pval;
+	dummy_result = p_value;
 #endif
 #ifdef VERIFY_RESULTS
 	R_.longestrunofones.N=N;
 	R_.longestrunofones.M=M;
 	R_.longestrunofones.chi2=chi2;
 	for(i = 0; i < 7; i++) R_.longestrunofones.nu[i]=nu[i];
-	R_.longestrunofones.pval=pval;
+	R_.longestrunofones.p_value=p_value;
 	if(LongestRunOfOnes_v1 == LongestRunOfOnes) R1 = R_;
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t(a) N (# of substrings)  = %d\n", N);
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t(b) M (Substring Length) = %d\n", M);
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t(c) Chi^2                = %f\n", chi2);
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t      F R E Q U E N C Y\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t(a) N (# of substrings)  = %d\n", N);
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t(b) M (Substring Length) = %d\n", M);
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t(c) Chi^2                = %f\n", chi2);
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t      F R E Q U E N C Y\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
 
-	if ( K == 3 ) {
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t  <=1     2     3    >=4   P-value  Assignment");
-		fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d  %3d ", nu[0], nu[1], nu[2], nu[3]);
-	}
-	else if ( K == 5 ) {
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t<=4  5  6  7  8  >=9 P-value  Assignment");
-		fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
+		if (K == 3) {
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t  <=1     2     3    >=4   P-value  Assignment");
+			fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d  %3d ", nu[0], nu[1], nu[2], nu[3]);
+		}
+		else if (K == 5) {
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t<=4  5  6  7  8  >=9 P-value  Assignment");
+			fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
 				nu[3], nu[4], nu[5]);
-	}
-	else {
-		fprintf(stats[TEST_LONGEST_RUN],"\t\t<=10  11  12  13  14  15 >=16 P-value  Assignment");
-		fprintf(stats[TEST_LONGEST_RUN],"\n\t\t %3d %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
+		}
+		else {
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t<=10  11  12  13  14  15 >=16 P-value  Assignment");
+			fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
 				nu[3], nu[4], nu[5], nu[6]);
-	}
-	if ( isNegative(pval) || isGreaterThanOne(pval) )
-		fprintf(stats[TEST_LONGEST_RUN], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+		}
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_LONGEST_RUN], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
 
-	fprintf(stats[TEST_LONGEST_RUN], "%s\t\tp_value = %f\n\n", pval < ALPHA ? "FAILURE" : "SUCCESS", pval); fflush(stats[TEST_LONGEST_RUN]);
-	fprintf(results[TEST_LONGEST_RUN], "%f\n", pval); fflush(results[TEST_LONGEST_RUN]);
+		fprintf(stats[TEST_LONGEST_RUN], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_LONGEST_RUN]);
+		fprintf(results[TEST_LONGEST_RUN], "%f\n", p_value); fflush(results[TEST_LONGEST_RUN]);
+	}
 #endif
 #ifdef KS
-	pvals.longestrunofones_pvals[pvals.seq_counter] = pval;
+	pvals.longestrunofones_pvals[pvals.seq_counter] = p_value;
 #endif
 }
 
@@ -183,15 +187,17 @@ LongestRunOfOnes2(int n)
 	unsigned char  max_run[256]  ={0,1,1,2,1,1,2,3,1,1,1,2,2,2,3,4,1,1,1,2,1,1,2,3,2,2,2,2,3,3,4,5,1,1,1,2,1,1,2,3,1,1,1,2,2,2,3,4,2,2,2,2,2,2,2,3,3,3,3,3,4,4,5,6,1,1,1,2,1,1,2,3,1,1,1,2,2,2,3,4,1,1,1,2,1,1,2,3,2,2,2,2,3,3,4,5,2,2,2,2,2,2,2,3,2,2,2,2,2,2,3,4,3,3,3,3,3,3,3,3,4,4,4,4,5,5,6,7,1,1,1,2,1,1,2,3,1,1,1,2,2,2,3,4,1,1,1,2,1,1,2,3,2,2,2,2,3,3,4,5,1,1,1,2,1,1,2,3,1,1,1,2,2,2,3,4,2,2,2,2,2,2,2,3,3,3,3,3,4,4,5,6,2,2,2,2,2,2,2,3,2,2,2,2,2,2,3,4,2,2,2,2,2,2,2,3,2,2,2,2,3,3,4,5,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,5,5,5,5,6,6,7,8};
 
 
-	double			pval, chi2, pi[7];
+	double			p_value, chi2, pi[7];
 	int				run, v_n_obs, N, i, j, K, M, /*Mbytes, */ V[7],rest_bits;
 	unsigned int	nu[7] = { 0, 0, 0, 0, 0, 0, 0 };
 //	unsigned int end_mask[8] = {255,254,252,248,240,224,192,128};
-	if ( n < 128 ) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t   n=%d is too short\n", n);
+	if (n < 128) {
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t   n=%d is too short\n", n);
+	}
 #endif
 		return;
 	}
@@ -300,57 +306,59 @@ LongestRunOfOnes2(int n)
 	for ( i=0; i<=K; i++ )
 		chi2 += ((nu[i] - N * pi[i]) * (nu[i] - N * pi[i])) / (N * pi[i]);
 
-	pval = cephes_igamc((double)(K/2.0), chi2 / 2.0);
+	p_value = cephes_igamc((double)(K / 2.0), chi2 / 2.0);
 	//for(i = 0; i < K; i++)
 	//	printf("%d ",nu[i]);
 
 #ifdef SPEED
-	dummy_result = pval;
+	dummy_result = p_value;
 #endif
 #ifdef VERIFY_RESULTS
 	R_.longestrunofones.N=N;
 	R_.longestrunofones.M=M;
 	R_.longestrunofones.chi2=chi2;
 	for(i = 0; i < 7; i++) R_.longestrunofones.nu[i]=nu[i];
-	R_.longestrunofones.pval=pval;
+	R_.longestrunofones.p_value=p_value;
 	if(LongestRunOfOnes_v1 == LongestRunOfOnes2) R1 = R_;
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t(a) N (# of substrings)  = %d\n", N);
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t(b) M (Substring Length) = %d\n", M);
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t(c) Chi^2                = %f\n", chi2);
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t      F R E Q U E N C Y\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t(a) N (# of substrings)  = %d\n", N);
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t(b) M (Substring Length) = %d\n", M);
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t(c) Chi^2                = %f\n", chi2);
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t      F R E Q U E N C Y\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
 
-	if ( K == 3 ) {
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t  <=1     2     3    >=4   P-value  Assignment");
-		fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d  %3d ", nu[0], nu[1], nu[2], nu[3]);
-	}
-	else if ( K == 5 ) {
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t<=4  5  6  7  8  >=9 P-value  Assignment");
-		fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
+		if (K == 3) {
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t  <=1     2     3    >=4   P-value  Assignment");
+			fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d  %3d ", nu[0], nu[1], nu[2], nu[3]);
+		}
+		else if (K == 5) {
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t<=4  5  6  7  8  >=9 P-value  Assignment");
+			fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
 				nu[3], nu[4], nu[5]);
-	}
-	else {
-		fprintf(stats[TEST_LONGEST_RUN],"\t\t<=10  11  12  13  14  15 >=16 P-value  Assignment");
-		fprintf(stats[TEST_LONGEST_RUN],"\n\t\t %3d %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
+		}
+		else {
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t<=10  11  12  13  14  15 >=16 P-value  Assignment");
+			fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
 				nu[3], nu[4], nu[5], nu[6]);
-	}
-	if ( isNegative(pval) || isGreaterThanOne(pval) )
-		fprintf(stats[TEST_LONGEST_RUN], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+		}
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_LONGEST_RUN], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
 
-	fprintf(stats[TEST_LONGEST_RUN], "%s\t\tp_value = %f\n\n", pval < ALPHA ? "FAILURE" : "SUCCESS", pval); fflush(stats[TEST_LONGEST_RUN]);
-	fprintf(results[TEST_LONGEST_RUN], "%f\n", pval); fflush(results[TEST_LONGEST_RUN]);
+		fprintf(stats[TEST_LONGEST_RUN], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_LONGEST_RUN]);
+		fprintf(results[TEST_LONGEST_RUN], "%f\n", p_value); fflush(results[TEST_LONGEST_RUN]);
+	}
 #endif
 #ifdef KS
-	pvals.longestrunofones_pvals[pvals.seq_counter] = pval;
+	pvals.longestrunofones_pvals[pvals.seq_counter] = p_value;
 #endif
 }
 
@@ -359,7 +367,7 @@ LongestRunOfOnes3(int n)
 {
 	unsigned int    mask, tmp, processed_bits, block;
 
-	double			pval, chi2, pi[7];
+	double			p_value, chi2, pi[7];
 	int				run, v_n_obs, N, i, K, M, V[7];
 	unsigned int	nu[7] = { 0, 0, 0, 0, 0, 0, 0 };
 
@@ -382,10 +390,12 @@ LongestRunOfOnes3(int n)
 	unsigned char *p_tmp, *p_end;
 
 	if (n < 128) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t   n=%d is too short\n", n);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t   n=%d is too short\n", n);
+	}
 #endif
 		return;
 	}
@@ -473,54 +483,56 @@ LongestRunOfOnes3(int n)
 	for (i = 0; i <= K; i++)
 		chi2 += ((nu[i] - N * pi[i]) * (nu[i] - N * pi[i])) / (N * pi[i]);
 
-	pval = cephes_igamc((double)(K / 2.0), chi2 / 2.0);
+	p_value = cephes_igamc((double)(K / 2.0), chi2 / 2.0);
 
 #ifdef SPEED
-	dummy_result = pval;
+	dummy_result = p_value;
 #endif
 #ifdef VERIFY_RESULTS
 	R_.longestrunofones.N=N;
 	R_.longestrunofones.M=M;
 	R_.longestrunofones.chi2=chi2;
 	for(i = 0; i < 7; i++) R_.longestrunofones.nu[i]=nu[i];
-	R_.longestrunofones.pval=pval;
+	R_.longestrunofones.p_value=p_value;
 	if(LongestRunOfOnes_v1 == LongestRunOfOnes3) R1 = R_;
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t(a) N (# of substrings)  = %d\n", N);
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t(b) M (Substring Length) = %d\n", M);
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t(c) Chi^2                = %f\n", chi2);
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t      F R E Q U E N C Y\n");
-	fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t\t  LONGEST RUNS OF ONES TEST\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t(a) N (# of substrings)  = %d\n", N);
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t(b) M (Substring Length) = %d\n", M);
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t(c) Chi^2                = %f\n", chi2);
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t      F R E Q U E N C Y\n");
+		fprintf(stats[TEST_LONGEST_RUN], "\t\t---------------------------------------------\n");
 
-	if (K == 3) {
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t  <=1     2     3    >=4   P-value  Assignment");
-		fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d  %3d ", nu[0], nu[1], nu[2], nu[3]);
-	}
-	else if (K == 5) {
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t<=4  5  6  7  8  >=9 P-value  Assignment");
-		fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
-			nu[3], nu[4], nu[5]);
-	}
-	else {
-		fprintf(stats[TEST_LONGEST_RUN], "\t\t<=10  11  12  13  14  15 >=16 P-value  Assignment");
-		fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
-			nu[3], nu[4], nu[5], nu[6]);
-	}
-	if (isNegative(pval) || isGreaterThanOne(pval))
-		fprintf(stats[TEST_LONGEST_RUN], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+		if (K == 3) {
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t  <=1     2     3    >=4   P-value  Assignment");
+			fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d  %3d ", nu[0], nu[1], nu[2], nu[3]);
+		}
+		else if (K == 5) {
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t<=4  5  6  7  8  >=9 P-value  Assignment");
+			fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
+				nu[3], nu[4], nu[5]);
+		}
+		else {
+			fprintf(stats[TEST_LONGEST_RUN], "\t\t<=10  11  12  13  14  15 >=16 P-value  Assignment");
+			fprintf(stats[TEST_LONGEST_RUN], "\n\t\t %3d %3d %3d %3d %3d %3d  %3d ", nu[0], nu[1], nu[2],
+				nu[3], nu[4], nu[5], nu[6]);
+		}
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
+			fprintf(stats[TEST_LONGEST_RUN], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
 
-	fprintf(stats[TEST_LONGEST_RUN], "%s\t\tp_value = %f\n\n", pval < ALPHA ? "FAILURE" : "SUCCESS", pval); fflush(stats[TEST_LONGEST_RUN]);
-	fprintf(results[TEST_LONGEST_RUN], "%f\n", pval); fflush(results[TEST_LONGEST_RUN]);
+		fprintf(stats[TEST_LONGEST_RUN], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_LONGEST_RUN]);
+		fprintf(results[TEST_LONGEST_RUN], "%f\n", p_value); fflush(results[TEST_LONGEST_RUN]);
+	}
 #endif
 #ifdef KS
-	pvals.longestrunofones_pvals[pvals.seq_counter] = pval;
+	pvals.longestrunofones_pvals[pvals.seq_counter] = p_value;
 #endif
 }

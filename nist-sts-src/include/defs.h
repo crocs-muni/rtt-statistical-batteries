@@ -49,7 +49,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 typedef unsigned char	BitSequence;
-//typedef unsigned int	T;
 
 typedef struct _testParameters {
 	int		n;
@@ -70,7 +69,7 @@ struct results{
 	struct frequency_str{double sum, sum_n, p_value;} frequency;
 	struct blockfrequency_str{double chi_squared, p_value;} blockfrequency;
 	struct runs_str {double pi, V, erfc_arg, p_value;} runs;
-	struct longestrunofones_str {int N,M; double chi2,pval; unsigned int	nu[7];} longestrunofones;
+	struct longestrunofones_str {int N,M; double chi2, p_value; unsigned int	nu[7];} longestrunofones;
 	struct rank_str {double p_30,p_31,p_32, F_30, F_31, F_32, N, chi_squared, p_value;} rank;
 	struct serial_str {double	p_value1, p_value2, psim0, psim1, psim2, del1, del2;} serial;
 	struct nonoverlapping_str {unsigned int templates; unsigned int *W; double *chi2; double *p_value;} nonoverlapping;
@@ -109,4 +108,18 @@ typedef struct _Pvalues {
 	int num_Nonoverlap_pvals;
 	FILE* results;
 } Pvals;
+#endif
+
+// New structure for use of command line arguments 
+#if defined(FILE_OUTPUT) ||  defined(KS)
+typedef struct _CmdArgFlags {
+
+	int output;
+	int bitStreams;
+	int fixArguments;
+	int tests;
+	int fileFormat;
+	int fileGen;
+	int argCounter;
+} CmdFlags;
 #endif

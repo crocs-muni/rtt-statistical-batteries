@@ -24,8 +24,10 @@ DiscreteFourierTransform(int n)
 	if ( ((X = (double*) calloc(n,sizeof(double))) == NULL) ||
 		 ((wsave = (double *)calloc(2*n,sizeof(double))) == NULL) ||
 		 ((m = (double*)calloc(n/2+1, sizeof(double))) == NULL) ) {
-#ifdef FILE_OUTPUT
-			fprintf(stats[7],"\t\tUnable to allocate working arrays for the DFT.\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[7], "\t\tUnable to allocate working arrays for the DFT.\n");
+		}
 #endif
 			 printf("\t\tUnable to allocate working arrays for the DFT.\n");
 			if( X != NULL )
@@ -59,22 +61,24 @@ DiscreteFourierTransform(int n)
 	p_value = erfc(fabs(d)/sqrt(2.0));
 	//printf("%lf ",p_value);
 #ifdef SPEED
-	dummy_result = p_value;
+	dummy_result = p_value + percentile;
 #endif
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_FFT], "\t\t\t\tFFT TEST\n");
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_FFT], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_FFT], "\t\t(a) Percentile = %f\n", percentile);
-	fprintf(stats[TEST_FFT], "\t\t(b) N_l        = %f\n", N_l);
-  //fprintf(stats[TEST_FFT], "\t\t(c) N_o        = r%f\n", N_o); replaced by
-	fprintf(stats[TEST_FFT], "\t\t(c) N_o        = %f\n", N_o); 
-	fprintf(stats[TEST_FFT], "\t\t(d) d          = %f\n", d);
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_FFT], "\t\t\t\tFFT TEST\n");
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_FFT], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_FFT], "\t\t(a) Percentile = %f\n", percentile);
+		fprintf(stats[TEST_FFT], "\t\t(b) N_l        = %f\n", N_l);
+		//fprintf(stats[TEST_FFT], "\t\t(c) N_o        = r%f\n", N_o); replaced by
+		fprintf(stats[TEST_FFT], "\t\t(c) N_o        = %f\n", N_o);
+		fprintf(stats[TEST_FFT], "\t\t(d) d          = %f\n", d);
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
 
-	fprintf(stats[TEST_FFT], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
-	fprintf(results[TEST_FFT], "%f\n", p_value);
+		fprintf(stats[TEST_FFT], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
+		fprintf(results[TEST_FFT], "%f\n", p_value);
+	}
 #endif
 
 #ifdef VERIFY_RESULTS
@@ -134,11 +138,13 @@ DiscreteFourierTransform2(int n)
 	double	p_value, upperBound, percentile, N_l, N_o, d, *m=NULL, *X=NULL, *wsave=NULL;
 	int		i, count, ifac[15];
 
-	if ( ((X = (double*) calloc(n,sizeof(double))) == NULL) ||
-		 ((wsave = (double *)calloc(2*n,sizeof(double))) == NULL) ||
-		 ((m = (double*)calloc(n/2+1, sizeof(double))) == NULL) ) {
-#ifdef FILE_OUTPUT
-			fprintf(stats[7],"\t\tUnable to allocate working arrays for the DFT.\n");
+	if (((X = (double*)calloc(n, sizeof(double))) == NULL) ||
+		((wsave = (double *)calloc(2 * n, sizeof(double))) == NULL) ||
+		((m = (double*)calloc(n / 2 + 1, sizeof(double))) == NULL)) {
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[7], "\t\tUnable to allocate working arrays for the DFT.\n");
+	}
 #endif
 			printf("\t\tUnable to allocate working arrays for the DFT.\n");
 			if( X != NULL )
@@ -173,21 +179,23 @@ DiscreteFourierTransform2(int n)
 	p_value = erfc(fabs(d)/sqrt(2.0));
 	//printf("%lf\n",p_value);
 #ifdef SPEED
-	dummy_result = p_value;
+	dummy_result = p_value + percentile;
 #endif
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_FFT], "\t\t\t\tFFT TEST\n");
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_FFT], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_FFT], "\t\t(a) Percentile = %f\n", percentile);
-	fprintf(stats[TEST_FFT], "\t\t(b) N_l        = %f\n", N_l);
-	fprintf(stats[TEST_FFT], "\t\t(c) N_o        = %f\n", N_o);
-	fprintf(stats[TEST_FFT], "\t\t(d) d          = %f\n", d);
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_FFT], "\t\t\t\tFFT TEST\n");
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_FFT], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_FFT], "\t\t(a) Percentile = %f\n", percentile);
+		fprintf(stats[TEST_FFT], "\t\t(b) N_l        = %f\n", N_l);
+		fprintf(stats[TEST_FFT], "\t\t(c) N_o        = %f\n", N_o);
+		fprintf(stats[TEST_FFT], "\t\t(d) d          = %f\n", d);
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
 
-	fprintf(stats[TEST_FFT], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
-	fprintf(results[TEST_FFT], "%f\n", p_value);
+		fprintf(stats[TEST_FFT], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
+		fprintf(results[TEST_FFT], "%f\n", p_value);
+	}
 #endif
 
 #ifdef VERIFY_RESULTS
@@ -208,7 +216,6 @@ DiscreteFourierTransform2(int n)
 	free(m);
 }
 
-
 /*
 
 #include "../include/fftw3.h"
@@ -224,8 +231,10 @@ DiscreteFourierTransform3(int n)
 	if (((in = (fftw_complex*)fftw_malloc(n * sizeof(fftw_complex))) == NULL) ||
 		((out = (fftw_complex*)fftw_malloc(n * sizeof(fftw_complex))) == NULL) ||
 		((m = (double*)calloc(n / 2 + 1, sizeof(double))) == NULL)) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[7], "\t\tUnable to allocate working arrays for the DFT.\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1) {
+			fprintf(stats[7], "\t\tUnable to allocate working arrays for the DFT.\n");
+		}
 #endif
 		printf("\t\tUnable to allocate working arrays for the DFT.\n");
 		if (in != NULL)
@@ -265,21 +274,23 @@ DiscreteFourierTransform3(int n)
 	d = (N_l - N_o) / sqrt(n / 4.0*0.95*0.05);
 	p_value = erfc(fabs(d) / sqrt(2.0));
 #ifdef SPEED
-	dummy_result = p_value;
+	dummy_result = p_value + percentile;
 #endif
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_FFT], "\t\t\t\tFFT TEST\n");
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_FFT], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_FFT], "\t\t(a) Percentile = %f\n", percentile);
-	fprintf(stats[TEST_FFT], "\t\t(b) N_l        = %f\n", N_l);
-	fprintf(stats[TEST_FFT], "\t\t(c) N_o        = %f\n", N_o);
-	fprintf(stats[TEST_FFT], "\t\t(d) d          = %f\n", d);
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1) {
+		fprintf(stats[TEST_FFT], "\t\t\t\tFFT TEST\n");
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_FFT], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_FFT], "\t\t(a) Percentile = %f\n", percentile);
+		fprintf(stats[TEST_FFT], "\t\t(b) N_l        = %f\n", N_l);
+		fprintf(stats[TEST_FFT], "\t\t(c) N_o        = %f\n", N_o);
+		fprintf(stats[TEST_FFT], "\t\t(d) d          = %f\n", d);
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
 
-	fprintf(stats[TEST_FFT], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
-	fprintf(results[TEST_FFT], "%f\n", p_value);
+		fprintf(stats[TEST_FFT], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
+		fprintf(results[TEST_FFT], "%f\n", p_value);
+	}
 #endif
 
 #ifdef VERIFY_RESULTS
@@ -291,7 +302,9 @@ DiscreteFourierTransform3(int n)
 	if(DiscreteFourierTransform_v1 == DiscreteFourierTransform3) R1 = R_;
 	else R2 = R_;
 #endif
-
+#ifdef KS
+	pvals.dft_pvals[pvals.seq_counter] = p_value;
+#endif
 	fftw_free(in);
 	fftw_free(out);
 	free(m);
@@ -310,8 +323,10 @@ DiscreteFourierTransform4(int n)
 	if (((in = (double*)fftw_malloc(n * sizeof(double))) == NULL) ||
 		((out = (fftw_complex*)fftw_malloc((n / 2 + 1) * sizeof(fftw_complex))) == NULL) ||
 		((m = (double*)calloc(n / 2 + 1, sizeof(double))) == NULL)) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[7], "\t\tUnable to allocate working arrays for the DFT.\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1) {
+			fprintf(stats[7], "\t\tUnable to allocate working arrays for the DFT.\n");
+		}
 #endif
 		printf("\t\tUnable to allocate working arrays for the DFT.\n");
 		if (in != NULL)
@@ -351,22 +366,24 @@ DiscreteFourierTransform4(int n)
 	p_value = erfc(fabs(d) / sqrt(2.0));
 
 #ifdef SPEED
-	dummy_result = p_value;
+	dummy_result = p_value + percentile;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_FFT], "\t\t\t\tFFT TEST\n");
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_FFT], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
-	fprintf(stats[TEST_FFT], "\t\t(a) Percentile = %f\n", percentile);
-	fprintf(stats[TEST_FFT], "\t\t(b) N_l        = %f\n", N_l);
-	fprintf(stats[TEST_FFT], "\t\t(c) N_o        = %f\n", N_o);
-	fprintf(stats[TEST_FFT], "\t\t(d) d          = %f\n", d);
-	fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1) {
+		fprintf(stats[TEST_FFT], "\t\t\t\tFFT TEST\n");
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_FFT], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
+		fprintf(stats[TEST_FFT], "\t\t(a) Percentile = %f\n", percentile);
+		fprintf(stats[TEST_FFT], "\t\t(b) N_l        = %f\n", N_l);
+		fprintf(stats[TEST_FFT], "\t\t(c) N_o        = %f\n", N_o);
+		fprintf(stats[TEST_FFT], "\t\t(d) d          = %f\n", d);
+		fprintf(stats[TEST_FFT], "\t\t-------------------------------------------\n");
 
-	fprintf(stats[TEST_FFT], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
-	fprintf(results[TEST_FFT], "%f\n", p_value);
+		fprintf(stats[TEST_FFT], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value);
+		fprintf(results[TEST_FFT], "%f\n", p_value);
+	}
 #endif
 
 #ifdef VERIFY_RESULTS
@@ -378,10 +395,11 @@ DiscreteFourierTransform4(int n)
 	if(DiscreteFourierTransform_v1 == DiscreteFourierTransform4) R1 = R_;
 	else R2 = R_;
 #endif
-
+#ifdef KS
+	pvals.dft_pvals[pvals.seq_counter] = p_value;
+#endif
 	fftw_free(in);
 	fftw_free(out);
 	free(m);
 }
-
 */

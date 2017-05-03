@@ -101,6 +101,9 @@ lcg()
 		fprintf(freqfp, "\t\tBITSREAD = %d 0s = %d 1s = %d\n", bitsRead, num_0s, num_1s); fflush(freqfp);
 		if(tp.fast)convert_epsilon_to_array(tp.n);
 		nist_test_suite();
+#ifdef KS
+		pvals.seq_counter++;	/*sequence counter*/
+#endif
 		if(tp.fast)free(array);
 		}
 	free(DUNIF);
@@ -138,6 +141,9 @@ quadRes1()
 		fprintf(freqfp, "\t\tBITSREAD = %d 0s = %d 1s = %d\n", bitsRead, num_0s, num_1s); fflush(freqfp);
 		if(tp.fast)convert_epsilon_to_array(tp.n);
 		nist_test_suite();
+#ifdef KS
+		pvals.seq_counter++;	/*sequence counter*/
+#endif
 		if(tp.fast)free(array);
 	}
 	free(epsilon);
@@ -180,6 +186,9 @@ quadRes2()
 		fprintf(freqfp, "\t\tBITSREAD = %d 0s = %d 1s = %d\n", bitsRead, num_0s, num_1s); fflush(freqfp);
 		if(tp.fast)convert_epsilon_to_array(tp.n);
 		nist_test_suite();
+#ifdef KS
+		pvals.seq_counter++;	/*sequence counter*/
+#endif
 		if(tp.fast)free(array);
 	}
 	free(epsilon);
@@ -216,6 +225,9 @@ cubicRes()
 		fprintf(freqfp, "\t\tBITSREAD = %d 0s = %d 1s = %d\n", bitsRead, num_0s, num_1s); fflush(freqfp);
 		if(tp.fast)convert_epsilon_to_array(tp.n);
 		nist_test_suite();
+#ifdef KS
+		pvals.seq_counter++;	/*sequence counter*/
+#endif
 		if(tp.fast)free(array);
 	}
 	free(epsilon);
@@ -264,6 +276,9 @@ exclusiveOR()
 			fprintf(freqfp, "\t\tBITSREAD = %d 0s = %d 1s = %d\n", bitsRead, num_0s, num_1s); fflush(freqfp);
 			if(tp.fast)convert_epsilon_to_array(tp.n);
 			nist_test_suite();
+#ifdef KS
+			pvals.seq_counter++;	/*sequence counter*/
+#endif
 			if(tp.fast)free(array);
 			num_0s = 0;
 			num_1s = 0;
@@ -303,6 +318,9 @@ modExp()
 		fprintf(freqfp, "\t\tBITSREAD = %d 0s = %d 1s = %d\n", bitsRead, num_0s, num_1s); fflush(freqfp);
 		if(tp.fast)convert_epsilon_to_array(tp.n);
 		nist_test_suite();
+#ifdef KS
+		pvals.seq_counter++;	/*sequence counter*/
+#endif
 		if(tp.fast)free(array);
 	}
 	free(epsilon);
@@ -353,6 +371,9 @@ bbs()
 		fprintf(freqfp, "\t\tBITSREAD = %d 0s = %d 1s = %d\n", bitsRead, num_0s, num_1s); fflush(freqfp);
 		if(tp.fast)convert_epsilon_to_array(tp.n);
 		nist_test_suite();
+#ifdef KS
+		pvals.seq_counter++;	/*sequence counter*/
+#endif
 		if(tp.fast)free(array);
 	}
 	free(epsilon);
@@ -399,6 +420,9 @@ micali_schnorr()
 		fprintf(freqfp, "\t\tBITSREAD = %d 0s = %d 1s = %d\n", bitsRead, num_0s, num_1s); fflush(freqfp);
 		if(tp.fast)convert_epsilon_to_array(tp.n);
 		nist_test_suite();
+#ifdef KS
+		pvals.seq_counter++;	/*sequence counter*/
+#endif
 		if(tp.fast)free(array);
 	}
 	free(epsilon);
@@ -490,6 +514,9 @@ SHA1()
 		fprintf(freqfp, "\t\tBITSREAD = %d 0s = %d 1s = %d\n", bitsRead, num_0s, num_1s); fflush(freqfp);
 		if(tp.fast)convert_epsilon_to_array(tp.n);
 		nist_test_suite();
+#ifdef KS
+		pvals.seq_counter++;	/*sequence counter*/
+#endif
 		if(tp.fast)free(array);
 	}
 	free(epsilon);

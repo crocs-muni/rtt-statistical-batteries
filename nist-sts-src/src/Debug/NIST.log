@@ -1,0 +1,28 @@
+﻿  utilities.c
+  universal.c
+  tools.c
+  serial.c
+  runs.c
+  rank.c
+  randomExcursionsVariant.c
+  randomExcursions.c
+  overlappingTemplateMatchings.c
+  nonOverlappingTemplateMatchings.c
+  matrix.c
+  main.c
+  longestRunOfOnes.c
+  linearComplexity.c
+  genutils.c
+  generators.c
+  frequency.c
+  discreteFourierTransform.c
+  cusum.c
+  cephes.c
+  Generating Code...
+  Compiling...
+  blockFrequency.c
+  assess.c
+  approximateEntropy.c
+  Generating Code...
+  NIST.vcxproj -> D:\Projects\NIST STS\STS_v5.0.2\STS_v5.0.2\NIST\Debug\NIST.exe
+  NIST.vcxproj -> D:\Projects\NIST STS\STS_v5.0.2\STS_v5.0.2\NIST\Debug\NIST.pdb (Full PDB)

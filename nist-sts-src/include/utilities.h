@@ -13,3 +13,14 @@ int		convertToBits(BYTE *x, int xBitLength, int bitsNeeded, int *num_0s, int *nu
 void	openOutputStreams(int option);
 void	invokeTestSuite(int option, char *streamFile);
 void	nist_test_suite();
+
+// new added funtions for faster output processing
+#ifdef KS
+void freeMemory();
+//http://www.jstatsoft.org/v08/i18/paper?ev=pub_ext_btn_xdl
+//code for Kolomogorov-Smirnov p-value
+
+void mMultiply(double *A, double *B, double *C, int m);
+void mPower(double *A, int eA, double *V, int *eV, int m, int n);
+double K(int n, double d);
+#endif

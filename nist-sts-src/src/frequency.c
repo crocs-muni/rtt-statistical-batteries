@@ -36,17 +36,19 @@ Frequency(int n)
 #endif
 
 	
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_FREQUENCY], "\t\t\t      FREQUENCY TEST\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t(a) The nth partial sum = %d\n", (int)sum);
-	fprintf(stats[TEST_FREQUENCY], "\t\t(b) S_n/n               = %f\n", sum/n);
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_FREQUENCY], "\t\t\t      FREQUENCY TEST\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t(a) The nth partial sum = %d\n", (int)sum);
+		fprintf(stats[TEST_FREQUENCY], "\t\t(b) S_n/n               = %f\n", sum / n);
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
 
-	fprintf(stats[TEST_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_FREQUENCY]);
-	fprintf(results[TEST_FREQUENCY], "%f\n", p_value); fflush(results[TEST_FREQUENCY]);
+		fprintf(stats[TEST_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_FREQUENCY]);
+		fprintf(results[TEST_FREQUENCY], "%f\n", p_value); fflush(results[TEST_FREQUENCY]);
+	}
 #endif
 #ifdef KS
 	pvals.frequency_pvals[pvals.seq_counter] = p_value;
@@ -130,17 +132,19 @@ Frequency2(int n)
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_FREQUENCY], "\t\t\t      FREQUENCY TEST\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t(a) The nth partial sum = %d\n", (int)sum);
-	fprintf(stats[TEST_FREQUENCY], "\t\t(b) S_n/n               = %f\n", sum/n);
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_FREQUENCY], "\t\t\t      FREQUENCY TEST\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t(a) The nth partial sum = %d\n", (int)sum);
+		fprintf(stats[TEST_FREQUENCY], "\t\t(b) S_n/n               = %f\n", sum / n);
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
 
-	fprintf(stats[TEST_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_FREQUENCY]);
-	fprintf(results[TEST_FREQUENCY], "%f\n", p_value); fflush(results[TEST_FREQUENCY]);
+		fprintf(stats[TEST_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_FREQUENCY]);
+		fprintf(results[TEST_FREQUENCY], "%f\n", p_value); fflush(results[TEST_FREQUENCY]);
+	}
 #endif
 #ifdef KS
 	pvals.frequency_pvals[pvals.seq_counter] = p_value;
@@ -198,17 +202,19 @@ Frequency3(int n)
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_FREQUENCY], "\t\t\t      FREQUENCY TEST\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t(a) The nth partial sum = %d\n", (int)sum);
-	fprintf(stats[TEST_FREQUENCY], "\t\t(b) S_n/n               = %f\n", sum / n);
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_FREQUENCY], "\t\t\t      FREQUENCY TEST\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t(a) The nth partial sum = %d\n", (int)sum);
+		fprintf(stats[TEST_FREQUENCY], "\t\t(b) S_n/n               = %f\n", sum / n);
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
 
-	fprintf(stats[TEST_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_FREQUENCY]);
-	fprintf(results[TEST_FREQUENCY], "%f\n", p_value); fflush(results[TEST_FREQUENCY]);
+		fprintf(stats[TEST_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_FREQUENCY]);
+		fprintf(results[TEST_FREQUENCY], "%f\n", p_value); fflush(results[TEST_FREQUENCY]);
+	}
 #endif
 #ifdef KS
 	pvals.frequency_pvals[pvals.seq_counter] = p_value;
@@ -270,17 +276,19 @@ Frequency4(int n)
 	if (Frequency_v1 == Frequency4) R1 = R_;
 	else R2 = R_;
 #endif
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_FREQUENCY], "\t\t\t      FREQUENCY TEST\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_FREQUENCY], "\t\t(a) The nth partial sum = %d\n", (int)sum);
-	fprintf(stats[TEST_FREQUENCY], "\t\t(b) S_n/n               = %f\n", sum / n);
-	fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_FREQUENCY], "\t\t\t      FREQUENCY TEST\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_FREQUENCY], "\t\t(a) The nth partial sum = %d\n", (int)sum);
+		fprintf(stats[TEST_FREQUENCY], "\t\t(b) S_n/n               = %f\n", sum / n);
+		fprintf(stats[TEST_FREQUENCY], "\t\t---------------------------------------------\n");
 
-	fprintf(stats[TEST_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_FREQUENCY]);
-	fprintf(results[TEST_FREQUENCY], "%f\n", p_value); fflush(results[TEST_FREQUENCY]);
+		fprintf(stats[TEST_FREQUENCY], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_FREQUENCY]);
+		fprintf(results[TEST_FREQUENCY], "%f\n", p_value); fflush(results[TEST_FREQUENCY]);
+	}
 #endif
 #ifdef KS
 	pvals.frequency_pvals[pvals.seq_counter] = p_value;

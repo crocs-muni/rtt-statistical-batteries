@@ -17,7 +17,7 @@ ln -s dieharder-src/install/bin/dieharder dieharder
 
 # NIST STS installation
 cd nist-sts-src
-mkdir obj
+mkdir -p obj
 make
 cd experiments
 bash create-dir-script

@@ -30,6 +30,10 @@ extern double dummy_result;
 extern Pvals pvals;
 #endif
 
+#if defined(FILE_OUTPUT) || defined (KS)
+extern CmdFlags cmdFlags;
+#endif
+
 // Original stuff
 extern BitSequence              *epsilon;				// BIT STREAM
 extern TP			tp;						// TEST PARAMETER STRUCTURE

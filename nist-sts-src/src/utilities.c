@@ -139,6 +139,7 @@ chooseTests()
 void
 fixParameters()
 {
+
 	int		counter, testid;
 	
 	//  Check to see if any parameterized tests are selected
@@ -226,19 +227,24 @@ fixParameters()
 	} while ( testid != 0 );
 }
 
-
+#if defined(FILE_OUTPUT) || defined(KS)
 void
 fileBasedBitStreams(char *streamFile)
 {
 	FILE	*fp;
-	int		mode;
+	int		mode=-1;
+	if (cmdFlags.fileFormat == 1 || cmdFlags.fileFormat == 0){
+		mode = cmdFlags.fileFormat;
+	}
+	else {
+		printf("   Input File Format:\n");
+		printf("    [0] ASCII - A sequence of ASCII 0's and 1's\n");
+		printf("    [1] Binary - Each byte in data file contains 8 bits of data\n\n");
+		printf("   Select input mode:  ");
+		scanf("%1d", &mode);
+		printf("\n");
+	}
 	
-	printf("   Input File Format:\n");
-	printf("    [0] ASCII - A sequence of ASCII 0's and 1's\n");
-	printf("    [1] Binary - Each byte in data file contains 8 bits of data\n\n");
-	printf("   Select input mode:  ");
-	scanf("%1d", &mode);
-	printf("\n");
 	if ( mode == 0 ) {
 		if ( (fp = fopen(streamFile, "r")) == NULL ) {
 			printf("ERROR IN FUNCTION fileBasedBitStreams:  file %s could not be opened.\n",  streamFile);
@@ -256,6 +262,7 @@ fileBasedBitStreams(char *streamFile)
 		fclose(fp);
 	}
 }
+#endif
 
 
 void
@@ -427,16 +434,29 @@ convertToBits(BYTE *x, int xBitLength, int bitsNeeded, int *num_0s, int *num_1s,
 }
 
 
+#if defined(FILE_OUTPUT) || defined(KS)
 void
 openOutputStreams(int option)
 {
-	int		i, numOfBitStreams, numOfOpenFiles = 0;
-	char	freqfn[200], summaryfn[200], statsDir[200], resultsDir[200];
+	//hodit ifdef FILE OUPUT
+	int		i, numOfBitStreams;
+
+	//#ifdef FILE_OUTPUT
+	int		numOfOpenFiles = 0;
+	//#endif
+
+	char	freqfn[200], summaryfn[200];
+
+	//#ifdef FILE_OUTPUT
+	char	statsDir[200], resultsDir[200];
+	//#endif
 	
-	/*
+#ifdef KS	
 	int		numOfTemplates[100] = { 0, 0, 2, 4, 6, 12, 20, 40, 74, 148, 284, 568, 1116,
 		2232, 4424, 8848, 17622, 35244, 70340, 140680, 281076, 562152 };
-		*/
+#endif
+		
+
 	sprintf(freqfn, "experiments/%s/freq.txt", generatorDir[option]);
 	if ( (freqfp = fopen(freqfn, "w")) == NULL ) {
 		printf("\t\tMAIN:  Could not open freq file: <%s>", freqfn);
@@ -447,7 +467,32 @@ openOutputStreams(int option)
 		printf("\t\tMAIN:  Could not open stats file: <%s>", summaryfn);
 		exit(-1);
 	}
-	
+	if (cmdFlags.output == 1)
+	{
+		for (i = 1; i <= NUMOFTESTS; i++) {
+			if (testVector[i] == 1) {
+				sprintf(statsDir, "experiments/%s/%s/stats.txt", generatorDir[option], testNames[i]);
+				sprintf(resultsDir, "experiments/%s/%s/results.txt", generatorDir[option], testNames[i]);
+				if ((stats[i] = fopen(statsDir, "w")) == NULL) {	/* STATISTICS LOG */
+					printf("ERROR: LOG FILES COULD NOT BE OPENED.\n");
+					printf("       MAX # OF OPENED FILES HAS BEEN REACHED = %d\n", numOfOpenFiles);
+					printf("-OR-   THE OUTPUT DIRECTORY DOES NOT EXIST.\n");
+					exit(-1);
+				}
+				else
+					numOfOpenFiles++;
+				if ((results[i] = fopen(resultsDir, "w")) == NULL) {	/* P_VALUES LOG   */
+					printf("ERROR: LOG FILES COULD NOT BE OPENED.\n");
+					printf("       MAX # OF OPENED FILES HAS BEEN REACHED = %d\n", numOfOpenFiles);
+					printf("-OR-   THE OUTPUT DIRECTORY DOES NOT EXIST.\n");
+					exit(-1);
+				}
+				else
+					numOfOpenFiles++;
+			}
+		}
+}
+	#ifdef FILE_OUTPUT
 	for( i=1; i<=NUMOFTESTS; i++ ) {
 		if ( testVector[i] == 1 ) {
 			sprintf(statsDir, "experiments/%s/%s/stats.txt", generatorDir[option], testNames[i]);
@@ -470,10 +515,15 @@ openOutputStreams(int option)
 				numOfOpenFiles++;
 		}
 	}
-	printf("   How many bitstreams? ");
-	scanf("%d", &numOfBitStreams);
-	tp.numOfBitStreams = numOfBitStreams;
-	printf("\n");
+	#endif
+	if (cmdFlags.bitStreams == 0){
+		printf("   How many bitstreams? ");
+		scanf("%d", &numOfBitStreams);
+		tp.numOfBitStreams = numOfBitStreams;
+		printf("\n");
+	}
+	else numOfBitStreams = tp.numOfBitStreams;
+	
 	#ifdef KS
 	
 	if(testVector[1]) pvals.frequency_pvals = malloc(sizeof(double)*numOfBitStreams);
@@ -495,8 +545,10 @@ openOutputStreams(int option)
 	if (testVector[15])pvals.linear_complexity_pvals = malloc(sizeof(double)*numOfBitStreams);
 	
 	pvals.seq_counter = 0;
+	//***************************
 	if (testVector[8])pvals.num_Nonoverlap_pvals = numOfTemplates[tp.nonOverlappingTemplateBlockLength];
 	sprintf(summaryfn, "experiments/%s/results.txt", generatorDir[option]);
+	//***************************
 	if ((pvals.results = fopen(summaryfn, "w")) == NULL) {
 		printf("\t\tMAIN:  Could not open stats file: <%s>", summaryfn);
 		exit(-1);
@@ -556,6 +608,7 @@ invokeTestSuite(int option, char *streamFile)
 	}
 	printf("     Statistical Testing Complete!!!!!!!!!!!!\n\n");
 }
+#endif
 
 
 void
@@ -639,6 +692,74 @@ nist_test_suite()
 		if (tp.fast) LinearComplexity_v2(tp.linearComplexitySequenceLength, tp.n); else LinearComplexity_v1(tp.linearComplexitySequenceLength, tp.n);
 	}
 }
+#ifdef KS
+void freeMemory()
+{
+	int i;
+	if (testVector[1]) free(pvals.frequency_pvals);
+	if (testVector[2]) free(pvals.blockfrequency_pvals);
+	if (testVector[3]) free(pvals.cusum_pvals[0]);
+	if (testVector[3]) free(pvals.cusum_pvals[1]);
+	if (testVector[4]) free(pvals.runs_pvals);
+	if (testVector[5]) free(pvals.longestrunofones_pvals);
+	if (testVector[6]) free(pvals.rank_pvals);
+	if (testVector[7]) free(pvals.dft_pvals);
+	if (testVector[8])for (i = 0; i < MAXNUMOFTEMPLATES; i++) free(pvals.nonoverlapping_pvals[i]);
+	if (testVector[9]) free(pvals.overlapping_pvals);
+	if (testVector[10]) free(pvals.universal_pvals);
+	if (testVector[11]) free(pvals.approximate_entropy_pvals);
+	if (testVector[12])for (i = 0; i < 8; i++) free(pvals.random_excursion_pvals[i]);
+	if (testVector[13])for (i = 0; i < 18; i++) free(pvals.random_excursion_variant_pvals[i]);
+	if (testVector[14]) free(pvals.serial_pvals[0]);
+	if (testVector[14]) free(pvals.serial_pvals[1]);
+	if (testVector[15]) free(pvals.linear_complexity_pvals);
+}
+
+
+void mMultiply(double *A, double *B, double *C, int m)
+{
+	int i, j, k; double s;
+	for (i = 0; i<m; i++) for (j = 0; j<m; j++)
+	{
+		s = 0.; for (k = 0; k<m; k++) s += A[i*m + k] * B[k*m + j]; C[i*m + j] = s;
+	}
+}
+void mPower(double *A, int eA, double *V, int *eV, int m, int n)
+{
+	double *B; int eB, i;
+	if (n == 1) { for (i = 0; i<m*m; i++) V[i] = A[i]; *eV = eA; return; }
+	mPower(A, eA, V, eV, m, n / 2);
+	B = (double*)malloc((m*m) * sizeof(double));
+	mMultiply(V, V, B, m); eB = 2 * (*eV);
+	if (n % 2 == 0) { for (i = 0; i<m*m; i++) V[i] = B[i]; *eV = eB; }
+	else { mMultiply(A, B, V, m); *eV = eA + eB; }
+	if (V[(m / 2)*m + (m / 2)]>1e140) { for (i = 0; i<m*m; i++) V[i] = V[i] * 1e-140; *eV += 140; }
+	free(B);
+}
+double K(int n, double d)
+{
+	int k, m, i, j, g, eH, eQ;
+	double h, s, *H, *Q;
+
+	if (d<0) return 0;
+
+	//OMIT NEXT LINE IF YOU REQUIRE >7 DIGIT ACCURACY IN THE RIGHT TAIL
+	s = d*d*n; if (s>7.24 || (s>3.76&&n>99)) return 1 - 2 * exp(-(2.000071 + .331 / sqrt(n) + 1.409 / n)*s);
+	k = (int)(n*d) + 1; m = 2 * k - 1; h = k - n*d;
+	H = (double*)malloc((m*m) * sizeof(double));
+	Q = (double*)malloc((m*m) * sizeof(double));
+	for (i = 0; i<m; i++) for (j = 0; j<m; j++)
+		if (i - j + 1<0) H[i*m + j] = 0; else H[i*m + j] = 1;
+	for (i = 0; i<m; i++) { H[i*m] -= pow(h, i + 1); H[(m - 1)*m + i] -= pow(h, (m - i)); }
+	H[(m - 1)*m] += (2 * h - 1>0 ? pow(2 * h - 1, m) : 0);
+	for (i = 0; i<m; i++) for (j = 0; j<m; j++)
+		if (i - j + 1>0) for (g = 1; g <= i - j + 1; g++) H[i*m + j] /= g;
+	eH = 0; mPower(H, eH, Q, &eQ, m, n);
+	s = Q[(k - 1)*m + k - 1];
+	for (i = 1; i <= n; i++) { s = s*i / n; if (s<1e-140) { s *= 1e140; eQ -= 140; } }
+	s *= pow(10., eQ); free(H); free(Q); return s;
+}
+#endif
 
 /*
 void  prepare_optimisation(){

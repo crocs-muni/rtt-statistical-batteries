@@ -22,12 +22,14 @@ ApproximateEntropy(int m, int n)
 	double			sum, numOfBlocks, ApEn[2], apen, chi_squared, p_value;
 	unsigned int	*P;
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_APEN], "\t\t\tAPPROXIMATE ENTROPY TEST\n");
-	fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-	fprintf(stats[TEST_APEN], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-	fprintf(stats[TEST_APEN], "\t\t(a) m (block length)    = %d\n", m);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_APEN], "\t\t\tAPPROXIMATE ENTROPY TEST\n");
+		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+		fprintf(stats[TEST_APEN], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+		fprintf(stats[TEST_APEN], "\t\t(a) m (block length)    = %d\n", m);
+	}
 #endif
 
 	seqLength = n;
@@ -47,8 +49,10 @@ ApproximateEntropy(int m, int n)
 			numOfBlocks = (double)seqLength;
 			powLen = (int)pow(2, blockSize+1)-1;
 			if ( (P = (unsigned int*)calloc(powLen,sizeof(unsigned int)))== NULL ) {
-#ifdef FILE_OUTPUT
-				fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+				 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+					fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+				}
 #endif
 				printf("ApEn:  Insufficient memory available.\n");
 				return;
@@ -115,29 +119,35 @@ ApproximateEntropy(int m, int n)
 #endif
 
 	//printf("P-value %lf \n",p_value);
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_APEN], "\t\t(b) n (sequence length) = %d\n", seqLength);
-	fprintf(stats[TEST_APEN], "\t\t(c) Chi^2               = %f\n", chi_squared);
-	fprintf(stats[TEST_APEN], "\t\t(d) Phi(m)	       = %f\n", ApEn[0]);
-	fprintf(stats[TEST_APEN], "\t\t(e) Phi(m+1)	       = %f\n", ApEn[1]);
-	fprintf(stats[TEST_APEN], "\t\t(f) ApEn                = %f\n", apen);
-	fprintf(stats[TEST_APEN], "\t\t(g) Log(2)              = %f\n", log(2.0));
-	fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_APEN], "\t\t(b) n (sequence length) = %d\n", seqLength);
+		fprintf(stats[TEST_APEN], "\t\t(c) Chi^2               = %f\n", chi_squared);
+		fprintf(stats[TEST_APEN], "\t\t(d) Phi(m)	       = %f\n", ApEn[0]);
+		fprintf(stats[TEST_APEN], "\t\t(e) Phi(m+1)	       = %f\n", ApEn[1]);
+		fprintf(stats[TEST_APEN], "\t\t(f) ApEn                = %f\n", apen);
+		fprintf(stats[TEST_APEN], "\t\t(g) Log(2)              = %f\n", log(2.0));
+		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+	}
 #endif
 
 	if ( m > (int)(log(seqLength)/log(2)-5) ) {
 		//printf("\t\tNote: The blockSize exceeds recommended value\n");
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_APEN], "\t\tNote: The blockSize = %d exceeds recommended value of %d\n", m,
-			MAX(1, (int)(log(seqLength)/log(2)-5)));
-		fprintf(stats[TEST_APEN], "\t\tResults are inaccurate!\n");
-		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_APEN], "\t\tNote: The blockSize = %d exceeds recommended value of %d\n", m,
+				MAX(1, (int)(log(seqLength) / log(2) - 5)));
+			fprintf(stats[TEST_APEN], "\t\tResults are inaccurate!\n");
+			fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+		}
 #endif
 	}
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_APEN], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_APEN]);
-	fprintf(results[TEST_APEN], "%f\n", p_value); fflush(results[TEST_APEN]);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_APEN], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_APEN]);
+		fprintf(results[TEST_APEN], "%f\n", p_value); fflush(results[TEST_APEN]);
+	}
 #endif
 }
 
@@ -185,12 +195,14 @@ ApproximateEntropy2(int m, int n)
 	int cc = 0;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_APEN], "\t\t\tAPPROXIMATE ENTROPY TEST\n");
-	fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-	fprintf(stats[TEST_APEN], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-	fprintf(stats[TEST_APEN], "\t\t(a) m (block length)    = %d\n", m);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_APEN], "\t\t\tAPPROXIMATE ENTROPY TEST\n");
+		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+		fprintf(stats[TEST_APEN], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+		fprintf(stats[TEST_APEN], "\t\t(a) m (block length)    = %d\n", m);
+	}
 #endif
 
 
@@ -206,8 +218,10 @@ ApproximateEntropy2(int m, int n)
 #endif
 
 	if ( (P = (unsigned int*)calloc(len,sizeof(unsigned int)))== NULL ) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+		}
 #endif
 		return;
 	}
@@ -284,24 +298,26 @@ ApproximateEntropy2(int m, int n)
 	pvals.approximate_entropy_pvals[pvals.seq_counter] = p_value;
 #endif
 	//printf("P-value %lf \n",p_value);
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_APEN], "\t\t(b) n (sequence length) = %d\n", n);
-	fprintf(stats[TEST_APEN], "\t\t(c) Chi^2               = %f\n", chi_squared);
-	fprintf(stats[TEST_APEN], "\t\t(d) Phi(m)	       = %f\n", ApEn[0]);
-	fprintf(stats[TEST_APEN], "\t\t(e) Phi(m+1)	       = %f\n", ApEn[1]);
-	fprintf(stats[TEST_APEN], "\t\t(f) ApEn                = %f\n", apen);
-	fprintf(stats[TEST_APEN], "\t\t(g) Log(2)              = %f\n", log(2.0));
-	fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-
-	if ( m > (int)(log(n)/log(2)-5) ) {
-		fprintf(stats[TEST_APEN], "\t\tNote: The blockSize = %d exceeds recommended value of %d\n", m,
-			MAX(1, (int)(log(n)/log(2)-5)));
-		fprintf(stats[TEST_APEN], "\t\tResults are inaccurate!\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_APEN], "\t\t(b) n (sequence length) = %d\n", n);
+		fprintf(stats[TEST_APEN], "\t\t(c) Chi^2               = %f\n", chi_squared);
+		fprintf(stats[TEST_APEN], "\t\t(d) Phi(m)	       = %f\n", ApEn[0]);
+		fprintf(stats[TEST_APEN], "\t\t(e) Phi(m+1)	       = %f\n", ApEn[1]);
+		fprintf(stats[TEST_APEN], "\t\t(f) ApEn                = %f\n", apen);
+		fprintf(stats[TEST_APEN], "\t\t(g) Log(2)              = %f\n", log(2.0));
 		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-	}
 
-	fprintf(stats[TEST_APEN], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_APEN]);
-	fprintf(results[TEST_APEN], "%f\n", p_value); fflush(results[TEST_APEN]);
+		if (m > (int)(log(n) / log(2) - 5)) {
+			fprintf(stats[TEST_APEN], "\t\tNote: The blockSize = %d exceeds recommended value of %d\n", m,
+				MAX(1, (int)(log(n) / log(2) - 5)));
+			fprintf(stats[TEST_APEN], "\t\tResults are inaccurate!\n");
+			fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+		}
+
+		fprintf(stats[TEST_APEN], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_APEN]);
+		fprintf(results[TEST_APEN], "%f\n", p_value); fflush(results[TEST_APEN]);
+	}
 #endif
 	free(P);
 }
@@ -318,12 +334,14 @@ ApproximateEntropy4(int m, int n)
 	int cc = 0;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_APEN], "\t\t\tAPPROXIMATE ENTROPY TEST\n");
-	fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-	fprintf(stats[TEST_APEN], "\t\tCOMPUTATIONAL INFORMATION:\n");
-	fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-	fprintf(stats[TEST_APEN], "\t\t(a) m (block length)    = %d\n", m);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_APEN], "\t\t\tAPPROXIMATE ENTROPY TEST\n");
+		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+		fprintf(stats[TEST_APEN], "\t\tCOMPUTATIONAL INFORMATION:\n");
+		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+		fprintf(stats[TEST_APEN], "\t\t(a) m (block length)    = %d\n", m);
+	}
 #endif
 
 
@@ -339,8 +357,10 @@ ApproximateEntropy4(int m, int n)
 #endif
 
 	if ((P = (int*)calloc(len, sizeof(int))) == NULL) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		 if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+	}
 #endif
 		return;
 	}
@@ -417,24 +437,26 @@ ApproximateEntropy4(int m, int n)
 	pvals.approximate_entropy_pvals[pvals.seq_counter] = p_value;
 #endif
 	//printf("P-value %lf \n",p_value);
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_APEN], "\t\t(b) n (sequence length) = %d\n", n);
-	fprintf(stats[TEST_APEN], "\t\t(c) Chi^2               = %f\n", chi_squared);
-	fprintf(stats[TEST_APEN], "\t\t(d) Phi(m)	       = %f\n", ApEn[0]);
-	fprintf(stats[TEST_APEN], "\t\t(e) Phi(m+1)	       = %f\n", ApEn[1]);
-	fprintf(stats[TEST_APEN], "\t\t(f) ApEn                = %f\n", apen);
-	fprintf(stats[TEST_APEN], "\t\t(g) Log(2)              = %f\n", log(2.0));
-	fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-
-	if (m > (int)(log(n) / log(2) - 5)) {
-		fprintf(stats[TEST_APEN], "\t\tNote: The blockSize = %d exceeds recommended value of %d\n", m,
-			MAX(1, (int)(log(n) / log(2) - 5)));
-		fprintf(stats[TEST_APEN], "\t\tResults are inaccurate!\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+ if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_APEN], "\t\t(b) n (sequence length) = %d\n", n);
+		fprintf(stats[TEST_APEN], "\t\t(c) Chi^2               = %f\n", chi_squared);
+		fprintf(stats[TEST_APEN], "\t\t(d) Phi(m)	       = %f\n", ApEn[0]);
+		fprintf(stats[TEST_APEN], "\t\t(e) Phi(m+1)	       = %f\n", ApEn[1]);
+		fprintf(stats[TEST_APEN], "\t\t(f) ApEn                = %f\n", apen);
+		fprintf(stats[TEST_APEN], "\t\t(g) Log(2)              = %f\n", log(2.0));
 		fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
-	}
 
-	fprintf(stats[TEST_APEN], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_APEN]);
-	fprintf(results[TEST_APEN], "%f\n", p_value); fflush(results[TEST_APEN]);
+		if (m > (int)(log(n) / log(2) - 5)) {
+			fprintf(stats[TEST_APEN], "\t\tNote: The blockSize = %d exceeds recommended value of %d\n", m,
+				MAX(1, (int)(log(n) / log(2) - 5)));
+			fprintf(stats[TEST_APEN], "\t\tResults are inaccurate!\n");
+			fprintf(stats[TEST_APEN], "\t\t--------------------------------------------\n");
+		}
+
+		fprintf(stats[TEST_APEN], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_APEN]);
+		fprintf(results[TEST_APEN], "%f\n", p_value); fflush(results[TEST_APEN]);
+	}
 #endif
 	free(P);
 }

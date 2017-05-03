@@ -42,25 +42,27 @@ Serial(int m, int n)
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_SERIAL], "\t\t\t       SERIAL TEST\n");
-	fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_SERIAL], "\t\t COMPUTATIONAL INFORMATION:		  \n");
-	fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_SERIAL], "\t\t(a) Block length    (m) = %d\n", m);
-	fprintf(stats[TEST_SERIAL], "\t\t(b) Sequence length (n) = %d\n", n);
-	fprintf(stats[TEST_SERIAL], "\t\t(c) Psi_m               = %f\n", psim0);
-	fprintf(stats[TEST_SERIAL], "\t\t(d) Psi_m-1             = %f\n", psim1);
-	fprintf(stats[TEST_SERIAL], "\t\t(e) Psi_m-2             = %f\n", psim2);
-	fprintf(stats[TEST_SERIAL], "\t\t(f) Del_1               = %f\n", del1);
-	fprintf(stats[TEST_SERIAL], "\t\t(g) Del_2               = %f\n", del2);
-	fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_SERIAL], "\t\t\t       SERIAL TEST\n");
+		fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_SERIAL], "\t\t COMPUTATIONAL INFORMATION:		  \n");
+		fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_SERIAL], "\t\t(a) Block length    (m) = %d\n", m);
+		fprintf(stats[TEST_SERIAL], "\t\t(b) Sequence length (n) = %d\n", n);
+		fprintf(stats[TEST_SERIAL], "\t\t(c) Psi_m               = %f\n", psim0);
+		fprintf(stats[TEST_SERIAL], "\t\t(d) Psi_m-1             = %f\n", psim1);
+		fprintf(stats[TEST_SERIAL], "\t\t(e) Psi_m-2             = %f\n", psim2);
+		fprintf(stats[TEST_SERIAL], "\t\t(f) Del_1               = %f\n", del1);
+		fprintf(stats[TEST_SERIAL], "\t\t(g) Del_2               = %f\n", del2);
+		fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
 
-	fprintf(stats[TEST_SERIAL], "%s\t\tp_value1 = %f\n", p_value1 < ALPHA ? "FAILURE" : "SUCCESS", p_value1);
-	fprintf(results[TEST_SERIAL], "%f\n", p_value1);
+		fprintf(stats[TEST_SERIAL], "%s\t\tp_value1 = %f\n", p_value1 < ALPHA ? "FAILURE" : "SUCCESS", p_value1);
+		fprintf(results[TEST_SERIAL], "%f\n", p_value1);
 
-	fprintf(stats[TEST_SERIAL], "%s\t\tp_value2 = %f\n\n", p_value2 < ALPHA ? "FAILURE" : "SUCCESS", p_value2); fflush(stats[TEST_SERIAL]);
-	fprintf(results[TEST_SERIAL], "%f\n", p_value2); fflush(results[TEST_SERIAL]);
+		fprintf(stats[TEST_SERIAL], "%s\t\tp_value2 = %f\n\n", p_value2 < ALPHA ? "FAILURE" : "SUCCESS", p_value2); fflush(stats[TEST_SERIAL]);
+		fprintf(results[TEST_SERIAL], "%f\n", p_value2); fflush(results[TEST_SERIAL]);
+	}
 #endif
 #ifdef KS
 	pvals.serial_pvals[0][pvals.seq_counter] = p_value1;
@@ -79,11 +81,13 @@ psi2(int m, int n)
 		return 0.0;
 	numOfBlocks = n;
 	powLen = (int)pow(2, m+1)-1;
-	if ( (P = (unsigned int*)calloc(powLen,sizeof(unsigned int)))== NULL ) {
+	if ((P = (unsigned int*)calloc(powLen, sizeof(unsigned int))) == NULL) {
 		printf("Serial Test:  Insufficient memory available.\n");
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_SERIAL], "Serial Test:  Insufficient memory available.\n");
-		fflush(stats[TEST_SERIAL]);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_SERIAL], "Serial Test:  Insufficient memory available.\n");
+			fflush(stats[TEST_SERIAL]);
+	}
 #endif
 		return 0.0;
 	}
@@ -168,8 +172,10 @@ Serial2(int m, int n)
 	len = (1 << m);
 
 	if ((P = (unsigned int*)calloc(len, sizeof(unsigned int))) == NULL) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+		}
 #endif
 		printf("Serial Test:  Insufficient memory available.\n");
 		return;
@@ -183,7 +189,7 @@ Serial2(int m, int n)
 		//if(i < 100)printf(" %i ",(1 << m)- 1 + Mirrored_int((get_nth_block4(array,i)&mask),m));
 	}
 
-	for (i = 1; i<m; i++) {
+	for (i = 1; i < m; i++) {
 		k = get_nth_block4(array, n - m + i)&(mask >> i);
 		//printf("%d ",k);
 		k ^= (((unsigned int*)array)[0] << (m - i));
@@ -264,25 +270,27 @@ Serial2(int m, int n)
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_SERIAL], "\t\t\t       SERIAL TEST\n");
-	fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_SERIAL], "\t\t COMPUTATIONAL INFORMATION:		  \n");
-	fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_SERIAL], "\t\t(a) Block length    (m) = %d\n", m);
-	fprintf(stats[TEST_SERIAL], "\t\t(b) Sequence length (n) = %d\n", n);
-	fprintf(stats[TEST_SERIAL], "\t\t(c) Psi_m               = %f\n", psim0);
-	fprintf(stats[TEST_SERIAL], "\t\t(d) Psi_m-1             = %f\n", psim1);
-	fprintf(stats[TEST_SERIAL], "\t\t(e) Psi_m-2             = %f\n", psim2);
-	fprintf(stats[TEST_SERIAL], "\t\t(f) Del_1               = %f\n", del1);
-	fprintf(stats[TEST_SERIAL], "\t\t(g) Del_2               = %f\n", del2);
-	fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_SERIAL], "\t\t\t       SERIAL TEST\n");
+		fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_SERIAL], "\t\t COMPUTATIONAL INFORMATION:		  \n");
+		fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_SERIAL], "\t\t(a) Block length    (m) = %d\n", m);
+		fprintf(stats[TEST_SERIAL], "\t\t(b) Sequence length (n) = %d\n", n);
+		fprintf(stats[TEST_SERIAL], "\t\t(c) Psi_m               = %f\n", psim0);
+		fprintf(stats[TEST_SERIAL], "\t\t(d) Psi_m-1             = %f\n", psim1);
+		fprintf(stats[TEST_SERIAL], "\t\t(e) Psi_m-2             = %f\n", psim2);
+		fprintf(stats[TEST_SERIAL], "\t\t(f) Del_1               = %f\n", del1);
+		fprintf(stats[TEST_SERIAL], "\t\t(g) Del_2               = %f\n", del2);
+		fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
 
-	fprintf(stats[TEST_SERIAL], "%s\t\tp_value1 = %f\n", p_value1 < ALPHA ? "FAILURE" : "SUCCESS", p_value1);
-	fprintf(results[TEST_SERIAL], "%f\n", p_value1);
+		fprintf(stats[TEST_SERIAL], "%s\t\tp_value1 = %f\n", p_value1 < ALPHA ? "FAILURE" : "SUCCESS", p_value1);
+		fprintf(results[TEST_SERIAL], "%f\n", p_value1);
 
-	fprintf(stats[TEST_SERIAL], "%s\t\tp_value2 = %f\n\n", p_value2 < ALPHA ? "FAILURE" : "SUCCESS", p_value2); fflush(stats[TEST_SERIAL]);
-	fprintf(results[TEST_SERIAL], "%f\n", p_value2); fflush(results[TEST_SERIAL]);
+		fprintf(stats[TEST_SERIAL], "%s\t\tp_value2 = %f\n\n", p_value2 < ALPHA ? "FAILURE" : "SUCCESS", p_value2); fflush(stats[TEST_SERIAL]);
+		fprintf(results[TEST_SERIAL], "%f\n", p_value2); fflush(results[TEST_SERIAL]);
+}
 #endif
 #ifdef KS
 	pvals.serial_pvals[0][pvals.seq_counter] = p_value1;
@@ -315,8 +323,10 @@ Serial4(int m, int n)
 	len = (1 << m);
 
 	if ((P = (int*)calloc(len, sizeof(int))) == NULL) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_APEN], "ApEn:  Insufficient memory available.\n");
+	}
 #endif
 		printf("Serial Test:  Insufficient memory available.\n");
 		return;
@@ -407,25 +417,27 @@ Serial4(int m, int n)
 	else R2 = R_;
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_SERIAL], "\t\t\t       SERIAL TEST\n");
-	fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_SERIAL], "\t\t COMPUTATIONAL INFORMATION:		  \n");
-	fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
-	fprintf(stats[TEST_SERIAL], "\t\t(a) Block length    (m) = %d\n", m);
-	fprintf(stats[TEST_SERIAL], "\t\t(b) Sequence length (n) = %d\n", n);
-	fprintf(stats[TEST_SERIAL], "\t\t(c) Psi_m               = %f\n", psim0);
-	fprintf(stats[TEST_SERIAL], "\t\t(d) Psi_m-1             = %f\n", psim1);
-	fprintf(stats[TEST_SERIAL], "\t\t(e) Psi_m-2             = %f\n", psim2);
-	fprintf(stats[TEST_SERIAL], "\t\t(f) Del_1               = %f\n", del1);
-	fprintf(stats[TEST_SERIAL], "\t\t(g) Del_2               = %f\n", del2);
-	fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_SERIAL], "\t\t\t       SERIAL TEST\n");
+		fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_SERIAL], "\t\t COMPUTATIONAL INFORMATION:		  \n");
+		fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
+		fprintf(stats[TEST_SERIAL], "\t\t(a) Block length    (m) = %d\n", m);
+		fprintf(stats[TEST_SERIAL], "\t\t(b) Sequence length (n) = %d\n", n);
+		fprintf(stats[TEST_SERIAL], "\t\t(c) Psi_m               = %f\n", psim0);
+		fprintf(stats[TEST_SERIAL], "\t\t(d) Psi_m-1             = %f\n", psim1);
+		fprintf(stats[TEST_SERIAL], "\t\t(e) Psi_m-2             = %f\n", psim2);
+		fprintf(stats[TEST_SERIAL], "\t\t(f) Del_1               = %f\n", del1);
+		fprintf(stats[TEST_SERIAL], "\t\t(g) Del_2               = %f\n", del2);
+		fprintf(stats[TEST_SERIAL], "\t\t---------------------------------------------\n");
 
-	fprintf(stats[TEST_SERIAL], "%s\t\tp_value1 = %f\n", p_value1 < ALPHA ? "FAILURE" : "SUCCESS", p_value1);
-	fprintf(results[TEST_SERIAL], "%f\n", p_value1);
+		fprintf(stats[TEST_SERIAL], "%s\t\tp_value1 = %f\n", p_value1 < ALPHA ? "FAILURE" : "SUCCESS", p_value1);
+		fprintf(results[TEST_SERIAL], "%f\n", p_value1);
 
-	fprintf(stats[TEST_SERIAL], "%s\t\tp_value2 = %f\n\n", p_value2 < ALPHA ? "FAILURE" : "SUCCESS", p_value2); fflush(stats[TEST_SERIAL]);
-	fprintf(results[TEST_SERIAL], "%f\n", p_value2); fflush(results[TEST_SERIAL]);
+		fprintf(stats[TEST_SERIAL], "%s\t\tp_value2 = %f\n\n", p_value2 < ALPHA ? "FAILURE" : "SUCCESS", p_value2); fflush(stats[TEST_SERIAL]);
+		fprintf(results[TEST_SERIAL], "%f\n", p_value2); fflush(results[TEST_SERIAL]);
+	}
 #endif
 #ifdef KS
 	pvals.serial_pvals[0][pvals.seq_counter] = p_value1;

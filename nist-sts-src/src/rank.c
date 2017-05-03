@@ -19,10 +19,12 @@ Rank(int n)
 	BitSequence	**matrix = create_matrix(32, 32);
 	
 	N = n/(32*32);
-	if ( isZero(N) ) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_RANK], "\t\t\t\tRANK TEST\n");
-		fprintf(stats[TEST_RANK], "\t\tError: Insuffucient # Of Bits To Define An 32x32 (%dx%d) Matrix\n", 32, 32);
+	if (isZero(N)) {
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_RANK], "\t\t\t\tRANK TEST\n");
+			fprintf(stats[TEST_RANK], "\t\tError: Insuffucient # Of Bits To Define An 32x32 (%dx%d) Matrix\n", 32, 32);
+	}
 #endif
 		p_value = 0.00;
 	}
@@ -62,30 +64,34 @@ Rank(int n)
 		
 		arg1 = -chi_squared/2.e0;
 
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_RANK], "\t\t\t\tRANK TEST\n");
-		fprintf(stats[TEST_RANK], "\t\t---------------------------------------------\n");
-		fprintf(stats[TEST_RANK], "\t\tCOMPUTATIONAL INFORMATION:\n");
-		fprintf(stats[TEST_RANK], "\t\t---------------------------------------------\n");
-		fprintf(stats[TEST_RANK], "\t\t(a) Probability P_%d = %f\n", 32,p_32);
-		fprintf(stats[TEST_RANK], "\t\t(b)             P_%d = %f\n", 31,p_31);
-		fprintf(stats[TEST_RANK], "\t\t(c)             P_%d = %f\n", 30,p_30);
-		fprintf(stats[TEST_RANK], "\t\t(d) Frequency   F_%d = %d\n", 32,(int)F_32);
-		fprintf(stats[TEST_RANK], "\t\t(e)             F_%d = %d\n", 31,(int)F_31);
-		fprintf(stats[TEST_RANK], "\t\t(f)             F_%d = %d\n", 30,(int)F_30);
-		fprintf(stats[TEST_RANK], "\t\t(g) # of matrices    = %d\n", N);
-		fprintf(stats[TEST_RANK], "\t\t(h) Chi^2            = %f\n", chi_squared);
-		fprintf(stats[TEST_RANK], "\t\t(i) NOTE: %d BITS WERE DISCARDED.\n", n%(32*32));
-		fprintf(stats[TEST_RANK], "\t\t---------------------------------------------\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_RANK], "\t\t\t\tRANK TEST\n");
+			fprintf(stats[TEST_RANK], "\t\t---------------------------------------------\n");
+			fprintf(stats[TEST_RANK], "\t\tCOMPUTATIONAL INFORMATION:\n");
+			fprintf(stats[TEST_RANK], "\t\t---------------------------------------------\n");
+			fprintf(stats[TEST_RANK], "\t\t(a) Probability P_%d = %f\n", 32, p_32);
+			fprintf(stats[TEST_RANK], "\t\t(b)             P_%d = %f\n", 31, p_31);
+			fprintf(stats[TEST_RANK], "\t\t(c)             P_%d = %f\n", 30, p_30);
+			fprintf(stats[TEST_RANK], "\t\t(d) Frequency   F_%d = %d\n", 32, (int)F_32);
+			fprintf(stats[TEST_RANK], "\t\t(e)             F_%d = %d\n", 31, (int)F_31);
+			fprintf(stats[TEST_RANK], "\t\t(f)             F_%d = %d\n", 30, (int)F_30);
+			fprintf(stats[TEST_RANK], "\t\t(g) # of matrices    = %d\n", N);
+			fprintf(stats[TEST_RANK], "\t\t(h) Chi^2            = %f\n", chi_squared);
+			fprintf(stats[TEST_RANK], "\t\t(i) NOTE: %d BITS WERE DISCARDED.\n", n % (32 * 32));
+			fprintf(stats[TEST_RANK], "\t\t---------------------------------------------\n");
+		}
 #endif
 
 		p_value = exp(arg1);
 #ifdef SPEED
 		dummy_result = p_value;
 #endif
-#ifdef FILE_OUTPUT
-		if ( isNegative(p_value) || isGreaterThanOne(p_value) )
-			fprintf(stats[TEST_RANK], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			if (isNegative(p_value) || isGreaterThanOne(p_value))
+				fprintf(stats[TEST_RANK], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+		}
 #endif
 		for ( i=0; i<32; i++ )				/* DEALLOCATE MATRIX  */
 			free(matrix[i]);
@@ -106,9 +112,11 @@ Rank(int n)
 
 #endif
 	}
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_RANK], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_RANK]);
-	fprintf(results[TEST_RANK], "%f\n", p_value); fflush(results[TEST_RANK]);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_RANK], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_RANK]);
+		fprintf(results[TEST_RANK], "%f\n", p_value); fflush(results[TEST_RANK]);
+	}
 #endif
 
 #ifdef KS
@@ -156,105 +164,112 @@ Rank2(int n){
 	//unsigned int * p_array = (unsigned int*)array;
 	unsigned char *p_array = array;
 	int N, i, r;
-    double p_value, product, chi_squared, arg1, p_32, p_31, p_30, R, F_32, F_31, F_30;
+	double p_value, product, chi_squared, arg1, p_32, p_31, p_30, R, F_32, F_31, F_30;
 
 	N = n / 1024;
 
-	if ( isZero(N) ) {
-#ifdef FILE_OUTPUT
-		fprintf(stats[TEST_RANK], "\t\t\t\tRANK TEST\n");
-		fprintf(stats[TEST_RANK], "\t\tError: Insuffucient # Of Bits To Define An 32x32 (%dx%d) Matrix\n", 32, 32);
+	if (isZero(N)) {
+#if defined(FILE_OUTPUT) ||  defined(KS)
+		if (cmdFlags.output == 1 || cmdFlags.output == -1){
+			fprintf(stats[TEST_RANK], "\t\t\t\tRANK TEST\n");
+			fprintf(stats[TEST_RANK], "\t\tError: Insuffucient # Of Bits To Define An 32x32 (%dx%d) Matrix\n", 32, 32);
+		}
 #endif
 		p_value = 0.00;
 		return;
 	}
 
 
-    // COMPUTE PROBABILITIES
-    r = 32;
-    product = 1.0;
-    for (i = 0; i <= r-1; ++i)
-        product *= ((1.e0-pow((double)2.0, (double)i-32))*(1.e0-pow((double)2,(double) i-32)))/(1.e0-pow((double)2,(double) i-r));
-    p_32 = pow((double)2,(double) r*(32+32-r)-32*32) * product;
+	// COMPUTE PROBABILITIES
+	r = 32;
+	product = 1.0;
+	for (i = 0; i <= r - 1; ++i)
+		product *= ((1.e0 - pow((double)2.0, (double)i - 32))*(1.e0 - pow((double)2, (double)i - 32))) / (1.e0 - pow((double)2, (double)i - r));
+	p_32 = pow((double)2, (double)r*(32 + 32 - r) - 32 * 32) * product;
 
-    r = 31;
-    product = 1;
-    for (i = 0; i <= r-1; ++i)
-        product *= ((1.e0-pow((double)2,(double) i-32))*(1.e0-pow((double)2,(double) i-32)))/(1.e0-pow((double)2,(double) i-r));
-    p_31 = pow((double)2,(double) r*(32+32-r)-32*32) * product;
+	r = 31;
+	product = 1;
+	for (i = 0; i <= r - 1; ++i)
+		product *= ((1.e0 - pow((double)2, (double)i - 32))*(1.e0 - pow((double)2, (double)i - 32))) / (1.e0 - pow((double)2, (double)i - r));
+	p_31 = pow((double)2, (double)r*(32 + 32 - r) - 32 * 32) * product;
 
-    p_30 = 1 - (p_32+p_31);
+	p_30 = 1 - (p_32 + p_31);
 
-    F_32 = 0;
-    F_31 = 0;
-    // FOR EACH 32x32 MATRIX
-	for(i = 0; i < N; i++)
+	F_32 = 0;
+	F_31 = 0;
+	// FOR EACH 32x32 MATRIX
+	for (i = 0; i < N; i++)
 	{
 		//if(i % 10000 == 0)cout << i << endl;
-		memcpy(matrix,p_array,128);
+		memcpy(matrix, p_array, 128);
 		/*for( i = 0; i < 32; i++)
 		{
-			matrix[i] = *(p_array++);
+		matrix[i] = *(p_array++);
 		}*/
 		p_array = p_array + 128;
 
-		R = Mrank(matrix);	
-		if(R == 32)F_32++;
-		if(R == 31)F_31++;
+		R = Mrank(matrix);
+		if (R == 32)F_32++;
+		if (R == 31)F_31++;
 	}
-	
-    F_30 = (double)N - (F_32+F_31);
 
-    chi_squared =(pow((double)F_32 - (double)(N)*p_32, 2.0)/((double)(N)*p_32) +
-                  pow((double)F_31 - (double)(N)*p_31, 2.0)/((double)(N)*p_31) +
-                  pow((double)F_30 - (double)(N)*p_30, 2.0)/((double)(N)*p_30));
+	F_30 = (double)N - (F_32 + F_31);
 
-    arg1 = -chi_squared/2.e0;
+	chi_squared = (pow((double)F_32 - (double)(N)*p_32, 2.0) / ((double)(N)*p_32) +
+		pow((double)F_31 - (double)(N)*p_31, 2.0) / ((double)(N)*p_31) +
+		pow((double)F_30 - (double)(N)*p_30, 2.0) / ((double)(N)*p_30));
 
-#ifdef FILE_OUTPUT
+	arg1 = -chi_squared / 2.e0;
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
 		fprintf(stats[TEST_RANK], "\t\t\t\tRANK TEST\n");
 		fprintf(stats[TEST_RANK], "\t\t---------------------------------------------\n");
 		fprintf(stats[TEST_RANK], "\t\tCOMPUTATIONAL INFORMATION:\n");
 		fprintf(stats[TEST_RANK], "\t\t---------------------------------------------\n");
-		fprintf(stats[TEST_RANK], "\t\t(a) Probability P_%d = %f\n", 32,p_32);
-		fprintf(stats[TEST_RANK], "\t\t(b)             P_%d = %f\n", 31,p_31);
-		fprintf(stats[TEST_RANK], "\t\t(c)             P_%d = %f\n", 30,p_30);
-		fprintf(stats[TEST_RANK], "\t\t(d) Frequency   F_%d = %d\n", 32,(int)F_32);
-		fprintf(stats[TEST_RANK], "\t\t(e)             F_%d = %d\n", 31,(int)F_31);
-		fprintf(stats[TEST_RANK], "\t\t(f)             F_%d = %d\n", 30,(int)F_30);
+		fprintf(stats[TEST_RANK], "\t\t(a) Probability P_%d = %f\n", 32, p_32);
+		fprintf(stats[TEST_RANK], "\t\t(b)             P_%d = %f\n", 31, p_31);
+		fprintf(stats[TEST_RANK], "\t\t(c)             P_%d = %f\n", 30, p_30);
+		fprintf(stats[TEST_RANK], "\t\t(d) Frequency   F_%d = %d\n", 32, (int)F_32);
+		fprintf(stats[TEST_RANK], "\t\t(e)             F_%d = %d\n", 31, (int)F_31);
+		fprintf(stats[TEST_RANK], "\t\t(f)             F_%d = %d\n", 30, (int)F_30);
 		fprintf(stats[TEST_RANK], "\t\t(g) # of matrices    = %d\n", N);
 		fprintf(stats[TEST_RANK], "\t\t(h) Chi^2            = %f\n", chi_squared);
-		fprintf(stats[TEST_RANK], "\t\t(i) NOTE: %d BITS WERE DISCARDED.\n", n%(32*32));
+		fprintf(stats[TEST_RANK], "\t\t(i) NOTE: %d BITS WERE DISCARDED.\n", n % (32 * 32));
 		fprintf(stats[TEST_RANK], "\t\t---------------------------------------------\n");
+	}
 #endif
 
-    p_value = exp(arg1);
+	p_value = exp(arg1);
 #ifdef SPEED
 	dummy_result = p_value;
 #endif
-#ifdef FILE_OUTPUT
-		if ( isNegative(p_value) || isGreaterThanOne(p_value) )
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		if (isNegative(p_value) || isGreaterThanOne(p_value))
 			fprintf(stats[TEST_RANK], "WARNING:  P_VALUE IS OUT OF RANGE.\n");
+	}
 #endif
 
 #ifdef VERIFY_RESULTS
-		R_.rank.p_30=p_30;
-		R_.rank.p_31=p_31;
-		R_.rank.p_32=p_32;
-		R_.rank.F_30=F_30;
-		R_.rank.F_31=F_31;
-		R_.rank.F_32=F_32;
-		R_.rank.chi_squared=chi_squared;
-		R_.rank.p_value=p_value;
-		R_.rank.N=N;
-		if(Rank_v1 == Rank2) R1 = R_;
-		else R2 = R_;
+	R_.rank.p_30=p_30;
+	R_.rank.p_31=p_31;
+	R_.rank.p_32=p_32;
+	R_.rank.F_30=F_30;
+	R_.rank.F_31=F_31;
+	R_.rank.F_32=F_32;
+	R_.rank.chi_squared=chi_squared;
+	R_.rank.p_value=p_value;
+	R_.rank.N=N;
+	if(Rank_v1 == Rank2) R1 = R_;
+	else R2 = R_;
 
 #endif
 
-#ifdef FILE_OUTPUT
-	fprintf(stats[TEST_RANK], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_RANK]);
-	fprintf(results[TEST_RANK], "%f\n", p_value); fflush(results[TEST_RANK]);
+#if defined(FILE_OUTPUT) ||  defined(KS)
+	if (cmdFlags.output == 1 || cmdFlags.output == -1){
+		fprintf(stats[TEST_RANK], "%s\t\tp_value = %f\n\n", p_value < ALPHA ? "FAILURE" : "SUCCESS", p_value); fflush(stats[TEST_RANK]);
+		fprintf(results[TEST_RANK], "%f\n", p_value); fflush(results[TEST_RANK]);
+}
 #endif
 
 #ifdef KS

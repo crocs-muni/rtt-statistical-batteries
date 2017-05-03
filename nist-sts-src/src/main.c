@@ -585,7 +585,7 @@ int
 equal_longestrunofones_results()
 {
 	int i;
-	if (R1.longestrunofones.pval != R2.longestrunofones.pval)
+	if (R1.longestrunofones.p_value != R2.longestrunofones.p_value)
 		return 0;
 	if (R1.longestrunofones.chi2 != R2.longestrunofones.chi2)
 		return 0;

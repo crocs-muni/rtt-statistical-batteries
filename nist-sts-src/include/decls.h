@@ -9,13 +9,19 @@ unsigned char *array;
 #ifdef VERIFY_RESULTS
 struct results R1,R2,R_;
 #endif
+
 #ifdef SPEED
 double dummy_result = 0.0;
+#endif
+
+#if defined(FILE_OUTPUT) || defined(KS)
+CmdFlags cmdFlags;
 #endif
 
 #ifdef KS
 Pvals pvals;
 #endif
+
 /* original stuff */
 BitSequence	*epsilon;				// BIT STREAM
 TP			tp;						// TEST PARAMETER STRUCTURE
