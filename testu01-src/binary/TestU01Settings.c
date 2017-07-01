@@ -15,6 +15,13 @@
 
 #define ALPHA                   0.01
 
+/* Horrible macro for writing consistent text around p-values */
+#define PVAL_TEXT_WRAP(command) { \
+    printf("=== First level p-values/statistics of the test ===\n"); \
+    command \
+    printf("===================================================\n"); \
+}
+
 /*
  * Defined constants for tests in respective batteries. Each constant
  * represents index in battery on which test occurrs last. E.g. Crush battery
@@ -449,7 +456,7 @@ void executeTest(const TestU01Settings * settings) {
         return;
     gofw_Suspectp = ALPHA;
 
-    printf("[INFO]  Significance level is set to alpha = %.3f\% (%.3f)\n" , ALPHA*100,ALPHA);
+    printf("[INFO]  Significance level is set to alpha = %.3f%% (%.3f)\n" , ALPHA*100,ALPHA);
 
     if(settings->batteryMode == MODE_SMALL_CRUSH) {
         tu01_execSmallCrushTest(settings);
@@ -834,6 +841,12 @@ void tu01_execBlockAlphabitTest(const TestU01Settings * settings) {
     }
 }
 
+/* ================================================== */
+/* ================================================== */
+/* ==================== DO TESTS ==================== */
+/* ================================================== */
+/* ================================================== */
+
 int do_smarsa_SerialOver(const TestU01Settings * settings, unif01_Gen * generator) {
     if(settings->parametersCount != 5) {
         fprintf(stderr , "[ERROR] Invalid parameters for smarsa_SerialOver.\n");
@@ -855,6 +868,7 @@ int do_smarsa_SerialOver(const TestU01Settings * settings, unif01_Gen * generato
 
     smarsa_SerialOver(generator , result ,
                       N , n , r , d , t);
+    PVAL_TEXT_WRAP(print_1stlvl_statcoll_Collector(result->sVal1);)
     sres_DeleteBasic(result);
     return 0;
 }
@@ -880,6 +894,7 @@ int do_smarsa_CollisionOver(const TestU01Settings * settings, unif01_Gen * gener
 
     smarsa_CollisionOver(generator , result ,
                          N , n , r , d , t);
+    PVAL_TEXT_WRAP(print_1stlvl_smarsa_Res(result);)
     smarsa_DeleteRes(result);
     return 0;
 }
@@ -908,6 +923,7 @@ int do_smarsa_BirthdaySpacings(const TestU01Settings * settings, unif01_Gen * ge
 
     smarsa_BirthdaySpacings(generator , result ,
                             N , n , r , d , t , p);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Poisson(result);)
     sres_DeletePoisson(result);
     return 0;
 }
@@ -936,6 +952,7 @@ int do_snpair_ClosePairs(const TestU01Settings * settings, unif01_Gen * generato
 
     snpair_ClosePairs(generator , result ,
                       N , n , r , t , p , m);
+    PVAL_TEXT_WRAP(print_1stlvl_snpair_Res(result);)
     snpair_DeleteRes(result);
     return 0;
 }
@@ -960,6 +977,7 @@ int do_snpair_ClosePairsBitMatch(const TestU01Settings * settings, unif01_Gen * 
 
     snpair_ClosePairsBitMatch(generator , result ,
                               N , n , r , t);
+    PVAL_TEXT_WRAP(print_1stlvl_statcoll_Collector(result->BitMax);)
     snpair_DeleteRes(result);
     return 0;
 }
@@ -986,6 +1004,7 @@ int do_sknuth_Collision(const TestU01Settings * settings, unif01_Gen * generator
 
     sknuth_Collision(generator , result ,
                      N , n , r , d , t);
+    PVAL_TEXT_WRAP(print_1stlvl_sknuth_Res2(result);)
     sknuth_DeleteRes2(result);
     return 0;
 }
@@ -1012,6 +1031,7 @@ int do_sknuth_SimpPoker(const TestU01Settings * settings, unif01_Gen * generator
 
     sknuth_SimpPoker(generator , result ,
                      N , n , r , d , k);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Chi2(result);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1036,6 +1056,7 @@ int do_sknuth_CouponCollector(const TestU01Settings * settings, unif01_Gen * gen
 
     sknuth_CouponCollector(generator , result ,
                            N , n , r , d);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Chi2(result);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1049,7 +1070,7 @@ int do_sknuth_Gap(const TestU01Settings * settings, unif01_Gen * generator) {
 
     int rval, r;
     long N, n;
-    int Alpha, Beta;
+    double Alpha, Beta;
     rval = u_dtolong(settings->parameters[0] , &N);
     if(rval != 0) return -1;
     rval = u_dtolong(settings->parameters[1] , &n);
@@ -1061,6 +1082,7 @@ int do_sknuth_Gap(const TestU01Settings * settings, unif01_Gen * generator) {
 
     sknuth_Gap(generator , result ,
                N , n , r , Alpha , Beta);
+    PVAL_TEXT_WRAP(print_1stlvl_statcoll_Collector(result->sVal1);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1089,6 +1111,7 @@ int do_sknuth_Run(const TestU01Settings * settings, unif01_Gen * generator) {
 
     sknuth_Run(generator , result ,
                N , n , r , Up);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Chi2(result);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1113,6 +1136,7 @@ int do_sknuth_Permutation(const TestU01Settings * settings, unif01_Gen * generat
 
     sknuth_Permutation(generator , result ,
                        N , n , r , t);
+    PVAL_TEXT_WRAP(print_1stlvl_statcoll_Collector(result->sVal1);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1137,6 +1161,7 @@ int do_sknuth_CollisionPermut(const TestU01Settings * settings, unif01_Gen * gen
 
     sknuth_CollisionPermut(generator , result ,
                            N , n , r , t);
+    PVAL_TEXT_WRAP(print_1stlvl_sknuth_Res2(result);)
     sknuth_DeleteRes2(result);
     return 0;
 }
@@ -1164,6 +1189,7 @@ int do_sknuth_MaxOft(const TestU01Settings * settings, unif01_Gen * generator) {
 
     sknuth_MaxOft(generator, result ,
                   N , n , r , d , t);
+    PVAL_TEXT_WRAP(print_1stlvl_sknuth_Res1(result);)
     sknuth_DeleteRes1(result);
     return 0;
 }
@@ -1188,6 +1214,7 @@ int do_svaria_SampleProd(const TestU01Settings * settings, unif01_Gen * generato
 
     svaria_SampleProd(generator , result ,
                       N , n , r , t);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Basic(result);)
     sres_DeleteBasic(result);
     return 0;
 }
@@ -1210,6 +1237,7 @@ int do_svaria_SampleMean(const TestU01Settings * settings, unif01_Gen * generato
 
     svaria_SampleMean(generator , result ,
                       N , n , r);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Basic(result);)
     sres_DeleteBasic(result);
     return 0;
 }
@@ -1234,6 +1262,7 @@ int do_svaria_SampleCorr(const TestU01Settings *settings, unif01_Gen *generator)
 
     svaria_SampleCorr(generator , result ,
                       N , n , r , k);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Basic(result);)
     sres_DeleteBasic(result);
     return 0;
 }
@@ -1263,6 +1292,7 @@ int do_svaria_AppearanceSpacings(const TestU01Settings * settings, unif01_Gen * 
 
     svaria_AppearanceSpacings(generator , result ,
                               N , Q , K , r , s , L);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Basic(result);)
     sres_DeleteBasic(result);
     return 0;
 }
@@ -1291,6 +1321,7 @@ int do_svaria_WeightDistrib(const TestU01Settings * settings, unif01_Gen * gener
 
     svaria_WeightDistrib(generator , result ,
                          N , n , r , k , alpha , beta);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Chi2(result);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1314,6 +1345,7 @@ int do_svaria_SumCollector(const TestU01Settings * settings, unif01_Gen * genera
 
     svaria_SumCollector(generator , result ,
                         N , n , r , g);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Chi2(result);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1343,6 +1375,7 @@ int do_smarsa_MatrixRank(const TestU01Settings * settings, unif01_Gen * generato
 
     smarsa_MatrixRank(generator , result ,
                       N , n , r , s , L , k);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Chi2(result);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1369,6 +1402,7 @@ int do_smarsa_Savir2(const TestU01Settings * settings, unif01_Gen * generator) {
 
     smarsa_Savir2(generator , result ,
                   N , n , r , m , t);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Chi2(result);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1394,7 +1428,7 @@ int do_smarsa_GCD(const TestU01Settings * settings, unif01_Gen * generator) {
 
     smarsa_GCD(generator , result ,
                N , n , r , s);
-
+    PVAL_TEXT_WRAP(print_1stlvl_smarsa_Res2(result);)
     smarsa_DeleteRes2(result);
     return 0;
 }
@@ -1424,6 +1458,7 @@ int do_swalk_RandomWalk1(const TestU01Settings * settings, unif01_Gen * generato
 
     swalk_RandomWalk1(generator , result ,
                       N , n , r , s , L0 , L1);
+    PVAL_TEXT_WRAP(print_1stlvl_swalk_Res(result);)
     swalk_DeleteRes(result);
     return 0;
 }
@@ -1449,7 +1484,7 @@ int do_scomp_LinearComp(const TestU01Settings * settings, unif01_Gen * generator
 
     scomp_LinearComp(generator , result ,
                      N , n , r , s);
-
+    PVAL_TEXT_WRAP(print_1stlvl_scomp_Res(result);)
     scomp_DeleteRes(result);
     return 0;
 }
@@ -1476,6 +1511,7 @@ int do_scomp_LempelZiv(const TestU01Settings * settings, unif01_Gen * generator)
 
     scomp_LempelZiv(generator , result ,
                     N , k , r , s);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Basic(result);)
     sres_DeleteBasic(result);
     return 0;
 }
@@ -1501,7 +1537,7 @@ int do_sspectral_Fourier3(const TestU01Settings * settings, unif01_Gen * generat
 
     sspectral_Fourier3(generator , result ,
                        N , k , r , s);
-
+    PVAL_TEXT_WRAP(print_1stlvl_sspectral_Res(result);)
     sspectral_DeleteRes(result);
     return 0;
 }
@@ -1529,6 +1565,7 @@ int do_sstring_LongestHeadRun(const TestU01Settings * settings, unif01_Gen * gen
 
     sstring_LongestHeadRun(generator , result ,
                            N , n , r , s , L);
+    PVAL_TEXT_WRAP(print_1stlvl_sstring_Res2(result);)
     sstring_DeleteRes2(result);
     return 0;
 }
@@ -1554,6 +1591,7 @@ int do_sstring_PeriodsInStrings(const TestU01Settings * settings, unif01_Gen * g
 
     sstring_PeriodsInStrings(generator , result ,
                              N , n , r , s);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Chi2(result);)
     sres_DeleteChi2(result);
     return 0;
 }
@@ -1581,6 +1619,7 @@ int do_sstring_HammingWeight2(const TestU01Settings * settings, unif01_Gen * gen
 
     sstring_HammingWeight2(generator , result ,
                            N , n , r , s , L);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Basic(result);)
     sres_DeleteBasic(result);
     return  0;
 }
@@ -1608,6 +1647,7 @@ int do_sstring_HammingCorr(const TestU01Settings *settings, unif01_Gen *generato
 
     sstring_HammingCorr(generator , result ,
                         N , n , r , s , L);
+    PVAL_TEXT_WRAP(print_1stlvl_sstring_Res(result);)
     sstring_DeleteRes(result);
     return  0;
 }
@@ -1638,6 +1678,7 @@ int do_sstring_HammingIndep(const TestU01Settings * settings, unif01_Gen * gener
 
     sstring_HammingIndep(generator , result ,
                          N , n , r , s , L , d);
+    PVAL_TEXT_WRAP(print_1stlvl_sstring_Res(result);)
     sstring_DeleteRes(result);
     return  0;
 }
@@ -1662,6 +1703,7 @@ int do_sstring_Run(const TestU01Settings * settings, unif01_Gen * generator) {
 
     sstring_Run(generator , result ,
                 N , n , r , s);
+    PVAL_TEXT_WRAP(print_1stlvl_sstring_Res3(result);)
     sstring_DeleteRes3(result);
     return  0;
 }
@@ -1688,6 +1730,92 @@ int do_sstring_AutoCor(const TestU01Settings * settings, unif01_Gen * generator)
 
     sstring_AutoCor(generator , result ,
                     N , n , r , s , d);
+    PVAL_TEXT_WRAP(print_1stlvl_sres_Basic(result);)
     sres_DeleteBasic(result);
     return  0;
+}
+
+void print_double(double num) {
+    printf("%.8f\n", num);
+}
+
+void print_1stlvl_statcoll_Collector(const statcoll_Collector * result) {
+    int i;
+    for(i = 1; i <= result->NObs; ++i)
+        print_double(result->V[i]);
+    print_double(-1);
+}
+
+void print_1stlvl_sres_Basic(const sres_Basic * result) {
+    print_1stlvl_statcoll_Collector(result->pVal1);
+}
+
+void print_1stlvl_sres_Chi2(const sres_Chi2 * result) {
+    print_1stlvl_statcoll_Collector(result->pVal1);
+}
+
+void print_1stlvl_sknuth_Res1(const sknuth_Res1 * result) {
+    print_1stlvl_sres_Basic(result->Bas);
+    print_1stlvl_sres_Chi2(result->Chi);
+}
+
+void print_1stlvl_snpair_Res(const snpair_Res * result) {
+    print_1stlvl_statcoll_Collector(result->TheWn);
+    print_1stlvl_statcoll_Collector(result->ThepValAD);
+}
+
+void print_1stlvl_smarsa_Res(const smarsa_Res * result) {
+    print_1stlvl_sres_Poisson(result->Pois);
+}
+
+void print_1stlvl_sres_Poisson(const sres_Poisson * result) {
+    print_1stlvl_statcoll_Collector(result->sVal1);
+}
+
+void print_1stlvl_sknuth_Res2(const sknuth_Res2 * result) {
+    print_1stlvl_sres_Poisson(result->Pois);
+}
+
+void print_1stlvl_smarsa_Res2(const smarsa_Res2 * result) {
+    print_1stlvl_statcoll_Collector(result->GCD->pVal1);
+    print_1stlvl_statcoll_Collector(result->NumIter->sVal1);
+}
+
+void print_1stlvl_swalk_Res(const swalk_Res * result) {
+    int i;
+    for(i = 0; i <= result->imax; ++i) {
+        print_1stlvl_sres_Chi2(result->H[i]);
+        print_1stlvl_sres_Chi2(result->M[i]);
+        print_1stlvl_sres_Chi2(result->J[i]);
+        print_1stlvl_sres_Chi2(result->R[i]);
+        print_1stlvl_sres_Chi2(result->C[i]);
+        print_double(-1);
+    }
+}
+
+void print_1stlvl_scomp_Res(const scomp_Res * result) {
+    print_1stlvl_sres_Basic(result->JumpNum);
+    print_1stlvl_sres_Chi2(result->JumpSize);
+}
+
+void print_1stlvl_sspectral_Res(const sspectral_Res * result) {
+    print_1stlvl_sres_Basic(result->Bas);
+}
+
+void print_1stlvl_sstring_Res2(const sstring_Res2 * result) {
+    print_1stlvl_sres_Chi2(result->Chi);
+    print_1stlvl_sres_Disc(result->Disc);
+}
+
+void print_1stlvl_sres_Disc(const sres_Disc * result) {
+    print_1stlvl_statcoll_Collector(result->sVal1);
+}
+
+void print_1stlvl_sstring_Res(const sstring_Res * result) {
+    print_1stlvl_sres_Basic(result->Bas);
+}
+
+void print_1stlvl_sstring_Res3(const sstring_Res3 * result) {
+    print_1stlvl_sres_Basic(result->NBits);
+    print_1stlvl_sres_Chi2(result->NRuns);
 }
