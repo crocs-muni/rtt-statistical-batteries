@@ -18,8 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef FIPS__H
-#define FIPS__H
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*  Size of a FIPS test buffer, do not change this */
 #define FIPS_RNG_BUFFER_SIZE 2500
@@ -68,4 +71,6 @@ extern const unsigned int fips_test_mask[N_FIPS_TESTS];
  */
 extern int fips_run_rng_test(fips_ctx_t *ctx, const void *buf);
 
-#endif /* FIPS__H */
+#ifdef __cplusplus
+} // extern "C"
+#endif
