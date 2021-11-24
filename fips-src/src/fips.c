@@ -20,12 +20,6 @@
 
 #define _GNU_SOURCE
 
-// #ifndef HAVE_CONFIG_H
-// #error Invalid or missing autoconf build environment
-// #endif
-
-// #include "rng-tools-config.h"
-
 #include <unistd.h>
 #include <string.h>
 
