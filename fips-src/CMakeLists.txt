@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 project(fips VERSION 0.1)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_STANDARD 17)
+find_package(gflags REQUIRED)
 
 add_executable(fips_battery
     src/main.cpp
@@ -12,11 +11,18 @@ add_executable(fips_battery
 
 set_target_properties(fips_battery
     PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
     C_STANDARD 11
-    CXX_STANDARD 14
+    CXX_STANDARD 17
 )
 
 target_include_directories(fips_battery
     PRIVATE
     src/include
+)
+
+target_link_libraries(fips_battery
+    PUBLIC
+    stdc++fs
+    gflags::gflags
 )
