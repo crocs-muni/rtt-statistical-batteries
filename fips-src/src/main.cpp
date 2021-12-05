@@ -7,43 +7,7 @@
 #include "common.h"
 #include "fips.h"
 #include "params.h"
-
-typedef struct
-{
-    std::string test;
-    size_t num_runs;
-    size_t num_failures;
-} test_status;
-
-bool check_fips_run(int result, std::array<test_status, N_FIPS_TESTS> &statuses)
-{
-    bool success = true;
-    for (int test = 0; test < N_FIPS_TESTS; ++test)
-    {
-        ++statuses[test].num_runs;
-        if (result & fips_test_mask[test])
-        {
-            success = false;
-            ++statuses[test].num_failures;
-            std::cout << "INFO: "
-                      << fips_test_names[test]
-                      << " failed: ("
-                      << statuses[test].num_failures
-                      << " out of "
-                      << statuses[test].num_runs
-                      << " runs)\n";
-        }
-    }
-
-    if (success)
-    {
-        std::cout << "INFO: Run "
-                  << statuses[0].num_runs
-                  << " succeeded\n";
-    }
-
-    return success;
-}
+#include "results.h"
 
 int main(int argc, char **argv)
 {
@@ -71,19 +35,31 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    std::array<test_status, N_FIPS_TESTS> statuses{};
+    std::array<fips::test_status, N_FIPS_TESTS> statuses{};
 
     for (size_t test = 0; test < N_FIPS_TESTS; ++test)
     {
-        statuses[test] = test_status{fips_test_names[test], 0, 0};
+        statuses[test] = fips::test_status{fips_test_names[test], 0, 0};
     }
+
+    bool succeeded = true;
 
     for (size_t used_bytes = 0; used_bytes + FIPS_RNG_BUFFER_SIZE < input_size; used_bytes += FIPS_RNG_BUFFER_SIZE)
     {
-        const void *ptx = input_file_data.data() + used_bytes;
-        auto result = fips_run_rng_test(ctx.get(), ptx);
-        check_fips_run(result, statuses);
+        const void *buffer = input_file_data.data() + used_bytes;
+        auto result = fips_run_rng_test(ctx.get(), buffer);
+        if (result) {
+            succeeded = false;
+        }
+        fips::save_fips_run(result, statuses);
     }
+
+    fips::generate_report(params, succeeded, statuses);
+
+    // TODO: specifikacia, ktore vysledky testov chceme
+    //       cez --skip_<testname>_test
+    // TODO: pozriet p-values:
+    //       v paranoYa appke sa ulozi iba informacia REJECTED/ACCEPTED
 
     return EXIT_SUCCESS;
 }
