@@ -13,6 +13,9 @@
 DEFINE_bool(binary_file,
             false,
             "Specify input file format");
+DEFINE_bool(json,
+            false,
+            "Save test results to json");
 DEFINE_string(input_file,
               "",
               "Specify a path to an input file");
@@ -49,6 +52,7 @@ namespace fips
         std::string input_file;
         std::string output_file;
         bool is_binary;
+        bool json;
 
         // Tests
         bool skip_all_tests;
@@ -78,6 +82,7 @@ namespace fips
 
         // IO
         out_params.is_binary = FLAGS_binary_file;
+        out_params.json = FLAGS_json;
         out_params.input_file = FLAGS_input_file;
         out_params.output_file = FLAGS_output_file;
 
