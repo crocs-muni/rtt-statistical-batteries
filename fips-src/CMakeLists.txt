@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.12)
 
 project(fips VERSION 0.1)
 
-find_package(gflags REQUIRED)
-
 add_executable(fips_battery
     src/main.cpp
     src/fips.c
@@ -24,5 +22,4 @@ target_include_directories(fips_battery
 target_link_libraries(fips_battery
     PUBLIC
     stdc++fs
-    gflags::gflags
 )
