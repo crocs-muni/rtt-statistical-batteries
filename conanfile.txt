@@ -1,6 +1,0 @@
-[requires]
-gflags/2.2.2
-
-[generators]
-cmake_paths
-cmake_find_package
