@@ -11,9 +11,9 @@ int main(int argc, char **argv) {
   }
 
   try {
-    bsi::t1_monobit(input);
+    bsi::monobit_test(input);
 
-    bsi::t2_poker(input);
+    bsi::poker_test(input);
   } catch (std::exception &e) {
     std::cout << "Error! " << e.what() << std::endl;
   }
