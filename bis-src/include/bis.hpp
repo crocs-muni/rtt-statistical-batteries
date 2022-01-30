@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <climits>
 #include <compare>
 #include <cstdlib>
@@ -221,8 +222,7 @@ bool do_long_run_test(const unsigned char *seq) {
   for (size_t i = 1; i < 20000; i++) {
     if (*seq++ == current_bit) {
       ++current_run_length;
-    }
-    else {
+    } else {
       if (current_run_length > max_run_length) {
         max_run_length = current_run_length;
       }
@@ -256,6 +256,68 @@ void long_run_test(const std::vector<unsigned char> &input_sequence) {
   }
 
   std::cout << "Long Run failed: " << failed << std::endl;
+}
+
+typedef struct data_s {
+  short Z;
+  short tau;
+} data_t;
+
+short do_autocorrelation_test(const unsigned char *seq, std::array<data_t, 5000> &data) {
+  int ind, tau, numMaxTau;
+  short xorSum, maxZ;
+  auto origSeq = seq;
+  for (tau = 1; tau <= 5000; tau++) {
+    xorSum = 0;
+    seq = origSeq;
+    for (ind = 0; ind < 5000; ind++) {
+      xorSum += *seq ^ *(seq + tau);
+      seq++;
+    }
+
+    xorSum -= 2500;
+    if (xorSum < 0)
+      xorSum = -xorSum;
+    data[tau - 1].Z = xorSum;
+    data[tau - 1].tau = tau;
+  }
+  std::sort(data.begin(), data.end(), [](const auto &lhs, const auto &rhs) { return lhs.Z < rhs.Z; });
+  maxZ = data[0].Z;
+  numMaxTau = 1;
+  while (data[numMaxTau].Z == maxZ)
+    numMaxTau++;
+  ind = rand() % numMaxTau;
+  tau = data[ind].tau;
+  seq = origSeq + 10000;
+  xorSum = 0;
+  for (ind = 0; ind < 5000; ind++) {
+    xorSum += *seq ^ *(seq + tau);
+    seq++;
+  }
+  return xorSum;
+}
+
+void autocorrelation_test(const std::vector<unsigned char> &input_sequence) {
+  auto seq = input_sequence.data();
+  std::array<short, 257> results{};
+  std::fill(results.begin(), results.end(), 0);
+  const auto input_size = input_sequence.size();
+  if (input_size < 5140000) {
+    throw std::runtime_error("Invalid size of input sequence");
+  }
+  srand(time(NULL));
+  std::array<data_t, 5000> data{};
+  std::fill(data.begin(), data.end(), data_t{0, 0});
+  size_t failed{0};
+  for (auto &&result : results) {
+    result = do_autocorrelation_test(seq, data);
+    if (result < 2326 || result > 2674) {
+      ++failed;
+    }
+    seq += 20000;
+  }
+
+  std::cout << "Autocorellation failed: " << failed << std::endl;
 }
 
 } // namespace bsi
