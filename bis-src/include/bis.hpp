@@ -175,8 +175,7 @@ char do_runs_test(const unsigned char *seq) {
   }
   if (current_bit == 1) {
     numruns1[current_run_length - 1]++;
-  }
-  else {
+  } else {
     numruns0[current_run_length - 1]++;
   }
   // evaluation
@@ -212,6 +211,51 @@ void runs_test(const std::vector<unsigned char> &input_sequence) {
     seq += sequence_stride;
   }
   std::cout << "Runs failed: " << failed << std::endl;
+}
+
+/// @returns This function returns TRUE in case of a failure
+bool do_long_run_test(const unsigned char *seq) {
+  uint8_t current_bit = *seq++;
+  size_t current_run_length = 1;
+  size_t max_run_length = 1;
+  for (size_t i = 1; i < 20000; i++) {
+    if (*seq++ == current_bit) {
+      ++current_run_length;
+    }
+    else {
+      if (current_run_length > max_run_length) {
+        max_run_length = current_run_length;
+      }
+      current_bit = *(seq - 1);
+      current_run_length = 1;
+    }
+  }
+  if (current_run_length > max_run_length) {
+    max_run_length = current_run_length;
+  }
+  return max_run_length >= 34;
+}
+
+void long_run_test(const std::vector<unsigned char> &input_sequence) {
+  auto seq = input_sequence.data();
+  std::array<bool, 257> results{};
+  std::fill(results.begin(), results.end(), 0);
+
+  const auto input_size = input_sequence.size();
+  if (input_size < 5140000) {
+    throw std::runtime_error("Invalid size of input sequence");
+  }
+
+  size_t failed{0};
+  for (auto &&result : results) {
+    result = do_long_run_test(seq);
+    if (result) {
+      ++failed;
+    }
+    seq += 20000;
+  }
+
+  std::cout << "Long Run failed: " << failed << std::endl;
 }
 
 } // namespace bsi

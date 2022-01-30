@@ -51,6 +51,8 @@ int main(int argc, char **argv) {
     bsi::poker_test(nist_sequence);
 
     bsi::runs_test(nist_sequence);
+
+    bsi::long_run_test(nist_sequence);
   } catch (std::exception &e) {
     std::cout << "Error! " << e.what() << std::endl;
   }
