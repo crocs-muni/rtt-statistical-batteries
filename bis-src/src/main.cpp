@@ -59,6 +59,8 @@ int main(int argc, char **argv) {
     bsi::uniform_test(nist_sequence, 24, 612000, 0.2);
 
     bsi::entropy_test(nist_sequence);
+
+    bsi::homogenity_test(nist_sequence);
   } catch (std::exception &e) {
     std::cout << "Error! " << e.what() << std::endl;
   }

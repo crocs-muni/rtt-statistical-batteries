@@ -375,6 +375,152 @@ void uniform_test(const std::vector<unsigned char> &input_sequence, const size_t
   std::cout << "Uniform failed: " << failed << std::endl;
 }
 
+unsigned long long **createTF(int K) {
+  unsigned long long **tab = NULL;
+  unsigned long size;
+  long i;
+
+  size = 1ul << K;
+  tab = (unsigned long long **)calloc(size, sizeof(unsigned long long *));
+  if (!tab)
+    return NULL;
+  for (i = 0; (unsigned long)i < size; i++) {
+    tab[i] = (unsigned long long *)calloc(2, sizeof(unsigned long long));
+    if (!tab[i]) {
+      i--;
+      while (i > 0)
+        free(tab[i]);
+      free(tab);
+      return NULL;
+    }
+  } // for i allocate TF arrray
+  return tab;
+}
+
+void destroyTF(unsigned long long **tab, int K) {
+  unsigned long size, i;
+  size = 1ul << K;
+  for (i = 0; i < size; i++)
+    free(tab[i]);
+  free(tab);
+}
+
+long TF(const unsigned char *seq, long availableLen, unsigned long long **tab, int K, int N) {
+  unsigned long long w;
+  long size, working;
+  int i;
+  long j;
+
+  size = 1ul << K;
+  working = size;
+
+  while ((availableLen > 0) && (working > 0)) {
+    // create K-bit word
+    w = 0;
+    for (i = 0; i < K; i++) {
+      w <<= 1;
+      w |= *seq++;
+      availableLen--;
+      if (availableLen == 0)
+        return -1;
+    }
+    // if the related counter is < N, increase the counter
+    if (tab[w][0] + tab[w][1] < N)
+      tab[w][*seq]++;
+    seq++;
+    availableLen--;
+    // if the bound N is reached, we decrease the working subsequences
+    // and we increase the sum of the subsequence by 2 to avoid again decreasing
+    // so we have to decrease this number after the computing
+    if (tab[w][0] + tab[w][1] == N) {
+      working--;
+      tab[w][0]++;
+      tab[w][1]++;
+    }
+  } // while working > 0  && availableLen > 0
+
+  // check if the computing has been finished correctly
+  if (working > 0)
+    return -1;
+
+  // correct the vaules for all sum subsequences
+  for (j = 0; j < size; j++) {
+    tab[j][0]--;
+    tab[j][1]--;
+  }
+
+  return availableLen;
+}
+
+int doEvaluationT7(unsigned long long **tab, int K, double bound) {
+  unsigned long size, i;
+  double sum;
+  int failed = 0;
+
+  size = 1ul << (K - 1);
+  sum = 0.0;
+  for (i = 0; i < size; i++) {
+    sum += ((tab[i][0] - tab[i + size][0]) * (tab[i][0] - tab[i + size][0])) / (double)(tab[i][0] + tab[i + size][0]) +
+           ((tab[i][1] - tab[i + size][1]) * (tab[i][1] - tab[i + size][1])) / (double)(tab[i][1] + tab[i + size][1]);
+    if (sum > bound)
+      failed++;
+  }
+  return failed;
+}
+
+void homogenity_test(const std::vector<unsigned char> &input_sequence) {
+  constexpr size_t MIN_K{1};
+  constexpr size_t MAX_K{3};
+  auto seq = input_sequence.data();
+  int failed, iterations, end;
+  unsigned long long **tabTF;
+  long ret{0};
+  double result{0.0};
+  auto input_size = input_sequence.size();
+  size_t failedTotal{0};
+  iterations = 0;
+  end = 0;
+  while (!end) {
+    iterations++;
+    failed = 0;
+    for (size_t i = MIN_K; i <= MAX_K; i++) {
+      tabTF = createTF(i);
+      if (!tabTF) {
+        throw std::runtime_error("Insufficient memory");
+      }
+      ret = TF(seq, input_size, tabTF, i, 100000);
+      if (ret == -1) {
+        destroyTF(tabTF, i);
+        if (iterations == 1) {
+          throw std::runtime_error("Bad input data");
+        }
+        end = 1;
+        iterations--;
+        break;
+      }
+      if (i == 1) {
+        result = (tabTF[0][1] + tabTF[1][0]) / 100000.0 - 1;
+        if (result < 0)
+          result = -result;
+        if (result >= 0.02) {
+          failedTotal++;
+        }
+      }
+      else {
+        failed = doEvaluationT7(tabTF, i, 15.13);
+        if (failed > 0) {
+          failedTotal += failed;
+        }
+      }
+      seq += input_size - ret;
+      input_size = ret;
+      destroyTF(tabTF, i);
+    }
+  }
+
+  std::cout << "Homogenity failed: " << failedTotal << std::endl;
+}
+
 int do_entropy_test(const unsigned char *seq, const int L, const int Q, const int K) {
   size_t w{0};
   const size_t size{1ul << L};
