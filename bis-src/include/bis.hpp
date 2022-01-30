@@ -22,7 +22,7 @@ inline size_t chars_to_number(const char *chars, const size_t num_chars) {
 } // namespace utils
 
 /// t0_words
-void words_test(const std::vector<char> &input_sequence) {
+void words_test(const std::vector<unsigned char> &input_sequence) {
   auto input_ptr = input_sequence.data();
   constexpr size_t ArraySize{65536};
 
@@ -60,15 +60,10 @@ void words_test(const std::vector<char> &input_sequence) {
   std::cout << "Words failed: " << failed << std::endl;
 }
 
-size_t do_monobit_test(const char *seq) {
+size_t do_monobit_test(const unsigned char *seq) {
   size_t sum{0};
-  size_t tmp{0};
   for (size_t i = 0; i < 20000; ++i) {
-    tmp = utils::char_to_bit(*seq);
-    if (tmp < 0 || tmp > 1) {
-      throw std::runtime_error("Invalid input sequence");
-    }
-    sum += tmp;
+    sum += *seq;
     ++seq;
   }
 
@@ -76,7 +71,7 @@ size_t do_monobit_test(const char *seq) {
 }
 
 /// t1_monobit
-void monobit_test(const std::vector<char> &input_sequence) {
+void monobit_test(const std::vector<unsigned char> &input_sequence) {
   std::array<size_t, 257> results{};
   const auto input_size = input_sequence.size();
   if (input_size < 5140000) {
@@ -97,7 +92,7 @@ void monobit_test(const std::vector<char> &input_sequence) {
   std::cout << "Monobit failed: " << num_failed << std::endl;
 }
 
-double do_poker_test(const char *seq) {
+double do_poker_test(const unsigned char *seq) {
   int number{0};
   double x{0.0};
   std::array<int, 16> numoccur{};
@@ -105,7 +100,7 @@ double do_poker_test(const char *seq) {
 
   // 20000 bits, 1 number consists from 4 bits => 5000 iterations
   for (size_t i = 0; i < 5000; i++) {
-    number = utils::chars_to_number(seq, 4);
+    number = ((seq[0]) << 3) + ((seq[1]) << 2) + ((seq[2]) << 1) + ((seq[3]) << 0);
     seq += 4;
     numoccur[number]++;
   }
@@ -120,7 +115,7 @@ double do_poker_test(const char *seq) {
 }
 
 /// t2_poker
-void poker_test(const std::vector<char> &input_sequence) {
+void poker_test(const std::vector<unsigned char> &input_sequence) {
   int inputLen = 0, i, failed;
   std::array<double, 257> results{};
   auto seq = input_sequence.data();
