@@ -3,7 +3,7 @@
 #include <iostream>
 #include <random>
 
-#include "bis.hpp"
+#include "bsi.hpp"
 
 /// @param characters input sequence containing numbers from 0 to 255
 /// @returns Consider N as number of elements of input vector characters.
