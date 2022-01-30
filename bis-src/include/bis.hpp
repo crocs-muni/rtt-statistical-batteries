@@ -320,4 +320,58 @@ void autocorrelation_test(const std::vector<unsigned char> &input_sequence) {
   std::cout << "Autocorellation failed: " << failed << std::endl;
 }
 
+int do_uniform_test(const unsigned char *seq, size_t *X, const size_t K, const size_t N, const double A) {
+  size_t w{0};
+  for (size_t i = 0; i < N; i++) {
+    w = 0;
+    for (size_t j = 0; j < K; j++) {
+      w <<= 1;
+      w |= *seq++;
+    }
+    X[w]++;
+  }
+  const auto power = std::pow(2.0, -K);
+  const auto low = power - A;
+  const auto high = power + A;
+
+  size_t failed{0};
+  double ratio{0.0};
+  for (size_t i = 0; i < (1ull << K); i++) {
+    ratio = static_cast<double>(X[i]) / static_cast<double>(N);
+    if (ratio < low || ratio > high) {
+      failed++;
+    }
+  }
+
+  return failed;
+}
+
+void uniform_test(const std::vector<unsigned char> &input_sequence, const size_t K, const size_t N, const double A) {
+  auto seq = input_sequence.data();
+  const auto input_size = input_sequence.size();
+  if (K * N > input_size) {
+    throw std::runtime_error("Required length of the sequence to be tested is too large");
+  }
+  if (K < 1 || K > 24) {
+    throw std::runtime_error("Length of the vectors to be tested must be in [1;24]");
+  }
+  if (A <= 0 || A >= 1) {
+    throw std::runtime_error("Parameter A must be in (0;1)");
+  }
+
+  size_t size{1ull << K};
+  std::vector<size_t> X(size, 0);
+
+  size_t failed{0};
+  const auto iterations = input_size / (N * K);
+  for (size_t i = 0; i < iterations; i++) {
+    std::fill(X.begin(), X.end(), 0);
+    if (do_uniform_test(seq, X.data(), K, N, A) > 0) {
+      ++failed;
+    }
+    seq += K * N;
+  }
+  std::cout << "Uniform failed: " << failed << std::endl;
+}
+
 } // namespace bsi

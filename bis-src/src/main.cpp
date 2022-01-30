@@ -55,6 +55,8 @@ int main(int argc, char **argv) {
     bsi::long_run_test(nist_sequence);
 
     bsi::autocorrelation_test(nist_sequence);
+
+    bsi::uniform_test(nist_sequence, 24, 612000, 0.2);
   } catch (std::exception &e) {
     std::cout << "Error! " << e.what() << std::endl;
   }
