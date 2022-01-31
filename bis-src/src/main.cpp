@@ -2,6 +2,7 @@
 #include <exception>
 #include <iostream>
 #include <random>
+#include <string>
 
 #include "bsi.hpp"
 
@@ -13,7 +14,6 @@
 /// this function comes from paranoYa sources
 /// see function void MainWidget::diehardToNist() declared in main.cpp
 std::vector<unsigned char> convert_to_bits(const std::vector<unsigned char> &characters) {
-
   const auto input_size = characters.size();
   std::vector<unsigned char> output(input_size * 8, 0);
 
@@ -33,6 +33,7 @@ std::vector<unsigned char> convert_to_bits(const std::vector<unsigned char> &cha
 }
 
 int main(int argc, char **argv) {
+  const std::vector<std::string> arguments(argv + 1, argv + argc);
   constexpr size_t InputSize{5140000};
   std::random_device rd{};
   std::mt19937 gen{rd()};
