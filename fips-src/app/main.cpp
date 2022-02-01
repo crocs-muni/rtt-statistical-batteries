@@ -1,11 +1,11 @@
 #include <exception>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <memory>
 #include <random>
 #include <string>
 #include <vector>
-#include <fstream>
 
 #include "fips.h"
 #include "params.h"
