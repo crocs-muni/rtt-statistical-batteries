@@ -47,10 +47,6 @@ struct test_params {
     if (!result) {
       std::cout << clipp::usage_lines(cli, "fips_battery") << std::endl;
       exit(1);
-    } else {
-      if (!fs::is_regular_file(input_file)) {
-        exit(-1);
-      }
     }
   }
 

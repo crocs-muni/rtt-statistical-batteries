@@ -1,13 +1,29 @@
+#include <exception>
 #include <iomanip>
 #include <iostream>
 #include <memory>
 #include <random>
 #include <string>
+#include <vector>
+#include <fstream>
 
-#include "common.h"
 #include "fips.h"
 #include "params.h"
-#include "results.h"
+#include "results.hpp"
+
+/// Auxiliary function for file loading.
+/// This function Throws exception if file is not present
+/// @param file_name location
+/// @returns vector of type T containing binary data from the file
+template <typename T> std::vector<T> LoadFile(const std::string &file_name) {
+  std::ifstream in(file_name.c_str(), std::ios::binary);
+  if (!in.is_open()) {
+    throw std::runtime_error("Unable to open file");
+  }
+  std::vector<char> raw_data((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+  return std::vector<T>(reinterpret_cast<T *>(raw_data.data()),
+                        reinterpret_cast<T *>(raw_data.data()) + raw_data.size());
+}
 
 int main(int argc, char **argv) {
   const std::vector<std::string> arguments(argv + 1, argv + argc);
@@ -16,7 +32,12 @@ int main(int argc, char **argv) {
   std::unique_ptr<fips_ctx> ctx = std::make_unique<fips_ctx>();
   fips_init(ctx.get(), 0);
 
-  std::vector<unsigned char> input_file_data = fips::LoadFile<unsigned char>(params.input_file.c_str());
+  std::vector<unsigned char> input_file_data{};
+  try {
+    input_file_data = LoadFile<unsigned char>(params.input_file.c_str());
+  } catch (std::exception &e) {
+    std::cout << "Error (" << params.input_file << ") ! " << e.what() << std::endl;
+  }
 
   const size_t input_size{input_file_data.size()};
 
