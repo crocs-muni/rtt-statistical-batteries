@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "fips.h"
-#include "params.h"
+#include "fips_params.hpp"
 #include "results.hpp"
 
 /// Auxiliary function for file loading.
@@ -27,16 +27,24 @@ template <typename T> std::vector<T> LoadFile(const std::string &file_name) {
 
 int main(int argc, char **argv) {
   const std::vector<std::string> arguments(argv + 1, argv + argc);
-  fips::test_params params{arguments};
+  fips::args::Configuration configuration{};
+  try {
+    configuration.parse(arguments);
+  } catch (int &exit_status) {
+    return exit_status;
+  } catch (std::exception &e) {
+    std::cout << "Error ! " << e.what() << std::endl;
+    return 1;
+  }
 
   std::unique_ptr<fips_ctx> ctx = std::make_unique<fips_ctx>();
   fips_init(ctx.get(), 0);
 
   std::vector<unsigned char> input_file_data{};
   try {
-    input_file_data = LoadFile<unsigned char>(params.input_file.c_str());
+    input_file_data = LoadFile<unsigned char>(configuration.input_file.c_str());
   } catch (std::exception &e) {
-    std::cout << "Error (" << params.input_file << ") ! " << e.what() << std::endl;
+    std::cout << "Error (" << configuration.input_file << ") ! " << e.what() << std::endl;
   }
 
   const size_t input_size{input_file_data.size()};
@@ -54,8 +62,9 @@ int main(int argc, char **argv) {
 
   bool succeeded = true;
 
+  auto data_ptr = input_file_data.data();
   for (size_t used_bytes = 0; used_bytes + FIPS_RNG_BUFFER_SIZE < input_size; used_bytes += FIPS_RNG_BUFFER_SIZE) {
-    const void *buffer = input_file_data.data() + used_bytes;
+    const void *buffer = reinterpret_cast<void*>(data_ptr + used_bytes);
     auto result = fips_run_rng_test(ctx.get(), buffer);
     if (result) {
       succeeded = false;
@@ -63,7 +72,9 @@ int main(int argc, char **argv) {
     fips::save_fips_run(result, statuses);
   }
 
-  fips::generate_report(params, succeeded, statuses);
+  if (!configuration.skip_all_tests) {
+    fips::generate_report(configuration, succeeded, statuses);
+  }
 
   return EXIT_SUCCESS;
 }

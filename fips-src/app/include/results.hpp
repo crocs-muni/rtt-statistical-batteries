@@ -6,7 +6,7 @@
 #include <string>
 
 #include "fips.h"
-#include "params.h"
+#include "fips_params.hpp"
 
 namespace fips {
 typedef struct {
@@ -44,7 +44,7 @@ void dump_test_result_to_json(std::ofstream &out, const test_status &status, boo
   out << std::endl;
 }
 
-void save_per_test_results(std::ofstream &out, const fips::test_params &params,
+void save_per_test_results(std::ofstream &out, const fips::args::Configuration &params,
                            const std::array<test_status, N_FIPS_TESTS> &statuses) {
   std::vector<test_status> statuses_to_print{};
 
@@ -73,7 +73,7 @@ void save_per_test_results(std::ofstream &out, const fips::test_params &params,
   }
 }
 
-void save_to_json(std::ofstream &out, const fips::test_params &params, bool battery_success,
+void save_to_json(std::ofstream &out, const fips::args::Configuration &params, bool battery_success,
                   const std::array<test_status, N_FIPS_TESTS> &statuses) {
   out << "{" << std::endl;
   out << "\t\"status\": ";
@@ -82,18 +82,12 @@ void save_to_json(std::ofstream &out, const fips::test_params &params, bool batt
   } else {
     out << "\"Rejected\",";
   }
-
-  out << std::endl;
-
-  if (!params.skip_all_tests) {
-    out << "\t\"tests\": [" << std::endl;
-    save_per_test_results(out, params, statuses);
-    out << "\t]" << std::endl;
-  }
-  out << "}" << std::endl;
+  out << std::endl << "\t\"tests\": [" << std::endl;
+  save_per_test_results(out, params, statuses);
+  out << "\t]\n}" << std::endl;
 }
 
-void save_to_txt(std::ofstream &out, const fips::test_params &params, bool battery_success,
+void save_to_txt(std::ofstream &out, const fips::args::Configuration &params, bool battery_success,
                  const std::array<test_status, N_FIPS_TESTS> &statuses) {
   out << "FIPS 140-2 battery: ";
   if (battery_success) {
@@ -103,17 +97,14 @@ void save_to_txt(std::ofstream &out, const fips::test_params &params, bool batte
   }
   out << std::endl << std::endl;
 
-  if (!params.skip_all_tests) {
-    save_per_test_results(out, params, statuses);
-  }
+  save_per_test_results(out, params, statuses);
 }
 
-void generate_report(const fips::test_params &params, bool battery_success,
+void generate_report(const fips::args::Configuration &params, bool battery_success,
                      const std::array<test_status, N_FIPS_TESTS> &statuses) {
   std::ofstream out(params.output_file);
   if (!out.is_open()) {
-    std::cerr << "Error: Cannot open output file for writing." << std::endl;
-    return;
+    throw std::runtime_error("Cannot open output file for writing");
   }
 
   if (params.json) {
