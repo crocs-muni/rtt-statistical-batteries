@@ -3,7 +3,6 @@
 #include <string>
 
 #include "clipp.h"
-#include "common.h"
 
 namespace fips {
 
