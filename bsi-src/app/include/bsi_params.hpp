@@ -38,7 +38,7 @@ public:
       : input_file{""}, output_file{""}, json{false}, skip_all_tests{false}, skip_words_test{false},
         skip_monobit_test{false}, skip_poker_test{false}, skip_runs_test{false}, skip_long_run_test{false},
         skip_autocorrelation_test{false}, skip_uniform_test{false}, skip_homogenity_test{false},
-        skip_entropy_test{false}, K{20}, N{500000}, A{0.1}, cli{}, man_page_requested{false} {
+        skip_entropy_test{false}, K{1}, N{100000}, A{0.025}, cli{}, man_page_requested{false} {
     initialize_arguments();
   }
 
