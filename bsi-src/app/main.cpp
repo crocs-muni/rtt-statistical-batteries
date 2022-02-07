@@ -5,10 +5,12 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include <string_view>
 
-#include "bsi_params.hpp"
+#include <nlohmann/json.hpp>
 
 #include "bsi.hpp"
+#include "bsi_params.hpp"
 
 /// Utility for loading files
 /// @param file_name location
@@ -59,48 +61,68 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  const auto uchar_sequence = LoadFile<unsigned char>(configuration.input_file);
-  const auto nist_sequence = convert_to_bits(uchar_sequence);
-
-  auto run_test_for_nist_sequence = [&](auto &test, const std::string &test_name) {
-    try {
-      test(nist_sequence);
-    } catch (std::exception &e) {
-      std::cout << "Error(" << test_name << ") ! " << e.what() << std::endl;
-    }
-  };
-
   if (configuration.skip_all_tests) {
     return 0;
   }
-  if (!configuration.skip_words_test) {
-    bsi::words_test(uchar_sequence);
+
+  const auto uchar_sequence = LoadFile<unsigned char>(configuration.input_file);
+  const auto nist_sequence = convert_to_bits(uchar_sequence);
+
+  std::ofstream out(configuration.output_file);
+  if (not out.is_open()) {
+    std::cout << "Error ! Unable to open output file " << configuration.output_file << std::endl;
+    return 1;
   }
-  if (!configuration.skip_monobit_test) {
-    run_test_for_nist_sequence(bsi::monobit_test, "T1-Monobit");
+
+  nlohmann::json results = {{"tests", nlohmann::json::array({})}};
+
+  auto run_test_for_nist_sequence = [&](auto &test_fnc, std::string_view test_name) {
+    try {
+      auto [num_failed, num_iterations] = test_fnc(nist_sequence);
+      results["tests"].push_back(
+          {{"name", test_name}, {"error", false}, {"num_runs", num_iterations}, {"num_failures", num_failed}});
+    } catch (std::exception &e) {
+      std::cout << "Error(" << test_name << ") ! " << e.what() << std::endl;
+      results["tests"].push_back({{"name", test_name}, {"error", true}});
+    }
+  };
+
+  if (not configuration.skip_words_test) {
+    try {
+      auto [num_failed, num_iterations] = bsi::words_test(uchar_sequence);
+      results["tests"].push_back(
+          {{"name", bsi::WordsName}, {"error", false}, {"num_runs", num_iterations}, {"num_failures", num_failed}});
+    } catch (std::exception &e) {
+      std::cout << "Error(" << bsi::WordsName << ") ! " << e.what() << std::endl;
+      results["tests"].push_back({{"name", bsi::WordsName}, {"error", true}});
+    }
   }
-  if (!configuration.skip_poker_test) {
-    run_test_for_nist_sequence(bsi::poker_test, "T2-Poker");
+  if (not configuration.skip_monobit_test) {
+    run_test_for_nist_sequence(bsi::monobit_test, bsi::MonobitName);
   }
-  if (!configuration.skip_runs_test) {
-    run_test_for_nist_sequence(bsi::runs_test, "T3-Runs");
+  if (not configuration.skip_poker_test) {
+    run_test_for_nist_sequence(bsi::poker_test, bsi::PokerName);
   }
-  if (!configuration.skip_long_run_test) {
-    run_test_for_nist_sequence(bsi::long_run_test, "T4-LongRun");
+  if (not configuration.skip_runs_test) {
+    run_test_for_nist_sequence(bsi::runs_test, bsi::RunsName);
   }
-  if (!configuration.skip_autocorrelation_test) {
-    run_test_for_nist_sequence(bsi::autocorrelation_test, "T5-Autocorrelation");
+  if (not configuration.skip_long_run_test) {
+    run_test_for_nist_sequence(bsi::long_run_test, bsi::LongRunName);
   }
-  if (!configuration.skip_uniform_test) {
+  if (not configuration.skip_autocorrelation_test) {
+    run_test_for_nist_sequence(bsi::autocorrelation_test, bsi::AutocorrelationName);
+  }
+  if (not configuration.skip_uniform_test) {
     auto uniform =
         std::bind(bsi::uniform_test, std::placeholders::_1, configuration.K, configuration.N, configuration.A);
-    run_test_for_nist_sequence(uniform, "T6-UniformDistribution");
+    run_test_for_nist_sequence(uniform, bsi::UniformDistributionName);
   }
-  if (!configuration.skip_homogenity_test) {
-    run_test_for_nist_sequence(bsi::homogenity_test, "T7-Homogenity");
+  if (not configuration.skip_homogenity_test) {
+    run_test_for_nist_sequence(bsi::homogenity_test, bsi::HomogenityName);
   }
-  if (!configuration.skip_entropy_test) {
-    run_test_for_nist_sequence(bsi::entropy_test, "T8-Entropy");
+  if (not configuration.skip_entropy_test) {
+    run_test_for_nist_sequence(bsi::entropy_test, bsi::EntropyName);
   }
+  out << std::setw(2) << results;
   return 0;
 }
