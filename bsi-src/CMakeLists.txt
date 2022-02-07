@@ -4,6 +4,9 @@ project(BSI_BATTERY VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+
+find_package(nlohmann_json REQUIRED)
 
 add_executable(bsi_battery app/main.cpp src/bsi.cpp)
 target_include_directories(bsi_battery PRIVATE
@@ -11,5 +14,5 @@ target_include_directories(bsi_battery PRIVATE
     ${CMAKE_SOURCE_DIR}/include
 )
 target_link_libraries(bsi_battery PUBLIC
-    stdc++fs
+    nlohmann_json::nlohmann_json
 )
