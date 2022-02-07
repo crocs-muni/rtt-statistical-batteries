@@ -21,18 +21,18 @@
 namespace bsi {
 
 /// t0_words
-void words_test(const std::vector<unsigned char> &input_sequence) {
+test_result words_test(const std::vector<unsigned char> &input_sequence) {
   auto input_ptr = input_sequence.data();
   constexpr size_t ArraySize{65536};
 
-  auto inputLen = input_sequence.size() / CHAR_BIT;
+  auto inputLen = input_sequence.size();
   if (inputLen < ArraySize * 6) {
     throw std::runtime_error("Invalid input sequence");
   }
 
   std::vector<size_t> storage(ArraySize, 0);
 
-  size_t failed{0};
+  size_t num_failed{0};
   std::array<char, 8> temp{};
   std::fill(temp.begin(), temp.end(), 0);
   auto storage_ptr = storage.data();
@@ -50,17 +50,17 @@ void words_test(const std::vector<unsigned char> &input_sequence) {
 
     for (size_t i = 0; i < ArraySize - 1; i++) {
       if (storage_ptr[i] == storage_ptr[i + 1]) {
-        failed++;
+        num_failed++;
         break;
       }
     }
   }
 
-  std::cout << "Words failed: " << failed << std::endl;
+  return test_result{num_failed, num_iterations};
 }
 
 /// t1_monobit
-void monobit_test(const std::vector<unsigned char> &input_sequence) {
+test_result monobit_test(const std::vector<unsigned char> &input_sequence) {
   std::array<size_t, 257> results{};
   const auto input_size = input_sequence.size();
   if (input_size < 5140000) {
@@ -78,11 +78,11 @@ void monobit_test(const std::vector<unsigned char> &input_sequence) {
     seq += sequence_stride;
   }
 
-  std::cout << "Monobit failed: " << num_failed << std::endl;
+  return test_result{num_failed, results.size()};
 }
 
 /// t2_poker
-void poker_test(const std::vector<unsigned char> &input_sequence) {
+test_result poker_test(const std::vector<unsigned char> &input_sequence) {
   int inputLen = 0, i, failed;
   std::array<double, 257> results{};
   auto seq = input_sequence.data();
@@ -104,11 +104,11 @@ void poker_test(const std::vector<unsigned char> &input_sequence) {
     seq += sequence_stride;
   }
 
-  std::cout << "Poker failed: " << num_failed << std::endl;
+  return test_result{num_failed, results.size()};
 }
 
 /// t3_runs
-void runs_test(const std::vector<unsigned char> &input_sequence) {
+test_result runs_test(const std::vector<unsigned char> &input_sequence) {
   auto seq = input_sequence.data();
   std::array<char, 257> results{};
   std::fill(results.begin(), results.end(), 0);
@@ -118,20 +118,21 @@ void runs_test(const std::vector<unsigned char> &input_sequence) {
   if (input_size < 5140000) {
     throw std::runtime_error("Invalid size of input sequence");
   }
-  size_t failed{0};
+  size_t num_failed{0};
   const size_t sequence_stride{20000};
   for (auto &&result : results) {
     result = do_runs_test(seq);
     if (result > 0) {
-      ++failed;
+      ++num_failed;
     }
     seq += sequence_stride;
   }
-  std::cout << "Runs failed: " << failed << std::endl;
+
+  return test_result{num_failed, results.size()};
 }
 
 /// t4_long_run
-void long_run_test(const std::vector<unsigned char> &input_sequence) {
+test_result long_run_test(const std::vector<unsigned char> &input_sequence) {
   auto seq = input_sequence.data();
   std::array<bool, 257> results{};
   std::fill(results.begin(), results.end(), 0);
@@ -141,20 +142,20 @@ void long_run_test(const std::vector<unsigned char> &input_sequence) {
     throw std::runtime_error("Invalid size of input sequence");
   }
 
-  size_t failed{0};
+  size_t num_failed{0};
   for (auto &&result : results) {
     result = do_long_run_test(seq);
     if (result) {
-      ++failed;
+      ++num_failed;
     }
     seq += 20000;
   }
 
-  std::cout << "Long Run failed: " << failed << std::endl;
+  return test_result{num_failed, results.size()};
 }
 
 /// t5_autocorellation
-void autocorrelation_test(const std::vector<unsigned char> &input_sequence) {
+test_result autocorrelation_test(const std::vector<unsigned char> &input_sequence) {
   auto seq = input_sequence.data();
   std::array<short, 257> results{};
   std::fill(results.begin(), results.end(), 0);
@@ -165,20 +166,21 @@ void autocorrelation_test(const std::vector<unsigned char> &input_sequence) {
   srand(time(NULL));
   std::array<data_t, 5000> data{};
   std::fill(data.begin(), data.end(), data_t{0, 0});
-  size_t failed{0};
+  size_t num_failed{0};
   for (auto &&result : results) {
     result = do_autocorrelation_test(seq, data);
     if (result < 2326 || result > 2674) {
-      ++failed;
+      ++num_failed;
     }
     seq += 20000;
   }
 
-  std::cout << "Autocorellation failed: " << failed << std::endl;
+  return test_result{num_failed, results.size()};
 }
 
 /// t6_uniform_distribution
-void uniform_test(const std::vector<unsigned char> &input_sequence, const size_t K, const size_t N, const double A) {
+test_result uniform_test(const std::vector<unsigned char> &input_sequence, const size_t K, const size_t N,
+                         const double A) {
   auto seq = input_sequence.data();
   const auto input_size = input_sequence.size();
   if (K * N > input_size) {
@@ -194,30 +196,31 @@ void uniform_test(const std::vector<unsigned char> &input_sequence, const size_t
   size_t size{1ull << K};
   std::vector<size_t> X(size, 0);
 
-  size_t failed{0};
+  size_t num_failed{0};
   const auto iterations = input_size / (N * K);
   for (size_t i = 0; i < iterations; i++) {
     std::fill(X.begin(), X.end(), 0);
     if (do_uniform_test(seq, X.data(), K, N, A) > 0) {
-      ++failed;
+      ++num_failed;
     }
     seq += K * N;
   }
-  std::cout << "Uniform failed: " << failed << std::endl;
+
+  return test_result{num_failed, iterations};
 }
 
 /// t7_homogenity
-void homogenity_test(const std::vector<unsigned char> &input_sequence) {
+test_result homogenity_test(const std::vector<unsigned char> &input_sequence) {
   constexpr size_t MIN_K{1};
   constexpr size_t MAX_K{3};
   auto seq = input_sequence.data();
-  int failed, iterations, end;
+  int failed, end;
   unsigned long long **tabTF;
   long ret{0};
   double result{0.0};
   auto input_size = input_sequence.size();
   size_t failedTotal{0};
-  iterations = 0;
+  size_t iterations{0};
   end = 0;
   while (!end) {
     iterations++;
@@ -256,11 +259,11 @@ void homogenity_test(const std::vector<unsigned char> &input_sequence) {
     }
   }
 
-  std::cout << "Homogenity failed: " << failedTotal << std::endl;
+  return test_result{.num_failed = failedTotal, .num_iterations = iterations};
 }
 
 /// t8_entropy
-void entropy_test(const std::vector<unsigned char> &input_sequence) {
+test_result entropy_test(const std::vector<unsigned char> &input_sequence) {
   auto seq = input_sequence.data();
   auto input_size = input_sequence.size();
   int ret{0};
@@ -268,22 +271,22 @@ void entropy_test(const std::vector<unsigned char> &input_sequence) {
   if (input_size < 8 * (2560 + 256000)) {
     throw std::runtime_error("Invalid size of input sequence");
   }
-  size_t iterations{0};
-  size_t failed{0};
+  size_t num_iterations{0};
+  size_t num_failed{0};
   while (input_size >= 8 * (2560 + 256000)) {
     ret = do_entropy_test(seq, 8, 2560, 256000);
     if (ret == -1) {
       throw std::runtime_error("Insufficient memory");
     }
-    iterations++;
+    num_iterations++;
     if (ret == 1) {
-      failed++;
+      num_failed++;
     }
     input_size -= 8 * (2560 + 256000);
     seq += 8 * (2560 + 256000);
   }
 
-  std::cout << "Entropy test failed: " << failed << std::endl;
+  return test_result{num_failed, num_iterations};
 }
 
 } // namespace bsi
