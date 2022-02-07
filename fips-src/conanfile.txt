@@ -1,0 +1,5 @@
+[requires]
+nlohmann_json/3.10.5@#012b57da2a4865a0807933766e19da2b
+
+[generators]
+cmake_find_package

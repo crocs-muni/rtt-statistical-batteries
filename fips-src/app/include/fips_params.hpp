@@ -18,16 +18,9 @@ public:
 
   // Tests
   bool skip_all_tests;
-  bool skip_runs_test;
-  bool skip_poker_test;
-  bool skip_monobit_test;
-  bool skip_long_run_test;
-  bool skip_continuous_run_test;
 
   Configuration()
-      : input_file{""}, output_file{""}, json{false}, skip_all_tests{false}, skip_runs_test{false},
-        skip_poker_test{false}, skip_monobit_test{false}, skip_long_run_test{false},
-        skip_continuous_run_test{false}, cli{}, man_page_requested{false} {
+      : input_file{""}, output_file{""}, json{false}, skip_all_tests{false}, cli{}, man_page_requested{false} {
     initialize_arguments();
   }
 
@@ -51,17 +44,9 @@ private:
                                      "Path to a file where results will be stored");
 
     const auto optional_group =
-        (clipp::option("-j", "--json").set(json, true) % "JSON output will be generated",
-         clipp::option("--skip_all_tests").set(skip_all_tests, true) % "All tests will be skipped",
-         clipp::option("--skip_runs_test").set(skip_runs_test, true) % "Runs test will be skipped",
-         clipp::option("--skip_poker_test").set(skip_poker_test, true) % "Poker test will be skipped",
-         clipp::option("--skip_monobit_test").set(skip_monobit_test, true) % "Monobit test will be skipped",
-         clipp::option("--skip_long_run_test").set(skip_long_run_test, true) % "Long Run test will be skipped",
-         clipp::option("--skip_continuous_run_test").set(skip_continuous_run_test, true) %
-             "Continuous Run test will be skipped");
+        (clipp::option("--skip_all_tests").set(skip_all_tests, true) % "All tests will be skipped");
 
-    const auto help_options =
-        (clipp::option("-h", "--help").set(man_page_requested, true) % "Print this man page");
+    const auto help_options = (clipp::option("-h", "--help").set(man_page_requested, true) % "Print this man page");
 
     cli = (required_group, optional_group, help_options);
   }
