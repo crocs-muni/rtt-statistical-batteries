@@ -2,15 +2,17 @@
 U T I L I T I E S
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "../include/config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-#include "../include/externs.h"
-#include "../include/utilities.h"
-#include "../include/generators.h"
-#include "../include/stat_fncs.h"
+
+#include "config.h"
+
+#include "externs.h"
+#include "utilities.h"
+#include "generators.h"
+#include "stat_fncs.h"
 
 int
 displayGeneratorOptions()

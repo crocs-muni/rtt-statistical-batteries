@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
-#include "../include/externs.h"
-#include "../include/cephes.h"
-#include "../include/tools.h"
-#include "../include/stat_fncs.h"
+
+#include "externs.h"
+#include "cephes.h"
+#include "tools.h"
+#include "stat_fncs.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                     B L O C K  F R E Q U E N C Y  T E S T
@@ -70,7 +71,7 @@ BlockFrequency(int M, int n)
 
 The following code is distributed under the following BSD-style license:
 
-Copyright © 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
+Copyright ï¿½ 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
 All Rights Reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

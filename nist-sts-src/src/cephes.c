@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <math.h>
-#include "../include/config.h"
-#include "../include/erf.h"
-#include "../include/cephes.h"
+
+#include "config.h"
+#include "erf.h"
+#include "cephes.h"
 
 static const double	rel_error = 1E-12;
 

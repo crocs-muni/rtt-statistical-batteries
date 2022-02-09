@@ -7,7 +7,7 @@
  * and discrete function package.
  */
 
-#include	"../include/genutils.h"
+#include	"genutils.h"
 
 #define	MAXPLEN		384
 

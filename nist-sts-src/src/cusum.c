@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "../include/externs.h"
-#include "../include/cephes.h"
-#include "../include/tools.h"  
-#include "../include/stat_fncs.h"
+
+#include "externs.h"
+#include "cephes.h"
+#include "tools.h"  
+#include "stat_fncs.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 		    C U M U L A T I V E  S U M S  T E S T
@@ -130,7 +131,7 @@ CumulativeSums(int n)
 
 The following code is distributed under the following BSD-style license:
 
-Copyright © 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
+Copyright ï¿½ 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
 All Rights Reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

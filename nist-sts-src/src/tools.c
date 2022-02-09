@@ -2,7 +2,7 @@
 
 The following code is distributed under the following BSD-style license:
 
-Copyright © 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
+Copyright ï¿½ 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
 All Rights Reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -31,8 +31,9 @@ THE POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------- */
 
 #include <stdio.h>
-#include "../include/tools.h"
-#include "../include/externs.h"
+
+#include "tools.h"
+#include "externs.h"
 
 void bits(unsigned char*arr, int byte_size)
 {

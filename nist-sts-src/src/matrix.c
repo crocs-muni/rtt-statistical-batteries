@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/externs.h"
-#include "../include/matrix.h"
+
+#include "externs.h"
+#include "matrix.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 R A N K  A L G O R I T H M  R O U T I N E S

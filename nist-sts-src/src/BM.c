@@ -2,7 +2,7 @@
 
 The following code is distributed under the following BSD-style license:
 
-Copyright © 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
+Copyright ï¿½ 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
 All Rights Reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -34,7 +34,8 @@ THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../include/BM.h"
+
+#include "BM.h"
 
 void print_bits(unsigned char c)
 {

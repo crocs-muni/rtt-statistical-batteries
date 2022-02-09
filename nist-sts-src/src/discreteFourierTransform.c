@@ -2,12 +2,17 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../include/externs.h"
-#include "../include/utilities.h"
-#include "../include/cephes.h"
-#include "../include/erf.h"
-#include "../include/tools.h"
-#include "../include/stat_fncs.h"
+
+#include "externs.h"
+#include "utilities.h"
+#include "cephes.h"
+#include "erf.h"
+#include "tools.h"
+#include "stat_fncs.h"
+
+#ifdef NIST_STS_USE_FFTW
+#include <fftw3.h>
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
          D I S C R E T E  F O U R I E R  T R A N S F O R M  T E S T 
@@ -103,7 +108,7 @@ DiscreteFourierTransform(int n)
 
 The following code is distributed under the following BSD-style license:
 
-Copyright © 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
+Copyright ï¿½ 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
 All Rights Reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -216,9 +221,7 @@ DiscreteFourierTransform2(int n)
 	free(m);
 }
 
-/*
-
-#include "../include/fftw3.h"
+#ifdef NIST_STS_USE_FFTW
 
 void
 DiscreteFourierTransform3(int n)
@@ -402,4 +405,4 @@ DiscreteFourierTransform4(int n)
 	fftw_free(out);
 	free(m);
 }
-*/
+#endif // NIST_STS_USE_FFTW

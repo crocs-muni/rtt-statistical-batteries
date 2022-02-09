@@ -17,7 +17,6 @@
 #define	Rank_v1 Rank
 #define	Rank_v2 Rank2 //2
 #define	DiscreteFourierTransform_v1 DiscreteFourierTransform
-#define	DiscreteFourierTransform_v2 DiscreteFourierTransform2 //2,3,4
 #define	NonOverlappingTemplateMatchings_v1 NonOverlappingTemplateMatchings
 #define	NonOverlappingTemplateMatchings_v2 NonOverlappingTemplateMatchings4 //2,4
 #define	OverlappingTemplateMatchings_v1 OverlappingTemplateMatchings
@@ -77,13 +76,11 @@ void	BlockFrequency3(int M, int n);
 void	CumulativeSums3(int n);
 void	Runs3(int n);
 void	LongestRunOfOnes3(int n);
-void	DiscreteFourierTransform3(int n);
 void	OverlappingTemplateMatchings3(int m, int n);
 
 void	LinearComplexity3(int M, int n);
 
 //version 4 and more
-void	DiscreteFourierTransform4(int n);
 
 void	BlockFrequency4(int M, int n);  
 void	Runs4();
@@ -95,7 +92,13 @@ void	OverlappingTemplateMatchings4(int m, int n);
 void    NonOverlappingTemplateMatchings4(int m, int n); 
 
 
-
+#ifdef NIST_STS_USE_FFTW
+#define DiscreteFourierTransform_v2 DiscreteFourierTransform3 // 2,3,4
+void DiscreteFourierTransform3(int n);
+void DiscreteFourierTransform4(int n);
+#else
+#define DiscreteFourierTransform_v2 DiscreteFourierTransform2
+#endif
 
 
 /*

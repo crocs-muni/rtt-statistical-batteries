@@ -3,10 +3,11 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include "../include/externs.h"
-#include "../include/utilities.h"
-#include "../include/generators.h"
-#include "../include/genutils.h"
+
+#include "externs.h"
+#include "utilities.h"
+#include "generators.h"
+#include "genutils.h"
 
 
 void convert_epsilon_to_array(int n)

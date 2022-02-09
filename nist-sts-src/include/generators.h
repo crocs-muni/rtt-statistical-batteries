@@ -1,7 +1,3 @@
-
-
-//#include	"../include/sha.h"
-
 void	lcg();
 double	lcg_rand(int, double, double*, int);
 void	quadRes1();

@@ -2,12 +2,13 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/erf.h"
-#include "../include/externs.h"
-#include "../include/utilities.h"
-#include "../include/cephes.h"
-#include "../include/tools.h"
-#include "../include/stat_fncs.h"
+
+#include "erf.h"
+#include "externs.h"
+#include "utilities.h"
+#include "cephes.h"
+#include "tools.h"
+#include "stat_fncs.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                          U N I V E R S A L  T E S T
@@ -138,7 +139,7 @@ Universal(int n)
 
 The following code is distributed under the following BSD-style license:
 
-Copyright © 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
+Copyright ï¿½ 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
 All Rights Reserved.
 
 Redistribution and use in source and binary forms, with or without modification,

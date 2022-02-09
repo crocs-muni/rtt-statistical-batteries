@@ -7,7 +7,7 @@
  * are taken from Numerical recipes in C.
  */
 
-#include "../include/erf.h"
+#include "erf.h"
 
 double erf(double x) {
 	// constants

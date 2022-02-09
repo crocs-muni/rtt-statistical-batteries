@@ -1,5 +1,5 @@
 
-#include "../include/defs.h"
+#include "defs.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                    G L O B A L   D A T A  S T R U C T U R E S 

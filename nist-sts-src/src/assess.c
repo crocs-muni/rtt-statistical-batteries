@@ -42,16 +42,17 @@ included in all copies of any software which is or includes
 a copy or modification of this software and in all copies
 of the supporting documentation for such software.
 -------------------------------------------------------------------------- */
-#include "../include/config.h"
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "../include/decls.h"
-#include "../include/cephes.h"  
-#include "../include/utilities.h"
 
+#include "config.h"
+
+#include "cephes.h"
+#include "decls.h"
+#include "utilities.h"
 
 #ifdef FILE_OUTPUT
 void	partitionResultFile(int numOfFiles, int numOfSequences, int option, int testNameID);
