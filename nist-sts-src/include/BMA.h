@@ -2,7 +2,7 @@
 
 The following code is distributed under the following BSD-style license:
 
-Copyright © 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
+Copyright ï¿½ 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
 All Rights Reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -34,7 +34,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 #define BMA__H
 
 typedef unsigned int BMAint;
-//typedef unsigned __int64 BMAint;
+// typedef unsigned __int64 BMAint;
 
 extern BMAint *S;
 extern BMAint *b, *c, *t;
@@ -42,8 +42,8 @@ extern BMAint *d_b, *d_c, *d_t;
 
 int log2debruins(unsigned int c);
 void XORT(BMAint *dst, BMAint *a, int num_bits);
-void ANDT(BMAint  *dst, BMAint *a, int num_bits);
+void ANDT(BMAint *dst, BMAint *a, int num_bits);
 void LSHIFTT(BMAint *source, int size, int bit_shift);
-int BM_JOURNAL(BMAint *b, BMAint *c, BMAint  *t, BMAint  *S, int n);
+int BM_JOURNAL(BMAint *b, BMAint *c, BMAint *t, BMAint *S, int n);
 
-#endif  
+#endif

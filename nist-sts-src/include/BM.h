@@ -30,19 +30,17 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 -------------------------------------------------------------------------- */
 
-
 #ifndef _BM_H_
 #define _BM_H_
 #include "tools.h"
-
 
 /*typedef unsigned int type;
 
 
 typedef struct mybitset{
-	type *array;
-	int first, last;
-	int size,array_size;
+        type *array;
+        int first, last;
+        int size,array_size;
 } mybitset;
 
 
@@ -60,11 +58,11 @@ int BM(mybitset bitstream, int N);
 */
 typedef unsigned int type;
 void print_bits(unsigned char c);
-void array_as_bits(unsigned char* c,int byte_size);
+void array_as_bits(unsigned char *c, int byte_size);
 
-void left_shift(type* array, int array_size, int from, int to);
-void copy(type* array, type* b, int array_size, int from, int to);
-void XOR(type* array, type* b, int array_size, int from, int to);
-int BM_c(type* bitstream,int N,type* c, type *b,type* t);
+void left_shift(type *array, int array_size, int from, int to);
+void copy(type *array, type *b, int array_size, int from, int to);
+void XOR(type *array, type *b, int array_size, int from, int to);
+int BM_c(type *bitstream, int N, type *c, type *b, type *t);
 
 #endif

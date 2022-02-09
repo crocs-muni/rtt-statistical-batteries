@@ -1,5 +1,5 @@
 #ifndef ERF_H
-#define	ERF_H
+#define ERF_H
 #include <math.h>
 
 #if _MSC_VER <= 1700

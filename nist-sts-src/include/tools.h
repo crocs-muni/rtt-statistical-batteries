@@ -2,7 +2,7 @@
 
 The following code is distributed under the following BSD-style license:
 
-Copyright © 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
+Copyright ï¿½ 2013-2014 Marek Sys (syso@fi.muni.cz) & Zdenek Riha (zriha@fi.muni.cz).
 All Rights Reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -44,33 +44,29 @@ typedef unsigned int uint32_t;
 #endif
 
 // New functions
-void bits(unsigned char*array, int byte_size);
-unsigned int get_nth_block4(unsigned char* array, int offset);
-unsigned int get_nth_block_effect(unsigned char* array, int offset);
-void test_blocks(unsigned char* array, int size);
+void bits(unsigned char *array, int byte_size);
+unsigned int get_nth_block4(unsigned char *array, int offset);
+unsigned int get_nth_block_effect(unsigned char *array, int offset);
+void test_blocks(unsigned char *array, int size);
 int Mirrored_int(unsigned int val, int m);
 
-unsigned int get_block_fast(unsigned char* array, int offset);
-unsigned int get_2bytes(unsigned char* array, int byte_offset);
+unsigned int get_block_fast(unsigned char *array, int offset);
+unsigned int get_2bytes(unsigned char *array, int byte_offset);
 unsigned int get_mask(int size);
 
-
 // Allin ideas
-unsigned int popCountLUT16_64(uint64_t* addr, uint64_t* endAddr);
-unsigned int popCountLUT16_32(uint32_t* addr, uint32_t* endAddr);
+unsigned int popCountLUT16_64(uint64_t *addr, uint64_t *endAddr);
+unsigned int popCountLUT16_32(uint32_t *addr, uint32_t *endAddr);
 
-
-
-//BITHACKS
+// BITHACKS
 int bitcount(unsigned int n);
 
-unsigned int popCountBITHACK_32(uint32_t* addr, uint32_t* endAddr);
-unsigned int runsLUT16_32(uint32_t* addr, uint32_t* endAddr);
+unsigned int popCountBITHACK_32(uint32_t *addr, uint32_t *endAddr);
+unsigned int runsLUT16_32(uint32_t *addr, uint32_t *endAddr);
 
-
-//for whole array
-void Histogram(int bitstart, int* P, int m, int bits_covered);
+// for whole array
+void Histogram(int bitstart, int *P, int m, int bits_covered);
 
 void LSHIFT32(int *a, int shift, int Tsize);
-void LSHIFT32_p(int* a, int shift, int Tsize);
+void LSHIFT32_p(int *a, int shift, int Tsize);
 void LSHIFT64(int64_t *a, int shift, int Tsize);
