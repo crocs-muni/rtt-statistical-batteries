@@ -15,7 +15,6 @@ public:
   // IO
   std::string input_file;
   std::string output_file;
-  bool json;
 
   // Tests
   bool skip_all_tests;
@@ -35,7 +34,7 @@ public:
   double A;
 
   Configuration()
-      : input_file{""}, output_file{""}, json{false}, skip_all_tests{false}, skip_words_test{false},
+      : input_file{""}, output_file{""}, skip_all_tests{false}, skip_words_test{false},
         skip_monobit_test{false}, skip_poker_test{false}, skip_runs_test{false}, skip_long_run_test{false},
         skip_autocorrelation_test{false}, skip_uniform_test{false}, skip_homogenity_test{false},
         skip_entropy_test{false}, K{1}, N{100000}, A{0.025}, cli{}, man_page_requested{false} {
@@ -64,8 +63,7 @@ private:
                                      "Path to a file where results will be stored");
 
     const auto optional_group =
-        (clipp::option("-j", "--json").set(json, true) % "JSON output will be generated",
-         clipp::option("--skip_all_tests").set(skip_all_tests, true) % "All tests will be skipped",
+        (clipp::option("--skip_all_tests").set(skip_all_tests, true) % "All tests will be skipped",
          clipp::option("--skip_words_test").set(skip_words_test, true) % "T0 Words test will be skipped",
          clipp::option("--skip_monobit_test").set(skip_monobit_test, true) % "T1 Monobit test will be skipped",
          clipp::option("--skip_poker_test").set(skip_poker_test, true) % "T2 Poker test will be skipped",
