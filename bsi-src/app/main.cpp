@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  nlohmann::json results = {{"tests", nlohmann::json::array({})}};
+  nlohmann::json results = {{"sequence", configuration.input_file}, {"tests", nlohmann::json::array({})}};
 
   auto run_test_for_nist_sequence = [&](auto &test_fnc, std::string_view test_name) {
     try {
