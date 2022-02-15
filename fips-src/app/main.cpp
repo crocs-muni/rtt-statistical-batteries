@@ -94,10 +94,12 @@ int main(int argc, char **argv) {
     }
   }
 
-  nlohmann::json results = {{"accepted", accepted}, {"tests", nlohmann::json::array({})}};
+  nlohmann::json results = {
+      {"sequence", configuration.input_file}, {"accepted", accepted}, {"tests", nlohmann::json::array({})}};
 
   for (const auto &status : statuses) {
-    results["tests"].push_back({{"name", status.test}, {"num_runs", status.num_runs}, {"num_failures", status.num_failures}});
+    results["tests"].push_back(
+        {{"name", status.test}, {"num_runs", status.num_runs}, {"num_failures", status.num_failures}});
   }
 
   out << std::setw(2) << results;
