@@ -49,3 +49,7 @@ target_link_libraries(assess PUBLIC
   $<$<BOOL:${NIST_STS_USE_FFTW}>:FFTW3::FFTW3>
   m # C math library
 )
+install(TARGETS assess
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+)

@@ -54,6 +54,8 @@ of the supporting documentation for such software.
 #include "decls.h"
 #include "utilities.h"
 
+char *templatesDir = "templates"; /* DIRECTORY WITH TEMPLATES */
+
 #ifdef FILE_OUTPUT
 void partitionResultFile(int numOfFiles, int numOfSequences, int option, int testNameID);
 void postProcessResults(int option);
@@ -73,8 +75,8 @@ int main(int argc, char *argv[]) {
 
   int i, j;
   FILE *fp;
-  int option;       /* TEMPLATE LENGTH/STREAM LENGTH/GENERATOR*/
-  char *streamFile; /* STREAM FILENAME     */
+  int option;                       /* TEMPLATE LENGTH/STREAM LENGTH/GENERATOR*/
+  char *streamFile;                 /* STREAM FILENAME     */
 
   tp.blockFrequencyBlockLength = 128;
   tp.nonOverlappingTemplateBlockLength = 9;
@@ -113,6 +115,11 @@ int main(int argc, char *argv[]) {
         exit(-1);
       } else
         fclose(fp);
+    }
+    if (!strcmp(argv[i], "-templatesdir") || !strcmp(argv[i], "--templatesdir")) {
+      templatesDir = (char *)calloc(200, sizeof(char));
+      sprintf(templatesDir, "%s", argv[++i]);
+      cmdFlags.argCounter = cmdFlags.argCounter + 2;
     }
     if (!strcmp(argv[i], "-tests") || !strcmp(argv[i], "--tests")) {
       ++i;
@@ -184,6 +191,8 @@ int main(int argc, char *argv[]) {
     printf("\n --fast                        Use optimized implementation of the tests");
     printf("\n -file");
     printf("\n --file <Path>                 Test the specified file");
+    printf("\n -templatesdir");
+    printf("\n --templatesdir <Path>         Directory with template files (default: CWD/templates)");
     printf("\n -streams <Number>");
     printf("\n --streams <Number>            Number of bit steams to test");
     printf("\n -tests <Number>");
@@ -191,7 +200,7 @@ int main(int argc, char *argv[]) {
     printf("\n -blockfreqpar <Number>");
     printf("\n --blockfreqpar <Number>       Test parameter (block frequency)");
     printf("\n -nonoverpar <Number>");
-    printf("\n --nonoverpar <Number>         Test paramter (nonoverlapping)");
+    printf("\n --nonoverpar <Number>         Test parameter (nonoverlapping)");
     printf("\n -overpar <Number>     ");
     printf("\n --overpar <Number>            Test parameter (overlapping)");
     printf("\n -approxpar <Number>     ");

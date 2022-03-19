@@ -46,7 +46,7 @@ void NonOverlappingTemplateMatchings(int m, int n) {
   }
   lambda = (M - m + 1) / pow(2, m);
   varWj = M * (1.0 / pow(2.0, m) - (2.0 * m - 1.0) / pow(2.0, 2.0 * m));
-  sprintf(directory, "templates/template%d", m);
+  sprintf(directory, "%s/template%d", templatesDir, m);
 
   if (((isNegative(lambda)) || (isZero(lambda))) || ((fp = fopen(directory, "r")) == NULL) ||
       ((sequence = (BitSequence *)calloc(m, sizeof(BitSequence))) == NULL)) {
@@ -341,7 +341,7 @@ void NonOverlappingTemplateMatchings2(int m, int n) {
   lambda = (M - m + 1) / pow(2, m);
   varWj = M * (1.0 / pow(2.0, m) - (2.0 * m - 1.0) / pow(2.0, 2.0 * m));
 
-  sprintf(directory, "templates/template%d", m);
+  sprintf(directory, "%s/template%d", templatesDir, m);
 
   if (((isNegative(lambda)) || (isZero(lambda))) || ((fp = fopen(directory, "r")) == NULL)) {
 #if defined(FILE_OUTPUT) || defined(KS)
@@ -606,7 +606,7 @@ void NonOverlappingTemplateMatchings4(int m, int n) {
   lambda = (M - m + 1) / pow(2, m);
   varWj = M * (1.0 / pow(2.0, m) - (2.0 * m - 1.0) / pow(2.0, 2.0 * m));
 
-  sprintf(directory, "templates/template%d", m);
+  sprintf(directory, "%s/template%d", templatesDir, m);
 
   if (((isNegative(lambda)) || (isZero(lambda))) || ((fp = fopen(directory, "r")) == NULL)) {
 #if defined(FILE_OUTPUT) || defined(KS)

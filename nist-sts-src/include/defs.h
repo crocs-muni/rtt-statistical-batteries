@@ -1,3 +1,4 @@
+#pragma once
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                        D E B U G G I N G  A I D E S
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -148,6 +149,8 @@ typedef struct _Pvalues {
   FILE *results;
 } Pvals;
 #endif
+
+extern char *templatesDir; /* DIRECTORY WITH TEMPLATES */
 
 // New structure for use of command line arguments
 #if defined(FILE_OUTPUT) || defined(KS)

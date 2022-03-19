@@ -1,4 +1,5 @@
-
+#ifndef __DECLS_H__
+#define __DECLS_H__
 #include "defs.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -50,3 +51,5 @@ char testNames[NUMOFTESTS + 1][32] = {" ",
                                       "RandomExcursionsVariant",
                                       "Serial",
                                       "LinearComplexity"};
+
+#endif // __DECLS_H__
