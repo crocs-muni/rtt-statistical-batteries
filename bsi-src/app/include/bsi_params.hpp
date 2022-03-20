@@ -1,8 +1,8 @@
 #pragma once
 
 #include <exception>
-#include <filesystem>
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #include "clipp.h"
@@ -93,8 +93,9 @@ private:
   void print_man_page() const { std::cout << clipp::make_man_page(cli, app_name.c_str()) << std::endl; }
 
   void validate_args() const {
-    if (!std::filesystem::is_regular_file(input_file)) {
-      throw std::runtime_error("Input file is not a regular file");
+    std::ifstream fh(input_file);
+    if (! fh.good()) {
+      throw std::runtime_error("Unable to open input file");
     }
   }
 

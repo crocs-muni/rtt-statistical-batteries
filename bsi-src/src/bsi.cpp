@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <array>
 #include <climits>
-#include <compare>
 #include <cstdlib>
 #include <cstring>
 #include <exception>

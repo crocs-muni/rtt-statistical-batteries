@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
   } catch (int &exit_status) {
     return exit_status;
   } catch (std::exception &e) {
-    std::cout << "Error ! " << e.what() << std::endl;
+    std::cerr << "Error ! " << e.what() << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
   try {
     input_file_data = LoadFile<unsigned char>(configuration.input_file.c_str());
   } catch (std::exception &e) {
-    std::cout << "Error (" << configuration.input_file << ") ! " << e.what() << std::endl;
+    std::cerr << "Error (" << configuration.input_file << ") ! " << e.what() << std::endl;
   }
 
   const auto input_size = input_file_data.size();
@@ -67,8 +67,8 @@ int main(int argc, char **argv) {
 
   std::ofstream out(configuration.output_file);
   if (not out.is_open()) {
-    std::cout << "Error ! Unable to open output file " << configuration.output_file << std::endl;
-    return 1;
+    std::cerr << "Error ! Unable to open output file " << configuration.output_file << std::endl;
+    return EXIT_FAILURE;
   }
 
   std::array<test_status, N_FIPS_TESTS> statuses{};
@@ -103,6 +103,8 @@ int main(int argc, char **argv) {
   }
 
   out << std::setw(2) << results;
+
+  std::cout << results << std::endl;
 
   return EXIT_SUCCESS;
 }

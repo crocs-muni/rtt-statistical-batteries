@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
   } catch (int &exit_status) {
     return exit_status;
   } catch (std::exception &e) {
-    std::cout << "Error! " << e.what() << std::endl;
+    std::cerr << "Error! " << e.what() << std::endl;
     return 1;
   }
 
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 
   std::ofstream out(configuration.output_file);
   if (not out.is_open()) {
-    std::cout << "Error ! Unable to open output file " << configuration.output_file << std::endl;
+    std::cerr << "Error ! Unable to open output file " << configuration.output_file << std::endl;
     return 1;
   }
 
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
       results["tests"].push_back(
           {{"name", test_name}, {"error", false}, {"num_runs", num_iterations}, {"num_failures", num_failed}});
     } catch (std::exception &e) {
-      std::cout << "Error(" << test_name << ") ! " << e.what() << std::endl;
+      std::cerr << "Error(" << test_name << ") ! " << e.what() << std::endl;
       results["tests"].push_back({{"name", test_name}, {"error", true}});
     }
   };
@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
       results["tests"].push_back(
           {{"name", bsi::WordsName}, {"error", false}, {"num_runs", num_iterations}, {"num_failures", num_failed}});
     } catch (std::exception &e) {
-      std::cout << "Error(" << bsi::WordsName << ") ! " << e.what() << std::endl;
+      std::cerr << "Error(" << bsi::WordsName << ") ! " << e.what() << std::endl;
       results["tests"].push_back({{"name", bsi::WordsName}, {"error", true}});
     }
   }
@@ -124,5 +124,6 @@ int main(int argc, char **argv) {
     run_test_for_nist_sequence(bsi::entropy_test, bsi::EntropyName);
   }
   out << std::setw(2) << results;
+  std::cout << results << std::endl;
   return 0;
 }
