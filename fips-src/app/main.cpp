@@ -1,4 +1,5 @@
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -12,18 +13,20 @@
 #include "fips.h"
 #include "fips_params.hpp"
 
-/// Auxiliary function for file loading.
-/// This function Throws exception if file is not present
+/// Utility for loading files
 /// @param file_name location
+/// @param bytes_count amount of bytes to read from a file
 /// @returns vector of type T containing binary data from the file
-template <typename T> std::vector<T> LoadFile(const std::string &file_name) {
-  std::ifstream in(file_name.c_str(), std::ios::binary);
-  if (!in.is_open()) {
-    throw std::runtime_error("Unable to open file");
+/// Caller ensures presence of the file
+template <typename T> std::vector<T> LoadFile(const std::string &file_name, const size_t bytes_count) {
+  auto file_size = std::filesystem::file_size(file_name);
+  if (file_size < bytes_count) {
+    throw std::runtime_error("File is not big enough");
   }
-  std::vector<char> raw_data((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
-  return std::vector<T>(reinterpret_cast<T *>(raw_data.data()),
-                        reinterpret_cast<T *>(raw_data.data()) + raw_data.size());
+  std::ifstream in(file_name.c_str(), std::ios::binary);
+  std::vector<T> file_data{};
+  std::copy_n(std::istreambuf_iterator<char>(in), bytes_count, std::back_inserter(file_data));
+  return file_data;
 }
 
 typedef struct {
@@ -53,21 +56,16 @@ int main(int argc, char **argv) {
 
   std::vector<unsigned char> input_file_data{};
   try {
-    input_file_data = LoadFile<unsigned char>(configuration.input_file.c_str());
+    input_file_data = LoadFile<unsigned char>(configuration.input_file.c_str(), configuration.bytes_count);
   } catch (std::exception &e) {
     std::cerr << "Error (" << configuration.input_file << ") ! " << e.what() << std::endl;
+    return EXIT_FAILURE;
   }
 
   const auto input_size = input_file_data.size();
 
   if (input_size < FIPS_RNG_BUFFER_SIZE) {
     std::cerr << "ERROR: Not enough input bytes (" << input_size << "< " << FIPS_RNG_BUFFER_SIZE << ")\n";
-    return EXIT_FAILURE;
-  }
-
-  std::ofstream out(configuration.output_file);
-  if (not out.is_open()) {
-    std::cerr << "Error ! Unable to open output file " << configuration.output_file << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -102,9 +100,16 @@ int main(int argc, char **argv) {
         {{"name", status.test}, {"num_runs", status.num_runs}, {"num_failures", status.num_failures}});
   }
 
-  out << std::setw(2) << results;
+  std::cout << std::setw(2) << results << std::endl;
 
-  std::cout << results << std::endl;
+  if (configuration.output_to_file) {
+    std::ofstream out(configuration.output_file);
+    if (not out.is_open()) {
+      std::cerr << "Error ! Unable to open output file " << configuration.output_file << std::endl;
+      return EXIT_FAILURE;
+    }
+    out << std::setw(2) << results;
+  }
 
   return EXIT_SUCCESS;
 }

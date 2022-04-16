@@ -14,13 +14,16 @@ public:
   // IO
   std::string input_file;
   std::string output_file;
+  size_t bytes_count;
+  bool output_to_file;
   bool json;
 
   // Tests
   bool skip_all_tests;
 
   Configuration()
-      : input_file{""}, output_file{""}, json{false}, skip_all_tests{false}, cli{}, man_page_requested{false} {
+      : input_file{""}, output_file{""}, bytes_count{0}, output_to_file{false}, skip_all_tests{false}, cli{},
+        man_page_requested{false} {
     initialize_arguments();
   }
 
@@ -40,11 +43,13 @@ private:
   void initialize_arguments() {
     const auto required_group = ((clipp::required("-i", "--input_file") & clipp::value("path", input_file)) %
                                      "Path to an input sequence to be tested",
-                                 (clipp::required("-o", "--output_file") & clipp::value("path", output_file)) %
-                                     "Path to a file where results will be stored");
+                                 (clipp::required("-b", "--bytes_count") & clipp::value("bytes", bytes_count)) %
+                                     "Number of bytes to be read from input file (must be less than file size)");
 
     const auto optional_group =
-        (clipp::option("--skip_all_tests").set(skip_all_tests, true) % "All tests will be skipped");
+        ((clipp::option("-o", "--output_file").set(output_to_file, true) & clipp::value("path", output_file)) %
+             "Path to a file where results will be stored",
+         clipp::option("--skip_all_tests").set(skip_all_tests, true) % "All tests will be skipped");
 
     const auto help_options = (clipp::option("-h", "--help").set(man_page_requested, true) % "Print this man page");
 
