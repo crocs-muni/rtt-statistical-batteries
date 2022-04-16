@@ -1,5 +1,6 @@
 #include <array>
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -14,13 +15,18 @@
 
 /// Utility for loading files
 /// @param file_name location
+/// @param bytes_count amount of bytes to read from a file
 /// @returns vector of type T containing binary data from the file
 /// Caller ensures presence of the file
-template <typename T> std::vector<T> LoadFile(const std::string &file_name) {
+template <typename T> std::vector<T> LoadFile(const std::string &file_name, const size_t bytes_count) {
+  auto file_size = std::filesystem::file_size(file_name);
+  if (file_size < bytes_count) {
+    throw std::runtime_error("File is not big enough");
+  }
   std::ifstream in(file_name.c_str(), std::ios::binary);
-  std::vector<char> raw_data((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
-  return std::vector<T>(reinterpret_cast<T *>(raw_data.data()),
-                        reinterpret_cast<T *>(raw_data.data()) + raw_data.size());
+  std::vector<T> file_data{};
+  std::copy_n(std::istreambuf_iterator<char>(in), bytes_count, std::back_inserter(file_data));
+  return file_data;
 }
 
 /// @param characters input sequence containing numbers from 0 to 255
@@ -65,14 +71,8 @@ int main(int argc, char **argv) {
     return 0;
   }
 
-  const auto uchar_sequence = LoadFile<unsigned char>(configuration.input_file);
+  const auto uchar_sequence = LoadFile<unsigned char>(configuration.input_file, configuration.bytes_count);
   const auto nist_sequence = convert_to_bits(uchar_sequence);
-
-  std::ofstream out(configuration.output_file);
-  if (not out.is_open()) {
-    std::cerr << "Error ! Unable to open output file " << configuration.output_file << std::endl;
-    return 1;
-  }
 
   nlohmann::json results = {{"sequence", configuration.input_file}, {"tests", nlohmann::json::array({})}};
 
@@ -123,7 +123,17 @@ int main(int argc, char **argv) {
   if (not configuration.skip_entropy_test) {
     run_test_for_nist_sequence(bsi::entropy_test, bsi::EntropyName);
   }
-  out << std::setw(2) << results;
-  std::cout << results << std::endl;
+
+  std::cout << std::setw(2) << results << std::endl;
+
+  if (configuration.output_to_file) {
+    std::ofstream out(configuration.output_file);
+    if (not out.is_open()) {
+      std::cerr << "Error ! Unable to open output file " << configuration.output_file << std::endl;
+      return 1;
+    }
+    out << std::setw(2) << results;
+  }
+
   return 0;
 }
