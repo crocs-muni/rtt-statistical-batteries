@@ -15,4 +15,5 @@ target_include_directories(bsi_battery PRIVATE
 )
 target_link_libraries(bsi_battery PUBLIC
     nlohmann_json::nlohmann_json
+    stdc++fs
 )
