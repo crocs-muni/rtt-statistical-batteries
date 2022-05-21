@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_PARKING_LOT_H_
+#define _DIEHARD_PARKING_LOT_H_
+
 /*
  * diehard_parking_lot test header.
  */
@@ -32,3 +35,4 @@ static Dtest diehard_parking_lot_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DIEHARD_PARKING_LOT_H_

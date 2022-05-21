@@ -1,3 +1,4 @@
+#pragma once
 /*
  * sts_serial test header.
  */

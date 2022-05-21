@@ -1,3 +1,4 @@
+#pragma once
 /*
  * diehard_sums test header.
  */

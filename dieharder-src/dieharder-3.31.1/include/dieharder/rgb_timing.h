@@ -1,3 +1,4 @@
+#pragma once
 /*
  * diehard_rgb_timing test header.  This is a nonstandard test and
  * returns no pvalues, and should probably be converted so that it

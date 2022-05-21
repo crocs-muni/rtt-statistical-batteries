@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_BIRTHDAYS_H_
+#define _DIEHARD_BIRTHDAYS_H_
+
 /*
  * diehard_birthdays test header.
  */
@@ -41,6 +44,8 @@ static Dtest diehard_birthdays_dtest __attribute__((unused)) = {
 
 /*
  * Global variables
-uint diehard_birthdays_nms,diehard_birthdays_nbits;
-uint *diehard_birthdays_rand_uint;
+unsigned int diehard_birthdays_nms,diehard_birthdays_nbits;
+unsigned int *diehard_birthdays_rand_uint;
  */
+
+#endif // _DIEHARD_BIRTHDAYS_H_

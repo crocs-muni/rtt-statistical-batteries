@@ -1,3 +1,6 @@
+#ifndef _DAB_MONOBIT_H_
+#define _DAB_MONOBIT_H_
+
 /*
  * dab_monobit2 test header.
  */
@@ -26,3 +29,4 @@ static Dtest dab_monobit2_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DAB_MONOBIT_H_

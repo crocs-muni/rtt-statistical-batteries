@@ -1,3 +1,4 @@
+#pragma once
 /*
  * This is an example header file for a test.  For existing tests these
  * headers are in the library includes already, but this one is an example

@@ -1,3 +1,5 @@
+#ifndef _DIEHARD_DNA_H_
+#define _DIEHARD_DNA_H_
 /*
  * diehard_dna test header.
  */
@@ -35,3 +37,4 @@ static Dtest diehard_dna_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DIEHARD_DNA_H_

@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_BITSTREAM_H_
+#define _DIEHARD_BITSTREAM_H_
+
 /*
  * diehard_bitstream test header.
  */
@@ -44,3 +47,4 @@ static Dtest diehard_bitstream_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DIEHARD_BITSTREAM_H_

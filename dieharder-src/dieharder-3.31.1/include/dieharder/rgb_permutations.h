@@ -1,3 +1,4 @@
+#pragma once
 /*
  * rgb_permutations test header.
  */

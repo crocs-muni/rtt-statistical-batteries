@@ -1,3 +1,4 @@
+#pragma once
 /*
  * rgb_kstest_test test header
  */

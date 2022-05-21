@@ -1,3 +1,4 @@
+#pragma once
 /*
  * diehard_marsaglia_tsang_gcd test header.
  */
@@ -14,7 +15,7 @@ static Dtest marsaglia_tsang_gcd_dtest __attribute__((unused)) = {
 #==================================================================\n\
 #                     Marsaglia and Tsang GCD Test\n\
 #\n\
-# 10^7 tsamples (default) of uint rands u, v are generated and two\n\
+# 10^7 tsamples (default) of unsigned int rands u, v are generated and two\n\
 # statistics are generated: their greatest common divisor (GCD) (w)\n\
 # and the number of steps of Euclid's Method required to find it\n\
 # (k).  Two tables of frequencies are thus generated -- one for the\n\

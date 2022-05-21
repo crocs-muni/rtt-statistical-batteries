@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_OPERM5_H_
+#define _DIEHARD_OPERM5_H_
+
 /*
  * diehard_operm5 test header.
  */
@@ -2681,3 +2684,4 @@ static Dtest diehard_operm5_dtest __attribute__((unused)) = {
 }
 };
 			       
+#endif // _DIEHARD_OPERM5_H_

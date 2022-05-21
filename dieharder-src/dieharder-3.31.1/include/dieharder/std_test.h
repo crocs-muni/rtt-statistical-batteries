@@ -1,3 +1,4 @@
+#pragma once
 /*
  * This is is the std_test struct.  It is the sole output interface between
  * the user and the test program -- all standard test inputs and returns

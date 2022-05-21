@@ -1,3 +1,4 @@
+#pragma once
 /*
  * Hopefully this is a valid default initialization of the template test.
  */

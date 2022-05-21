@@ -1,3 +1,4 @@
+#pragma once
 /*
  * sts_monobit test header.
  */

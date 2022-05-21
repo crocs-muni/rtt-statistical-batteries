@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_OPSO_H_
+#define _DIEHARD_OPSO_H_
+
 /*
  * diehard_opso test header.
  */
@@ -35,3 +38,4 @@ static Dtest diehard_opso_dtest __attribute__((unused)) = {
   0
 };
 
+#endif _DIEHARD_OPSO_H_

@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_COUNT_1S_STREAM_H_
+#define _DIEHARD_COUNT_1S_STREAM_H_
+
 /*
  * diehard_count_1s_stream test header.
  */
@@ -36,3 +39,4 @@ static Dtest diehard_count_1s_stream_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DIEHARD_COUNT_1S_STREAM_H_

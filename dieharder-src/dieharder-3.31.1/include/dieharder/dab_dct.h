@@ -1,3 +1,6 @@
+#ifndef _DAB_DCT_H_
+#define _DAB_DCT_H_
+
 /*
  * dab_dct test header.
  */
@@ -49,3 +52,5 @@ static Dtest dab_dct_dtest __attribute__((unused)) = {
   0
 };
 
+
+#endif  // _DAB_DCT_H_

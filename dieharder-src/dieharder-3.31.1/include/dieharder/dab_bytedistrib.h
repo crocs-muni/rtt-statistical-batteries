@@ -1,3 +1,6 @@
+#ifndef _DAB_BYTEDISTRIB_H_
+#define _DAB_BYTEDISTRIB_H_
+
 /*
  * dab_bytedistrib test header.
  */
@@ -36,3 +39,4 @@ static Dtest dab_bytedistrib_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DAB_BYTEDISTRIB_H_

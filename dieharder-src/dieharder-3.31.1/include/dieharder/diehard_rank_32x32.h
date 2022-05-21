@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_RANK_32X32_H_
+#define _DIEHARD_RANK_32X32_H_
+
 /*
  * diehard_rank_32x32 test header.
  */
@@ -31,3 +34,4 @@ static Dtest diehard_rank_32x32_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DIEHARD_RANK_32X32_H_

@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_OQPSO_H_
+#define _DIEHARD_OQPSO_H_
+
 /*
  * diehard_oqso test header.
  */
@@ -32,3 +35,4 @@ static Dtest diehard_oqso_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DIEHARD_OQPSO_H_

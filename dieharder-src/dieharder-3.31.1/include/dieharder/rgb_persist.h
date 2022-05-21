@@ -1,3 +1,4 @@
+#pragma once
 /*
  * diehard_rgb_persist test header.  This test needs to just go
  * away...

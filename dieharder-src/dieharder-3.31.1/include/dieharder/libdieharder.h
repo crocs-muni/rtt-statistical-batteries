@@ -1,3 +1,4 @@
+#pragma once
 /*
  *========================================================================
  * See copyright in copyright.h and the accompanying file COPYING
@@ -16,7 +17,7 @@
 #include <string.h>
 #include <sys/time.h>
 
-/* This turns on uint macro in c99 */
+/* This turns on unsigned int macro in c99 */
 #define __USE_MISC 1
 #include <sys/types.h>
 #include <sys/stat.h>

@@ -1,3 +1,4 @@
+#pragma once
 /*
  *========================================================================
  * See copyright in copyright.h and the accompanying file COPYING

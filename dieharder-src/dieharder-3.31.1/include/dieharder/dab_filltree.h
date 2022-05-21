@@ -1,3 +1,6 @@
+#ifndef _DAB_FILLTREE_H_
+#define _DAB_FILLTREE_H_
+
 /*
  * dab_filltree test header.
  */
@@ -39,3 +42,5 @@ static Dtest dab_filltree_dtest __attribute__((unused)) = {
   0
 };
 
+
+#endif // _DAB_FILLTREE_H_

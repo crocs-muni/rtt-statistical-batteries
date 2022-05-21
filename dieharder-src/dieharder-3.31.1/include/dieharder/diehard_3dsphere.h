@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_3DSPHERE_H_
+#define _DIEHARD_3DSPHERE_H_
+
 /*
  * diehard_3dsphere test header.
  */
@@ -33,3 +36,4 @@ static Dtest diehard_3dsphere_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DIEHARD_3DSPHERE_H_

@@ -1,3 +1,4 @@
+#pragma once
 /*
  * sts_runs test header.
  */

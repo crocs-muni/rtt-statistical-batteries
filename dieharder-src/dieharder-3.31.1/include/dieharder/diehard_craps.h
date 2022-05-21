@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_CRAPS_H_
+#define _DIEHARD_CRAPS_H_
+
 /*
  * diehard_craps test header.
  */
@@ -31,3 +34,4 @@ static Dtest diehard_craps_dtest __attribute__((unused)) = {
   0
 };
 
+#endif // _DIEHARD_CRAPS_H_

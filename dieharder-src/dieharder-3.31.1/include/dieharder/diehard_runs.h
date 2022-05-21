@@ -1,3 +1,5 @@
+#pragma once
+
 /*
  * diehard_runs test header.
  */

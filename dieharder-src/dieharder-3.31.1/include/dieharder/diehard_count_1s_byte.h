@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_COUNT_1S_BYTE_H_
+#define _DIEHARD_COUNT_1S_BYTE_H_
+
 /*
  * diehard_count_1s_byte test header.
  */
@@ -47,3 +50,5 @@ static Dtest diehard_count_1s_byte_dtest __attribute__((unused)) = {
   0
 };
 
+
+#endif // _DIEHARD_COUNT_1S_BYTE_H_

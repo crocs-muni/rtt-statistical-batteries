@@ -1,3 +1,4 @@
+#pragma once
 /*
  * rgb_minimum_distance test header
  */

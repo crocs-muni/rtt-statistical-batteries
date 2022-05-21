@@ -1,3 +1,4 @@
+#pragma once
 /*
  * rgb_bitdist test header.
  */

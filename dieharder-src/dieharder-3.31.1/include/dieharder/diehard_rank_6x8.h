@@ -1,3 +1,6 @@
+#ifndef _DIEHARD_RANK_6X8_H
+#define _DIEHARD_RANK_6X8_H
+
 /*
  * diehard_rank_6x8 test header.
  */
@@ -32,3 +35,4 @@ static Dtest diehard_rank_6x8_dtest __attribute__((unused)) = {
   0
 };
 
+#endif _DIEHARD_RANK_6X8_H
