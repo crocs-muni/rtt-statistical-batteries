@@ -4,7 +4,7 @@
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
  */
-
+typedef unsigned int uint;
 #include "copyright.h"
 
 /* To enable large file support */

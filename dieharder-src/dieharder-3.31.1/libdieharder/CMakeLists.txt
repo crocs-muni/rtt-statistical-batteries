@@ -84,7 +84,6 @@ set(LIBDIEHARDER_SOURCES
 find_package(GSL REQUIRED)
 
 add_library(dieharder ${LIBDIEHARDER_SOURCES})
-# target_compile_definitions(dieharder PUBLIC PLATFORM_MUST_ALIGN=0)
 target_link_libraries(dieharder PUBLIC GSL::gsl)
 
 add_library(dieharder::dieharder ALIAS dieharder)

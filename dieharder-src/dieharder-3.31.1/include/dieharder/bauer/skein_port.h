@@ -56,7 +56,6 @@ typedef uint_64t        u64b_t;             /* 64-bit unsigned integer */
 #if   PLATFORM_MUST_ALIGN == 0              /* ok to use "fast" versions? */
 #define Skein_Put64_LSB_First(dst08,src64,bCnt) memcpy(dst08,src64,bCnt)
 #define Skein_Get64_LSB_First(dst64,src08,wCnt) memcpy(dst64,src08,8*(wCnt))
-// #error "defined"
 #endif
 #else
 #error "Skein needs endianness setting!"
