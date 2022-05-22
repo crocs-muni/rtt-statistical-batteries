@@ -16,7 +16,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 int sts_runs(Test **test, int irun)
 {

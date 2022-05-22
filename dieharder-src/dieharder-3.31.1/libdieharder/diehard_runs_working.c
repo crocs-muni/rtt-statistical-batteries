@@ -41,7 +41,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 /*
  * The following are the definitions and parameters for runs, based on
  * Journal of Applied Statistics v30, Algorithm AS 157, 1981:

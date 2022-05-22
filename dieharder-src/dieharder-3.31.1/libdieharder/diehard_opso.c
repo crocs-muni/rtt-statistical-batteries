@@ -37,7 +37,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 int diehard_opso(Test **test, int irun)
 {

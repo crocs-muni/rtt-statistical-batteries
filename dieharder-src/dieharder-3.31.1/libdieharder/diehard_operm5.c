@@ -61,7 +61,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 static int tflag=0;
 static double tcount[120];

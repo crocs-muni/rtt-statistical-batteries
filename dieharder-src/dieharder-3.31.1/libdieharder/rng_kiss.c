@@ -20,7 +20,7 @@
  *
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 static unsigned long int kiss_get (void *vstate);
 static double kiss_get_double (void *vstate);

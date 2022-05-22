@@ -7,7 +7,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 /*
  * This is a special XOR generator that takes a list of GSL

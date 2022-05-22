@@ -25,7 +25,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 
 int binary_rank(uint **mtx,int mrows,int ncols)

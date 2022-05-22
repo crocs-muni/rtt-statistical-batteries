@@ -23,7 +23,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 
 #define SAMP_PER_WORD 3

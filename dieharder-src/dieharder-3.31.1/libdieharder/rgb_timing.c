@@ -13,7 +13,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 int rgb_timing(Test **test, Rgb_Timing *timing)
 {

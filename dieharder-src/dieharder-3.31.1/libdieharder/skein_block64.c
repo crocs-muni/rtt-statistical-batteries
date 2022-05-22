@@ -15,7 +15,9 @@
 ************************************************************************/
 
 #include <string.h>
-#include <dieharder/skein.h>
+
+#include "dieharder/libdieharder.h"
+#include "dieharder/bauer/skein.h"
 
 #ifndef SKEIN_USE_ASM
 #define SKEIN_USE_ASM   (0)                     /* default is all C code (no ASM) */

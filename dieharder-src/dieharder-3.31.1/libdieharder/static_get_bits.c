@@ -22,12 +22,17 @@
  * caller (and guaranteed to be big enough to hold the result).
  */
 
-inline static uint get_rand_bits_uint (uint nbits, uint mask, gsl_rng *rng)
+#include <gsl/gsl_rng.h>
+
+#include "dieharder/verbose.h"
+#include "dieharder/libdieharder.h"
+
+inline static unsigned int get_rand_bits_uint (unsigned int nbits, unsigned int mask, gsl_rng *rng)
 {
 
- static uint bit_buffer;
- static uint bits_left_in_bit_buffer = 0;
- uint bits,breturn;
+ static unsigned int bit_buffer;
+ static unsigned int bits_left_in_bit_buffer = 0;
+ unsigned int bits,breturn;
 
  /*
   * If there are enough bits left in the bit buffer, shift them out into
@@ -201,11 +206,11 @@ and so on.  Very nice.
  * require work if/when rngs that generate 64-bit rands come along.
  * But then, so will other programs.
  */
-inline static uint get_bit_ntuple_from_uint (uint bitstr, uint nbits, 
-                                      uint mask, uint boffset)
+inline static unsigned int get_bit_ntuple_from_uint (unsigned int bitstr, unsigned int nbits, 
+                                      unsigned int mask, unsigned int boffset)
 {
-   uint result;
-   uint len;
+   unsigned int result;
+   unsigned int len;
    
    /* Only rmax_bits in bitstr are meaningful */
    boffset = boffset % rmax_bits;
@@ -235,11 +240,11 @@ inline static uint get_bit_ntuple_from_uint (uint bitstr, uint nbits,
  * call routines up to return uints.  It's faster, too -- less checking
  * of the stream, fewer conditionals.
  */
-inline static uint get_bit_ntuple_from_whole_uint (uint bitstr, uint nbits, 
-		uint mask, uint boffset)
+inline static unsigned int get_bit_ntuple_from_whole_uint (unsigned int bitstr, unsigned int nbits, 
+		unsigned int mask, unsigned int boffset)
 {
- uint result;
- uint len;
+ unsigned int result;
+ unsigned int len;
 
  result = bitstr >> boffset;
 

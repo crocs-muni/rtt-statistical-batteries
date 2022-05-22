@@ -90,77 +90,78 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
-#include <dieharder/rgb_lmn.h>
+#include "dieharder/Dtest.h"
+#include "dieharder/libdieharder.h"
+#include "dieharder/rgb_lmn.h"
 
-int rgb_lmn()
-{
+int rgb_lmn(Dtest **dtest, Test **test) {
 
- double pks;
- uint ps_save=0,ts_save=0;
+  double pks;
+  uint ps_save = 0, ts_save = 0;
 
- /*
-  * Do a standard test if -a(ll) is selected.
-  * ALSO use standard values if tsamples or psamples are 0
-  */
- if(all == YES){
-   ts_save = tsamples;
-   tsamples = dtest->tsamples_std;
-   ps_save = psamples;
-   psamples = dtest->psamples_std;
- }
- if(tsamples == 0){
-   tsamples = dtest->tsamples_std;
- }
- if(psamples == 0){
-   psamples = dtest->psamples_std;
- }
- 
- /*
-  * Allocate memory for THIS test's ks_pvalues, etc.  Make sure that
-  * any missed prior allocations are freed.
-  */
- if(ks_pvalue) nullfree(ks_pvalue);
- ks_pvalue  = (double *)malloc((size_t) psamples*sizeof(double));
+  /*
+   * Do a standard test if -a(ll) is selected.
+   * ALSO use standard values if tsamples or psamples are 0
+   */
+  if (all == YES) {
+    ts_save = tsamples;
+    tsamples = *dtest->tsamples_std;
+    ps_save = psamples;
+    psamples = *dtest->psamples_std;
+  }
+  if (tsamples == 0) {
+    tsamples = *dtest->tsamples_std;
+  }
+  if (psamples == 0) {
+    psamples = dtest->psamples_std;
+  }
 
- /*
-  * Reseed FILE random number generators once per individual test.
-  * This correctly resets the rewind counter per test.
-  */
- if(strncmp("file_input",gsl_rng_name(rng),10) == 0){
-   gsl_rng_set(rng,1);
- }
+  /*
+   * Allocate memory for THIS test's ks_pvalues, etc.  Make sure that
+   * any missed prior allocations are freed.
+   */
+  if (ks_pvalue)
+    nullfree(ks_pvalue);
+  ks_pvalue = (double *)malloc((size_t)psamples * sizeof(double));
 
- /* show_test_header(dtest); */
+  /*
+   * Reseed FILE random number generators once per individual test.
+   * This correctly resets the rewind counter per test.
+   */
+  if (strncmp("file_input", gsl_rng_name(rng), 10) == 0) {
+    gsl_rng_set(rng, 1);
+  }
 
- /*
-  * Any custom test header output lines go here.  They should be
-  * used VERY sparingly.
-  */
+  /* show_test_header(dtest); */
 
- /*
-  * This is the standard test call.
-  */
- kspi = 0;  /* Always zero first */
- /* pks = sample((void *)rgb_lmn_test); */
+  /*
+   * Any custom test header output lines go here.  They should be
+   * used VERY sparingly.
+   */
 
- /*
-  * Test Results, standard form.
- show_test_results(dtest,pks,ks_pvalue,"Lagged Sum Test");
-  */
+  /*
+   * This is the standard test call.
+   */
+  kspi = 0; /* Always zero first */
+  /* pks = sample((void *)rgb_lmn_test); */
 
- /*
-  * Put back tsamples
-  */
- if(all == YES){
-   tsamples = ts_save;
-   psamples = ps_save;
- }
+  /*
+   * Test Results, standard form.
+  show_test_results(dtest,pks,ks_pvalue,"Lagged Sum Test");
+   */
 
- if(ks_pvalue) nullfree(ks_pvalue);
+  /*
+   * Put back tsamples
+   */
+  if (all == YES) {
+    tsamples = ts_save;
+    psamples = ps_save;
+  }
 
- return(0);
+  if (ks_pvalue)
+    nullfree(ks_pvalue);
 
+  return (0);
 }
 
 void rgb_lmn_test()

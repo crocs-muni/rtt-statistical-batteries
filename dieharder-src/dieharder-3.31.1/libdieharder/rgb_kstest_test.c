@@ -33,7 +33,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 int rgb_kstest_test(Test **test, int irun)
 {

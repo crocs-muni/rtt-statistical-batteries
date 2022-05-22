@@ -38,7 +38,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 double sample(void *testfunc())
 {

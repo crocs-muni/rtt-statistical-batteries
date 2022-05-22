@@ -10,7 +10,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 void marsaglia_tsang_gorilla(Test **test, int irun)
 {

@@ -11,7 +11,7 @@
 /* To enable large file support */
 #define _FILE_OFFSET_BITS 64
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 /*
  * Flags and variables to control all output formatting etc.  tflag_default

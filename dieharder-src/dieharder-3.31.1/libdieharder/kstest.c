@@ -15,7 +15,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 #define KCOUNTMAX 4999
 
 double p_ks_new(int n,double d);

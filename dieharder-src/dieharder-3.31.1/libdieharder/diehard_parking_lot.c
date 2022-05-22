@@ -65,7 +65,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 typedef struct {
   double x;

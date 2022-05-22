@@ -29,7 +29,7 @@
 ***************************************************************************/
 
 #include <stddef.h>                          /* get size_t definition */
-#include <dieharder/skein_port.h>            /* get platform-specific definitions */
+#include "dieharder/bauer/skein_port.h"      /* get platform-specific definitions */
 
 enum
     {

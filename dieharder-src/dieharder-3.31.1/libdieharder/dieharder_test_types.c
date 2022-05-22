@@ -25,7 +25,7 @@
  * ========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 void dieharder_test_types()
 {

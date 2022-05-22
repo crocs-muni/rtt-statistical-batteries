@@ -39,7 +39,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 #define POINTS_2D 8000
 #define DIM_2D 2

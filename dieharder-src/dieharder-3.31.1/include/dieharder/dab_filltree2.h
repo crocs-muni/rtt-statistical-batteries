@@ -45,4 +45,4 @@ static Dtest dab_filltree2_dtest __attribute__((unused)) = {
   0
 };
 
-#define _DAB_FILLTREE2_H_
+#endif // _DAB_FILLTREE2_H_

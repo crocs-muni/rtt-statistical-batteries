@@ -13,7 +13,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 /*
  * This is a wrapper for getting random numbers from a file.  Note

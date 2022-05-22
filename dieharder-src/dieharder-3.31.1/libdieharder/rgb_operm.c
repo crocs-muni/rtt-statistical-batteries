@@ -34,7 +34,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 #define RGB_OPERM_KMAX 10
 
 /*

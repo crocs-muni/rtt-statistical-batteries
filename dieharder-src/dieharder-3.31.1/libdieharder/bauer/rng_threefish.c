@@ -17,8 +17,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <dieharder/libdieharder.h>
-#include "skein.h"
+#include "dieharder/libdieharder.h"
+#include "dieharder/bauer/skein.h"
 
 // State blocks = 1 for weakest form
 #define STATE_BLOCKS (1)

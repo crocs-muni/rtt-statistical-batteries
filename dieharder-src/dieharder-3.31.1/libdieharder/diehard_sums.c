@@ -46,7 +46,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 int diehard_sums(Test **test, int irun)
 {

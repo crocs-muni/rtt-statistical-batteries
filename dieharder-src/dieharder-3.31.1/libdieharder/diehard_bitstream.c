@@ -34,7 +34,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 /*
  * Include inline uint generator

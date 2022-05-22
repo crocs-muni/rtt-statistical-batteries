@@ -27,7 +27,7 @@
  * ========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 #define NOBITS 0
 

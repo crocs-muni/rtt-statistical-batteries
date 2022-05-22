@@ -1,7 +1,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 /*
  * This is a wrapping of stdin.

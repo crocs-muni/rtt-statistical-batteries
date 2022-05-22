@@ -23,7 +23,7 @@
  *
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 #define SUPERKISS_QMAX 41790
 #define GSL_MT19937_1999 14
 

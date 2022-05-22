@@ -15,7 +15,7 @@
 ************************************************************************/
 
 #include <string.h>
-#include "skein.h"
+#include "dieharder/bauer/skein.h"
 #include <stdio.h>
 
 /* 64-bit rotate left --  defined in skein_port.h as macro

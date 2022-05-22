@@ -5,7 +5,7 @@
  *
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 /*
  * A standard test returns a single-pass p-value as an end result.

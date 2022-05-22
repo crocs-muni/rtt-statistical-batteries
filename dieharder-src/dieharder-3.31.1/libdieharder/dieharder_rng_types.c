@@ -36,7 +36,7 @@
  * likely to last for "a while" and maybe "forever".
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 FILE *test_fp;
 
 void dieharder_rng_types()

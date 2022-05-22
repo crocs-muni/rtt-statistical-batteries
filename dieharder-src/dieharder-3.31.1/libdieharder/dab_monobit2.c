@@ -17,7 +17,7 @@
  * ========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 #define BLOCK_MAX (16)
 
 /* The evalMostExtreme function is in dab_dct.c */

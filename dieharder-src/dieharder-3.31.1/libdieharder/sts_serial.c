@@ -72,7 +72,7 @@
  * likely be backported to bits.c as being a bit more efficient.
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 #include "static_get_bits.c"
 

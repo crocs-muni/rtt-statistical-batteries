@@ -4,7 +4,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 /*
  * This should be the only tool we use to access bit substrings

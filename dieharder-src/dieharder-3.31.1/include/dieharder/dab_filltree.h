@@ -42,5 +42,6 @@ static Dtest dab_filltree_dtest __attribute__((unused)) = {
   0
 };
 
+int insert(double x, double *array, unsigned int startVal);
 
 #endif // _DAB_FILLTREE_H_

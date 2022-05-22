@@ -17,7 +17,7 @@
  * position).
  *========================================================================
  */
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 void Vtest_create(Vtest *vtest, unsigned int nvec)
 {

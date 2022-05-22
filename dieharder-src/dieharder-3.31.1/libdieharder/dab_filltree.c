@@ -20,7 +20,7 @@
  * Because of the target data for the first p-value,
  * ntuple must be kept at the default (32).
  */
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 #define RotL(x,N)    (rmax_mask & (((x) << (N)) | ((x) >> (rmax_bits-(N)))))
 #define CYCLES 4
@@ -33,8 +33,6 @@ static double targetData1[] __attribute__((unused)) = {
 static double targetData[] = {
 0.0, 0.0, 0.0, 0.0, 0.13333333, 0.20000000, 0.20634921, 0.17857143, 0.13007085, 0.08183633, 0.04338395, 0.01851828, 0.00617270, 0.00151193, 0.00023520, 0.00001680, 0.00000000, 0.00000000, 0.00000000, 0.00000000
 };
-
-inline int insert(double x, double *array, unsigned int startVal);
 
 int dab_filltree(Test **test,int irun) {
  int size = (ntuple == 0) ? 32 : ntuple;
@@ -105,9 +103,9 @@ int dab_filltree(Test **test,int irun) {
 }
 
 
-inline int insert(double x, double *array, unsigned int startVal) {
- uint d = (startVal + 1) / 2;
- uint i = startVal;
+int insert(double x, double *array, unsigned int startVal) {
+ unsigned int d = (startVal + 1) / 2;
+ unsigned int i = startVal;
  while (d > 0) {
    if (array[i] == 0) {
      array[i] = x;

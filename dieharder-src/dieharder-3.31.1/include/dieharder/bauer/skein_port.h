@@ -15,7 +15,7 @@
 ** 
 ********************************************************************/
 
-#include "brg_types.h"                      /* get integer type definitions */
+#include "dieharder/brg_types.h"                      /* get integer type definitions */
 
 typedef unsigned int    uint_t;             /* native unsigned integer */
 typedef uint_8t         u08b_t;             /*  8-bit unsigned integer */
@@ -46,9 +46,9 @@ typedef uint_64t        u64b_t;             /* 64-bit unsigned integer */
  */
 #ifndef SKEIN_NEED_SWAP /* compile-time "override" for endianness? */
 
-#include "brg_endian.h"                     /* get endianness selection */
+#include "dieharder/brg_endian.h"                     /* get endianness selection */
 #if   PLATFORM_BYTE_ORDER == IS_BIG_ENDIAN
-    /* here for big-endian CPUs */
+/* here for big-endian CPUs */
 #define SKEIN_NEED_SWAP   (1)
 #elif PLATFORM_BYTE_ORDER == IS_LITTLE_ENDIAN
     /* here for x86 and x86-64 CPUs (and other detected little-endian CPUs) */
@@ -56,6 +56,7 @@ typedef uint_64t        u64b_t;             /* 64-bit unsigned integer */
 #if   PLATFORM_MUST_ALIGN == 0              /* ok to use "fast" versions? */
 #define Skein_Put64_LSB_First(dst08,src64,bCnt) memcpy(dst08,src64,bCnt)
 #define Skein_Get64_LSB_First(dst64,src08,wCnt) memcpy(dst64,src08,8*(wCnt))
+// #error "defined"
 #endif
 #else
 #error "Skein needs endianness setting!"
@@ -84,7 +85,6 @@ typedef uint_64t        u64b_t;             /* 64-bit unsigned integer */
 #endif
 #endif  /* ifndef Skein_Swap64 */
 
-
 #ifndef Skein_Put64_LSB_First
 void    Skein_Put64_LSB_First(u08b_t *dst,const u64b_t *src,size_t bCnt)
 #ifdef  SKEIN_PORT_CODE /* instantiate the function code here? */
@@ -99,11 +99,11 @@ void    Skein_Put64_LSB_First(u08b_t *dst,const u64b_t *src,size_t bCnt)
 #endif
 #endif   /* ifndef Skein_Put64_LSB_First */
 
-
 #ifndef Skein_Get64_LSB_First
-void    Skein_Get64_LSB_First(u64b_t *dst,const u08b_t *src,size_t wCnt)
+// #error "undefined somehow"
+void    Skein_Get64_LSB_First(u64b_t *dst, const u08b_t *src, size_t wCnt)
 #ifdef  SKEIN_PORT_CODE /* instantiate the function code here? */
-    { /* this version is fully portable (big-endian or little-endian), but slow */
+    {                   /* this version is fully portable (big-endian or little-endian), but slow */
     size_t n;
 
     for (n=0;n<8*wCnt;n+=8)

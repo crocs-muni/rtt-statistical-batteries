@@ -9,7 +9,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 #define RGB_PERM_KMAX 10
 uint nperms;

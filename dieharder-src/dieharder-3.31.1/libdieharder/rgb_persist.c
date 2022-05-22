@@ -19,7 +19,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 int rgb_persist(Test **test, Rgb_Persist *persist)
 {

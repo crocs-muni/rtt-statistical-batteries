@@ -18,7 +18,7 @@ static Dtest lmn_test = {
 # should systematically subsume many other tests as well.\n\
 #==================================================================\n",
   100,
-  100000
+  100000,
   0,
   rgb_lmn,
   0

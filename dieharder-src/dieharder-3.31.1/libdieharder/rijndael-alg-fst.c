@@ -26,7 +26,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include <dieharder/rijndael-alg-fst.h>
+#include "dieharder/bauer/rijndael-alg-fst.h"
 
 /*
 Te0[x] = S [x].[02, 01, 01, 03];

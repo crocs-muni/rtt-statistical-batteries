@@ -37,7 +37,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 static double sdata[]={
 0.00002103, 0.00005779, 0.00017554, 0.00046732, 0.00110783,

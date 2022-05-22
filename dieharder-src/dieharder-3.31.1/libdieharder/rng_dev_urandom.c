@@ -2,7 +2,7 @@
  * dev_urandom
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 /*
  * This is a wrapping of the /dev/random hardware rng

@@ -20,7 +20,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 #define POINTS_3D 4000
 #define DIM_3D 3

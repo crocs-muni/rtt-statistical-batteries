@@ -25,7 +25,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 uint roll(){
   uint d = 1 + gsl_rng_uniform_int(rng,6);

@@ -39,7 +39,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 #define NMS   512
 #define NBITS 24
 

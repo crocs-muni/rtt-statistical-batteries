@@ -5,7 +5,7 @@
  *
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 static unsigned long int dev_random_get (void *vstate);
 static double dev_random_get_double (void *vstate);

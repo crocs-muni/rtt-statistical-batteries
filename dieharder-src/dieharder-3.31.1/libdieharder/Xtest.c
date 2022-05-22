@@ -14,7 +14,7 @@
  *========================================================================
  */
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 void Xtest_eval(Xtest *xtest)
 {

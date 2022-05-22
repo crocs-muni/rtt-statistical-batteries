@@ -35,7 +35,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 #include "static_get_bits.c"
 static uint mask;
 

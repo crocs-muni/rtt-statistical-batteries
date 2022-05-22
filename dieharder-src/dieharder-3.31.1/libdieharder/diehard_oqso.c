@@ -32,7 +32,7 @@
  */
 
 
-#include <dieharder/libdieharder.h>
+#include "dieharder/libdieharder.h"
 
 int diehard_oqso(Test **test, int irun)
 {
