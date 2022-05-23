@@ -16,6 +16,13 @@ endif()
 
 add_compile_definitions(${ENDIAN_HELPER_DEFINITION})
 
+if(WIN32)
+  if(MINGW)
+    add_link_options("-Wl,--allow-multiple-definition")
+  else()
+    message(FATAL_ERROR "${CMAKE_C_COMPILER_ID} is not supported on Windows, please, use only MinGW GCC.")
+  endif()
+endif()
 
 include_directories("${CMAKE_SOURCE_DIR}/include")
 include_directories("${CMAKE_BINARY_DIR}")
