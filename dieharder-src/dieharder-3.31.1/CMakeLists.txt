@@ -16,13 +16,13 @@ endif()
 
 add_compile_definitions(${ENDIAN_HELPER_DEFINITION})
 
-# TODO: Remove this once multiple definitions are eliminated
-add_link_options("-Wl,--allow-multiple-definition")
 
 include_directories("${CMAKE_SOURCE_DIR}/include")
 include_directories("${CMAKE_BINARY_DIR}")
 
 configure_file(config.h.in config.h @ONLY)
+
+find_package(GSL REQUIRED)
 
 add_subdirectory(libdieharder)
 

@@ -1,8 +1,6 @@
 set(LIBDIEHARDER_SOURCES
   bits.c
-  bits.cruft
   chisq.c
-  configure.ac
   countx.c
   dab_bytedistrib.c
   dab_dct.c
@@ -18,14 +16,11 @@ set(LIBDIEHARDER_SOURCES
   diehard_craps.c
   diehard_dna.c
   diehard_operm5.c
-  diehard_operm5.c.save
-  diehard_operm5.cruft
   diehard_opso.c
   diehard_oqso.c
   diehard_parking_lot.c
   diehard_rank_32x32.c
   diehard_rank_6x8.c
-  diehard_runs.c
   diehard_runs_working.c
   diehard_squeeze.c
   diehard_sums.c
@@ -33,7 +28,6 @@ set(LIBDIEHARDER_SOURCES
   dieharder_test_types.c
   histogram.c
   kstest.c
-  kstest.cruft
   marsaglia_tsang_gcd.c
   marsaglia_tsang_gorilla.c
   parse.c
@@ -41,7 +35,6 @@ set(LIBDIEHARDER_SOURCES
   random_seed.c
   rank.c
   rgb_bitdist.c
-  rgb_bitdist.cruft
   rgb_kstest_test.c
   rgb_lagged_sums.c
   # rgb_lmn.c
@@ -80,8 +73,6 @@ set(LIBDIEHARDER_SOURCES
   Vtest.c
   Xtest.c
 )
-
-find_package(GSL REQUIRED)
 
 add_library(dieharder ${LIBDIEHARDER_SOURCES})
 target_link_libraries(dieharder PUBLIC GSL::gsl)

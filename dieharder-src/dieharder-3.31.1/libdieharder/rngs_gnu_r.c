@@ -29,6 +29,10 @@
 
 #include "dieharder/libdieharder.h"
 
+#ifndef DIEHARDER
+#define DIEHARDER
+#endif
+
 #ifdef GNU_R_MODE
 #undef GNU_R_MODE
 #endif
@@ -96,7 +100,6 @@ typedef enum {
     INVERSION,
     KINDERMAN_RAMAGE
 } N01type;
-#endif
 
 #ifdef GNU_R_MODE
 /* <UTF8> char here is handled as a whole string */
