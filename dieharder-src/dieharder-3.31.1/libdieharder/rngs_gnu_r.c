@@ -26,20 +26,16 @@
  * 'GNU_R_MODE' (which is how we 'turn off' the features used by R but not
  * here.
  */
-#ifndef DIEHARDER
-#define DIEHARDER
+
+#include "dieharder/libdieharder.h"
+
 #ifdef GNU_R_MODE
-#undef GNU_R_MODE 
-#endif
+#undef GNU_R_MODE
 #endif
 
-#ifdef DIEHARDER
-#include "dieharder/libdieharder.h"
-/* we need M here for the MT, but dieharder also defines it */
 #ifdef M
 #undef M
 #endif
-
 
 /* define our function prototypes */
 /* two generic 'getters' used by all GNU R RNGs */
@@ -106,8 +102,6 @@ typedef enum {
 /* <UTF8> char here is handled as a whole string */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
-
 #include "Defn.h"
 #include <R_ext/Random.h>
 #endif

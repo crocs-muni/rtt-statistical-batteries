@@ -28,7 +28,7 @@ void dh_header()
 
  int i,half,version_length;
 
- version_length = strlen(QUOTEME(VERSION));
+ version_length = strlen(QUOTEME(PACKAGE_VERSION));
 
  fprintf(stdout,"#=============================================================================#\n");
  fprintf(stdout,"#");
@@ -37,7 +37,7 @@ void dh_header()
  for(i=0;i<half;i++){
    fprintf(stdout," ");
  }
- fprintf(stdout,"dieharder version %s Copyright 2003 Robert G. Brown",QUOTEME(VERSION));
+ fprintf(stdout,"dieharder version %s Copyright 2003 Robert G. Brown",QUOTEME(PACKAGE_VERSION));
  /* Pad the rear */
  half = LINE_LENGTH - 52 - version_length - half;
  for(i=0;i<half;i++){
@@ -50,5 +50,5 @@ void dh_header()
 
 void dh_version()
 {
- fprintf(stdout,"%s\n",QUOTEME(VERSION));
+ fprintf(stdout,"%s\n",QUOTEME(PACKAGE_VERSION));
 }

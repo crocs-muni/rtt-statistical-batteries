@@ -4,6 +4,9 @@
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
  */
+
+#include "config.h"
+
 typedef unsigned int uint;
 #include "copyright.h"
 

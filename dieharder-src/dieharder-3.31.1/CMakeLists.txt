@@ -20,6 +20,9 @@ add_compile_definitions(${ENDIAN_HELPER_DEFINITION})
 add_link_options("-Wl,--allow-multiple-definition")
 
 include_directories("${CMAKE_SOURCE_DIR}/include")
+include_directories("${CMAKE_BINARY_DIR}")
+
+configure_file(config.h.in config.h @ONLY)
 
 add_subdirectory(libdieharder)
 
