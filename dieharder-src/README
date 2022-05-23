@@ -11,6 +11,47 @@ Fax: 919-660-2525
 Email: rgb@phy.duke.edu
 URL: http://www.phy.duke.edu/~rgb
 
+## MUNI contributions
+Modified Dieharder source code capable of psample value output.
+Modified files are dieharder/output.h and dieharder/output.c.
+
+### Running notes
+You can make sure you are using correctly built binary by using ./dieharder -F option, last line of output should be:
+```
+65536	 psample_values
+```
+When testing a file, use your usuall output flags (-D option) and add 65536 to them, values of psamples will be in output.
+Each value is on one line and bounded by 4 plus signs.
+
+### Example output
+```
+$./bin/dieharder -g 201 -d 0 -D 66047 -p 10 -f rand.bin
+
+#=============================================================================#
+#            dieharder version 3.31.1 Copyright 2003 Robert G. Brown          #
+#=============================================================================#
+    rng_name    |           filename             |
+ file_input_raw|                        rand.bin|
+#=============================================================================#
+        test_name   |ntup| tsamples |psamples|  p-value |Assessment
+#=============================================================================#
+   diehard_birthdays|   0|       100|      10|0.07548333|  PASSED  
+#=============================================================================#
+#                          Values of test p-values                            #
+#=============================================================================#
+++++0.47662875++++
+++++0.50094008++++
+++++0.57254425++++
+++++0.59016938++++
+++++0.71121384++++
+++++0.71690598++++
+++++0.74037972++++
+++++0.76648245++++
+++++0.84489929++++
+++++0.86872270++++
+#=============================================================================#
+```
+
 ## Compilation
 CMake build system makes compilation much easier.
 However, the build system only compiles binaries (old autoconf supported RPM, docs, etc.).
