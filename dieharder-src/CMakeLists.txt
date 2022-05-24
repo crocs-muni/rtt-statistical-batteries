@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 
+# tell CMake to search for Find<Package>.cmake files also in build directory
+# needed for conan integration
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_BINARY_DIR}")
+
 set(CMAKE_C_STANDARD 11)
 
 project(DIEHARDER VERSION 3.31.1 LANGUAGES C)

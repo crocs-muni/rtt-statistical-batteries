@@ -1,0 +1,5 @@
+[requires]
+gsl/2.7@#ef4bd34bbff2ef6ab35dd839db21bf24
+
+[generators]
+cmake_find_package
