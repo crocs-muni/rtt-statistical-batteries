@@ -52,23 +52,74 @@ $./bin/dieharder -g 201 -d 0 -D 66047 -p 10 -f rand.bin
 #=============================================================================#
 ```
 
+## Dependencies
+This project has only one library dependency: GNU Scientific Library (GSL).
+It is distributed as a standard Linux package and you can search the web for installation instructions (keep in mind that you also need the development versions - "-dev" suffix on Debian-based distros / "-devel" suffix on RedHat-based distros).
+
+When on Windows+MinGW, use MSYS2 MSYS shell and run:
+```bash
+pacman -Ss gsl # prints out all available versions
+# pick the one that fits your toolchain and install, i.e:
+pacman -S mingw-w64-x86_64-gsl # version
+```
+
 ## Compilation
 CMake build system makes compilation much easier.
 However, the build system only compiles binaries (old autoconf supported RPM, docs, etc.).
 ### Prerequisites
 - CMake 3.13 or higher
+- [Ninja generator](https://ninja-build.org/) - `highly recommended`
 - C compiler
+- Conan 1.48.1 or higher (optional, error-prone, not recommended)
+
+### Conan installation
+Conan integration was introduced to this project only for making development easier but it is highly recommended to install the GSL natively (with apt/yum/dnf/pacman).
+If you're not familiar with conan, it's better for you to skip this part.
+Assuming correct installation of Python3, PIP and GCC compiler:
+(Note: when using MinGW use `MSYS2 MSYS` shell)
+```bash
+pip3 install conan
+# the following step should be configured by default:
+conan remote add conancenter https://center.conan.io
+# you can verify that you have the correct remote by running this command:
+conan remote list
+# output of the command:
+# conancenter: https://center.conan.io [Verify SSL: True]
+```
+
+The rest of the installation is platform-specific
+On Linux:
+```bash
+# detect a default profile
+conan profile new --detect default
+# and configure C++11 ABI
+conan profile update settings.compiler.libcxx=libstdc++11 default
+```
+On Windows+MinGW:
+(Note: use your toolchain shell, e.g. `MSYS2 MinGW 64` to execute the following steps)
+```bash
+# detect a default profile
+CC=gcc conan profile new --detect default
+# and configure C++11 ABI
+conan profile update settings.compiler.libcxx=libstdc++11 default
+```
+Troubleshooting:
+- if your MinGW toolchain is not GCC-based (can be Clang based), you probably want to set CC environment variable to `CC=clang`
+- In case the conancenter remote changes, you can search for right command [here](https://docs.conan.io/en/latest/uploading_packages/remotes.html)
+- If something goes wrong with the Conan installation, please, follow the official [Conan docs](https://docs.conan.io/en/latest/)
 
 ### Tested C compilers
 Linux - GCC 7.5.0, GCC 8.4.0, Clang 10.0.0
 Windows - MinGW64 GCC 11.2.0
+Windows - MSVC2019 `does not work` due to some header files used by the project (i.e. sys/time.h)
 
 ### Steps
 ```bash
 cd <folder-with-this-readme>
 mkdir build
 cd build
-cmake .. # for static libdieharder or:
+# -G Ninja can be omitted
+cmake -G Ninja .. # for static libdieharder or:
 cmake -DBUILD_SHARED_LIBS=ON .. # for shared libdieharder
 cmake --build .
 ```
