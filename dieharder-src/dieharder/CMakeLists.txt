@@ -23,3 +23,5 @@ set(DIEHARDER_SOURCES
 
 add_executable(dieharder_battery ${DIEHARDER_SOURCES})
 target_link_libraries(dieharder_battery PUBLIC GSL::gsl dieharder::dieharder m)
+
+install(TARGETS dieharder_battery DESTINATION .)

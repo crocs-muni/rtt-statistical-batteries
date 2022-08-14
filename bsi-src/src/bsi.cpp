@@ -258,7 +258,7 @@ test_result homogenity_test(const std::vector<unsigned char> &input_sequence) {
     }
   }
 
-  return test_result{.num_failed = failedTotal, .num_iterations = iterations};
+  return test_result{failedTotal, iterations};
 }
 
 /// t8_entropy

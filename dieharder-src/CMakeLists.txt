@@ -38,3 +38,10 @@ find_package(GSL REQUIRED)
 add_subdirectory(libdieharder)
 
 add_subdirectory(dieharder)
+
+install(FILES
+  AUTHORS
+  ChangeLog
+  dieharder/COPYING
+  README
+  dieharder/NOTES DESTINATION .)
