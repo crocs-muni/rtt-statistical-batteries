@@ -15,5 +15,4 @@ target_include_directories(fips_battery PRIVATE
 )
 target_link_libraries(fips_battery PUBLIC
     nlohmann_json::nlohmann_json
-    stdc++fs
 )
