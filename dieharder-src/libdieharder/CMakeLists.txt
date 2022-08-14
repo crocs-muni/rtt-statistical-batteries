@@ -78,3 +78,5 @@ add_library(dieharder ${LIBDIEHARDER_SOURCES})
 target_link_libraries(dieharder PUBLIC GSL::gsl)
 
 add_library(dieharder::dieharder ALIAS dieharder)
+
+install(TARGETS dieharder DESTINATION .)

@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
     }
   };
 
-  if (not configuration.skip_words_test) {
+  if (!configuration.skip_words_test) {
     try {
       auto [num_failed, num_iterations] = bsi::words_test(uchar_sequence);
       results["tests"].push_back(
@@ -97,30 +97,30 @@ int main(int argc, char **argv) {
       results["tests"].push_back({{"name", bsi::WordsName}, {"error", true}});
     }
   }
-  if (not configuration.skip_monobit_test) {
+  if (!configuration.skip_monobit_test) {
     run_test_for_nist_sequence(bsi::monobit_test, bsi::MonobitName);
   }
-  if (not configuration.skip_poker_test) {
+  if (!configuration.skip_poker_test) {
     run_test_for_nist_sequence(bsi::poker_test, bsi::PokerName);
   }
-  if (not configuration.skip_runs_test) {
+  if (!configuration.skip_runs_test) {
     run_test_for_nist_sequence(bsi::runs_test, bsi::RunsName);
   }
-  if (not configuration.skip_long_run_test) {
+  if (!configuration.skip_long_run_test) {
     run_test_for_nist_sequence(bsi::long_run_test, bsi::LongRunName);
   }
-  if (not configuration.skip_autocorrelation_test) {
+  if (!configuration.skip_autocorrelation_test) {
     run_test_for_nist_sequence(bsi::autocorrelation_test, bsi::AutocorrelationName);
   }
-  if (not configuration.skip_uniform_test) {
+  if (!configuration.skip_uniform_test) {
     auto uniform =
         std::bind(bsi::uniform_test, std::placeholders::_1, configuration.K, configuration.N, configuration.A);
     run_test_for_nist_sequence(uniform, bsi::UniformDistributionName);
   }
-  if (not configuration.skip_homogenity_test) {
+  if (!configuration.skip_homogenity_test) {
     run_test_for_nist_sequence(bsi::homogenity_test, bsi::HomogenityName);
   }
-  if (not configuration.skip_entropy_test) {
+  if (!configuration.skip_entropy_test) {
     run_test_for_nist_sequence(bsi::entropy_test, bsi::EntropyName);
   }
 
@@ -128,7 +128,7 @@ int main(int argc, char **argv) {
 
   if (configuration.output_to_file) {
     std::ofstream out(configuration.output_file);
-    if (not out.is_open()) {
+    if (!out.is_open()) {
       std::cerr << "Error ! Unable to open output file " << configuration.output_file << std::endl;
       return 1;
     }
