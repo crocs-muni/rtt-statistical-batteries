@@ -1,0 +1,14 @@
+#pragma once
+// This .in file will be configured by cmake and .h file will be put into build directory
+
+#define PACKAGE "@PROJECT_NAME@"
+
+#define PACKAGE_NAME "@PROJECT_NAME@"
+
+#define PACKAGE_STRING "@PROJECT_NAME@ @PROJECT_VERSION@"
+
+#define PACKAGE_TARNAME "@PROJECT_NAME@"
+
+#define PACKAGE_URL ""
+
+#define PACKAGE_VERSION "@PROJECT_VERSION@"
