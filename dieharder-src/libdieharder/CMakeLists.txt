@@ -78,4 +78,4 @@ target_link_libraries(dieharder PUBLIC GSL::gsl)
 
 add_library(dieharder::dieharder ALIAS dieharder)
 
-install(TARGETS dieharder DESTINATION .)
+install(TARGETS dieharder RUNTIME DESTINATION bin LIBRARY DESTINATION lib)
