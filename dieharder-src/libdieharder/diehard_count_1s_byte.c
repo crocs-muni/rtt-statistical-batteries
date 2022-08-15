@@ -78,7 +78,7 @@
 /*
  * Include inline uint generator
  */
-#include "static_get_bits.c"
+#include "dieharder/static_get_bits.h"
 
 /*
  * This table was generated using the following code fragment.

@@ -39,7 +39,7 @@
 /*
  * Include inline uint generator
  */
-#include "static_get_bits.c"
+#include "dieharder/static_get_bits.h"
 
 int diehard_bitstream(Test **test, int irun)
 {

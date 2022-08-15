@@ -42,7 +42,7 @@ typedef unsigned int uint;
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_eigen.h>
 #include <dieharder/Dtest.h>
-#include <dieharder/parse.h>
+// #include <dieharder/parse.h>
 #include <dieharder/verbose.h>
 #include <dieharder/Xtest.h>
 #include <dieharder/Vtest.h>
@@ -152,11 +152,11 @@ typedef unsigned int uint;
   * The primary control variables, in alphabetical order, with comments.
   *========================================================================
   */
- unsigned int all;              /* Flag to do all tests on selected generator */
- unsigned int binary;           /* Flag to output rands in binary (with -o -f) */
- unsigned int bits;             /* bitstring size (in bits) */
- unsigned int diehard;          /* Diehard test number */
- unsigned int generator;        /* GSL generator id number to be tested */
+static unsigned int all;              /* Flag to do all tests on selected generator */
+static unsigned int binary;           /* Flag to output rands in binary (with -o -f) */
+static unsigned int bits;             /* bitstring size (in bits) */
+static unsigned int diehard;          /* Diehard test number */
+static unsigned int generator;        /* GSL generator id number to be tested */
  /*
   * We will still need generator above, if only to select the XOR
   * generator.  I need to make its number something that will pretty much
@@ -173,39 +173,39 @@ typedef unsigned int uint;
   * of the built in generators.
   */
 #define GVECMAX 100
- char gnames[GVECMAX][128];  /* VECTOR of names to be XOR'd into a "super" generator */
- unsigned int gseeds[GVECMAX];       /* VECTOR of unsigned int seeds used for the "super" generators */
- unsigned int gnumbs[GVECMAX];       /* VECTOR of GSL generators to be XOR'd into a "super" generator */
- unsigned int gvcount;               /* Number of generators to be XOR'd into a "super" generator */
- unsigned int gscount;               /* Number of seeds entered on the CL in XOR mode */
- unsigned int help_flag;        /* Help flag */
- unsigned int hist_flag;        /* Histogram display flag */
- unsigned int iterations;	/* For timing loop, set iterations to be timed */
- unsigned int ks_test;          /* Selects the KS test to be used, 0 = Kuiper 1 = Anderson-Darling */
- unsigned int list;             /* List all tests flag */
- unsigned int List;             /* List all generators flag */
- double multiply_p;	/* multiplier for default # of psamples in -a(ll) */
- unsigned int ntuple;           /* n-tuple size for n-tuple tests */
- unsigned int num_randoms;      /* the number of randoms stored into memory and usable */
- unsigned int output_file;      /* equals 1 if you output to file, otherwise 0. */
- unsigned int output_format;    /* equals 0 (binary), 1 (unsigned int), 2 (decimal) output */
- unsigned int overlap;          /* 1 use overlapping samples, 0 don't (for tests with the option) */
- unsigned int psamples;         /* Number of test runs in final KS test */
- unsigned int quiet;            /* quiet flag -- surpresses full output report */
- unsigned int rgb;              /* rgb test number */
- unsigned int sts;              /* sts test number */
- unsigned int Seed;             /* user selected seed.  Surpresses reseeding per sample.*/
- off_t tsamples;        /* Generally should be "a lot".  off_t is u_int64_t. */
- unsigned int user;             /* user defined test number */
- unsigned int verbose;          /* Default is not to be verbose. */
- double Xweak;          /* "Weak" generator cut-off (one sided) */
- double Xfail;          /* "Unambiguous Fail" generator cut-off (one sided) */
- unsigned int Xtrategy;         /* Strategy used in TTD mode */
- unsigned int Xstep;            /* Number of additional psamples in TTD/RA mode */
- unsigned int Xoff;             /* Max number of psamples in TTD/RA mode */
- double x_user;         /* Reserved general purpose command line inputs for */
- double y_user;         /* use in any new user test. */
- double z_user;
+static char gnames[GVECMAX][128];  /* VECTOR of names to be XOR'd into a "super" generator */
+static unsigned int gseeds[GVECMAX];       /* VECTOR of unsigned int seeds used for the "super" generators */
+static unsigned int gnumbs[GVECMAX];       /* VECTOR of GSL generators to be XOR'd into a "super" generator */
+static unsigned int gvcount;               /* Number of generators to be XOR'd into a "super" generator */
+static unsigned int gscount;               /* Number of seeds entered on the CL in XOR mode */
+static unsigned int help_flag;        /* Help flag */
+static unsigned int hist_flag;        /* Histogram display flag */
+static unsigned int iterations;	/* For timing loop, set iterations to be timed */
+static unsigned int ks_test;          /* Selects the KS test to be used, 0 = Kuiper 1 = Anderson-Darling */
+static unsigned int list;             /* List all tests flag */
+static unsigned int List;             /* List all generators flag */
+static double multiply_p;	/* multiplier for default # of psamples in -a(ll) */
+static unsigned int ntuple;           /* n-tuple size for n-tuple tests */
+static unsigned int num_randoms;      /* the number of randoms stored into memory and usable */
+static unsigned int output_file;      /* equals 1 if you output to file, otherwise 0. */
+static unsigned int output_format;    /* equals 0 (binary), 1 (unsigned int), 2 (decimal) output */
+static unsigned int overlap;          /* 1 use overlapping samples, 0 don't (for tests with the option) */
+static unsigned int psamples;         /* Number of test runs in final KS test */
+static unsigned int quiet;            /* quiet flag -- surpresses full output report */
+static unsigned int rgb;              /* rgb test number */
+static unsigned int sts;              /* sts test number */
+static unsigned int Seed;             /* user selected seed.  Surpresses reseeding per sample.*/
+static off_t tsamples;        /* Generally should be "a lot".  off_t is u_int64_t. */
+static unsigned int user;             /* user defined test number */
+static unsigned int verbose;          /* Default is not to be verbose. */
+static double Xweak;          /* "Weak" generator cut-off (one sided) */
+static double Xfail;          /* "Unambiguous Fail" generator cut-off (one sided) */
+static unsigned int Xtrategy;         /* Strategy used in TTD mode */
+static unsigned int Xstep;            /* Number of additional psamples in TTD/RA mode */
+static unsigned int Xoff;             /* Max number of psamples in TTD/RA mode */
+static double x_user;         /* Reserved general purpose command line inputs for */
+static double y_user;         /* use in any new user test. */
+static double z_user;
   
  /*
   *========================================================================
@@ -226,13 +226,15 @@ typedef unsigned int uint;
   */
 #define KS_SAMPLES_PER_TEST_MAX 256
  /* We need two of these to do diehard_craps.  Sigh. */
- double *ks_pvalue,*ks_pvalue2;
- unsigned int kspi;
- struct timeval tv_start,tv_stop;
- int dummy,idiot;
- FILE *fp;
+static double *ks_pvalue,*ks_pvalue2;
+static unsigned int kspi;
+static struct timeval tv_start;
+static struct timeval tv_stop;
+static int dummy;
+static int idiot;
+static FILE *fp;
 #define MAXFIELDNUMBER 8
- char **fields;
+static char **fields;
 
  /*
   * Global variables and prototypes associated with file_input and
@@ -242,16 +244,16 @@ typedef unsigned int uint;
  off_t file_input_get_rtot(gsl_rng *rng);
  void file_input_set_rtot(gsl_rng *rng,unsigned int value);
 
- char filename[K];      /* Input file name */
- int fromfile;		/* set true if file is used for rands */
- int filenumbits;	/* number of bits per integer */
+static char filename[K];      /* Input file name */
+static int fromfile;		/* set true if file is used for rands */
+static int filenumbits;	/* number of bits per integer */
  /*
   * If we have large files, we can have a lot of rands.  off_t is
   * automagically u_int64_t if FILE_OFFSET_BITS is 64, according to
   * legend.
   */
- off_t filecount;	/* number of rands in file */
- char filetype;         /* file type */
+static off_t filecount;	/* number of rands in file */
+static char filetype;         /* file type */
 /*
  * This struct contains the data maintained on the operation of
  * the file_input rng, and can be accessed via rng->state->whatever
@@ -275,21 +277,23 @@ typedef unsigned int uint;
  /*
   * rng global vectors and variables for setup and tests.
   */
- const gsl_rng_type **types;       /* where all the rng types go */
- gsl_rng *rng;               /* global gsl random number generator */
+static const gsl_rng_type **types;       /* where all the rng types go */
+static gsl_rng *rng;               /* global gsl random number generator */
 
  /*
   * All required for GSL Singular Value Decomposition (to obtain
   * the rank of the random matrix for diehard rank tests).
   */
- gsl_matrix *A,*V;
- gsl_vector *S,*svdwork;
+static gsl_matrix *A;
+static gsl_matrix *V;
+static gsl_vector *S;
+static gsl_vector *svdwork;
 
- unsigned long int seed;             /* rng seed of run (?) */
- unsigned int random_max;       /* maximum rng returned by generator */
- unsigned int rmax;             /* scratch space for random_max manipulation */
- unsigned int rmax_bits;        /* Number of valid bits in rng */
- unsigned int rmax_mask;        /* Mask for valid section of unsigned int */
+static unsigned long int seed;             /* rng seed of run (?) */
+static unsigned int random_max;       /* maximum rng returned by generator */
+static unsigned int rmax;             /* scratch space for random_max manipulation */
+static unsigned int rmax_bits;        /* Number of valid bits in rng */
+static unsigned int rmax_mask;        /* Mask for valid section of unsigned int */
  
 /*
  * dTuple is used in a couple of my tests, but it seems like an

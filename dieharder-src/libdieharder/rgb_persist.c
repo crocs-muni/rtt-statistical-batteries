@@ -20,6 +20,9 @@
  */
 
 #include "dieharder/libdieharder.h"
+#include "dieharder/rgb_persist.h"
+
+unsigned int *rgb_persist_rand_uint;
 
 int rgb_persist(Test **test, Rgb_Persist *persist)
 {

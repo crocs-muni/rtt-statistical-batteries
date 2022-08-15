@@ -38,6 +38,14 @@
 #define RGB_OPERM_KMAX 10
 
 /*
+ * Global variables.
+ *
+ * rgb_operm_k is the size of the overlapping window that is slid along
+ * a data stream of rands from x_i to x_{i+k} to compute c[][].
+ */
+unsigned int rgb_operm_k;
+
+/*
  * Some globals that will eventually go in the test include where they
  * arguably belong.
  */

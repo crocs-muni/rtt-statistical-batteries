@@ -19,7 +19,7 @@
  /*
   * Shared space
   */
- char splitbuf[PK][PBUF];
+ static char splitbuf[PK][PBUF];
 
  /*
   * parse.c prototypes

@@ -63,7 +63,6 @@ set(LIBDIEHARDER_SOURCES
   sample.c
   skein_block64.c
   skein_block_ref.c
-  static_get_bits.c
   std_test.c
   sts_monobit.c
   sts_runs.c
