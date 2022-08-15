@@ -1,39 +1,14 @@
-Directory contains source code of TestU01 library and code for executable using this library. Exacutable takes file with binary data and will execute specified statistical analysis on it.
+# TestU01
+Simple executable providing CLI interface for TestU01 library.
+Exacutable takes file with binary data and will execute specified statistical analysis on it.
 
-======== Build notes ========
-Before executable, library must be built. This can be done with following commands in sorce code root directory.
-
-    ./configure --prefix=<install-dir>
-    make
-    make install
-    
-Then you can built executable with make inside "binary" directory. Before make, set following variables.
-
-    export LD_LIBRARY_PATH=<install-dir>/install/lib
-    export LIBRARY_PATH=<install-dir>/install/lib
-    export C_INCLUDE_PATH=<install-dir>/install/include
-
-Note: Executable must be built with flags -ltestu01 -lprobdist -lmylib -lm. Makefile will do that for you.
-
-These steps can be done using Makefile located in testu01 directory. Default TestU01 installation location is directory "install".
-
-======== Running ========
-If you built executable using Makefile you can run it right away (static build is set). Otherwise you have to run following commands before each run.
-
-    export LD_LIBRARY_PATH=<install-dir>/install/lib
-    export LIBRARY_PATH=<install-dir>/install/lib
-    export C_INCLUDE_PATH=<install-dir>/install/include
-    
-
-================================== [USAGE] ==================================
-
+## Usage
 For information about tests, their parameters and such, see
-TestU01 library documentation.
-http://simul.iro.umontreal.ca/testu01/guideshorttestu01.pdf
-
-      ./TestU01 [-m <battery>] [-t <test>] [-i <in_path>]
-                [-r <reps>] [--bit_nb <nb>] [--bit_r <r>]
-                [--bit_s <s>] [--params <pars>]
+[TestU01 library documentation](http://simul.iro.umontreal.ca/testu01/guideshorttestu01.pdf).
+```plain
+./TestU01 [-m <battery>] [-t <test>] [-i <in_path>]
+          [-r <reps>] [--bit_nb <nb>] [--bit_r <r>]
+          [--bit_s <s>] [--params <pars>]
 
 -m <battery>    (Mandatory) Option for choosing from which battery
                 the test will be picked. Possible values
@@ -83,5 +58,4 @@ http://simul.iro.umontreal.ca/testu01/guideshorttestu01.pdf
                 Decimals can be used too, for Bool values use 1 for true
                 and 0 for false. If this option is ommited, test will be
                 run in default settings according to library documentation.
-
-================================== [USAGE] ==================================
+```
