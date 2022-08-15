@@ -13,9 +13,10 @@ set(probdist_SOURCES
   src/wdist.c
 )
 
-add_library(probdist ${probdist_SOURCES})
+add_library(probdist STATIC ${probdist_SOURCES})
 target_include_directories(probdist PUBLIC ${probdist_GEN_INCLUDE_DIR})
 target_link_libraries(probdist PUBLIC testu01::mylib)
+set_target_properties(probdist PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 set(probdist_GENERATED_HEADERS)
 foreach(source_file ${probdist_SOURCES})

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.17)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -16,3 +16,4 @@ include_directories(${CMAKE_BINARY_DIR})
 add_subdirectory(mylib)
 add_subdirectory(probdist)
 add_subdirectory(testu01)
+add_subdirectory(cli_wrapper)

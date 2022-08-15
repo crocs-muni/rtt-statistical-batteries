@@ -66,8 +66,13 @@ set(testu01_SOURCES
 )
 
 add_library(testu01 ${testu01_SOURCES})
-target_include_directories(testu01 PRIVATE ${testu01_GEN_INCLUDE_DIR})
-target_link_libraries(testu01 PRIVATE testu01::mylib testu01::probdist)
+target_include_directories(testu01
+  PUBLIC
+  $<BUILD_INTERFACE:${testu01_GEN_INCLUDE_DIR}>
+  $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:include/TestU01>
+)
+target_link_libraries(testu01 PUBLIC testu01::mylib testu01::probdist m)
 
 set(testu01_GENERATED_HEADERS)
 
@@ -89,4 +94,17 @@ endforeach()
 add_custom_target(testu01_gens DEPENDS ${testu01_GENERATED_HEADERS})
 add_dependencies(testu01 testu01_gens)
 
+set_target_properties(testu01 PROPERTIES
+  VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
+  SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
+  PUBLIC_HEADER include/TestU01.h
+)
+
 add_library(testu01::testu01 ALIAS testu01)
+
+install(TARGETS testu01
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  PUBLIC_HEADER DESTINATION include/TestU01
+)
+install(FILES ${testu01_GENERATED_HEADERS} DESTINATION include/TestU01)

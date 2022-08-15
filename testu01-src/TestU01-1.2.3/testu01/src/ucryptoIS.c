@@ -10,6 +10,7 @@
 #include "addstr.h"
 
 #include "ucrypto.h"
+#include "ucryptoIS.h"
 #include "unif01.h"
 
 #include <stdio.h>

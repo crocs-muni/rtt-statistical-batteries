@@ -37,9 +37,7 @@ CC=================================================================CC
 #include <math.h>
 
 //-------------------Functions Prototypes----------------------------
-void rsrfft (double *x, int m);
-void rstage (int n, int n2, int n4, double *x1, double *x2, double *x3, double *x4);
-void rbitrev (double *x, int m);
+#include "fftc.h"
 //-------------------------------------------------------------------
 
 
