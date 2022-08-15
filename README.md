@@ -12,6 +12,8 @@ Official implementation is not used due to being too slow. Instead optimized ver
 Slightly modified version of Dieharder 3.31.1 is used. Modifications affect only battery output format, not the results itself.
 * **TestU01** [Official page](http://simul.iro.umontreal.ca/testu01/tu01.html)  
 This battery is shipped only as a library, we have custom command-line interface implemented.
+* **BSI** Implementation was extracted from ParanoYa application (created at Faculty of Electrical Engineering and Information Technology, STU in Bratislava). Battery is not used by [RTT](https://github.com/crocs-muni/randomness-testing-toolkit).
+* **FIPS** [Source code](https://salsa.debian.org/hmh/rng-tools/-/blob/master/fips.c) Battery is not used by [RTT](https://github.com/crocs-muni/randomness-testing-toolkit).
 
 ## Installation
 Build process was tested on Debian 8. All used tools should be also available on other Linux distributions.
