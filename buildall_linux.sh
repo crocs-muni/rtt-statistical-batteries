@@ -3,7 +3,13 @@ set -e
 
 # Configuration:
 install_destination=$PWD/install
-subdirectories=(bsi-src dieharder-src fips-src nist-sts-src testu01-src)
+subdirectories=(
+  bsi-src
+  dieharder-src
+  fips-src
+  nist-sts-src
+  testu01-src
+)
 build_type=Release
 
 # Build:

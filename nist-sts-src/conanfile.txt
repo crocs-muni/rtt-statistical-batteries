@@ -1,5 +1,1 @@
 [requires]
-fftw/3.3.9@#3c664c1ffd15ea222894a05f9e026ed7
-
-[generators]
-cmake_find_package
