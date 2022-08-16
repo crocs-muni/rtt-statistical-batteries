@@ -8,7 +8,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 include(cmake/options.cmake)
 
 if(NIST_STS_USE_FFTW)
-  find_package(FFTW3 REQUIRED)
+  include(cmake/add_fftw.cmake)
 endif()
 
 add_executable(assess
@@ -46,7 +46,7 @@ target_include_directories(assess PUBLIC
   $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(assess PUBLIC
-  $<$<BOOL:${NIST_STS_USE_FFTW}>:FFTW3::FFTW3>
+  $<$<BOOL:${NIST_STS_USE_FFTW}>:FFTW3::fftw3>
   $<$<NOT:$<BOOL:${WIN32}>>:m> # C math library
 )
 install(TARGETS assess

@@ -28,9 +28,7 @@
  *
 \*************************************************************************/
 
-#ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
 
 #include "gdef.h"
 #ifdef HAVE_WINDOWS_H

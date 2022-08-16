@@ -19,6 +19,9 @@ set(mylib_SOURCES
 add_library(mylib STATIC ${mylib_SOURCES})
 target_include_directories(mylib PUBLIC ${mylib_GEN_INCLUDE_DIR})
 set_target_properties(mylib PROPERTIES POSITION_INDEPENDENT_CODE ON)
+if(WIN32)
+  target_link_libraries(mylib PUBLIC wsock32)
+endif()
 
 set(mylib_GENERATED_HEADERS)
 foreach(source_file ${mylib_SOURCES})

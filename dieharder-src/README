@@ -67,10 +67,16 @@ pacman -S mingw-w64-x86_64-gsl # version
 CMake build system makes compilation much easier.
 However, the build system only compiles binaries (old autoconf supported RPM, docs, etc.).
 ### Prerequisites
-- CMake 3.13 or higher
+- CMake 3.17 or higher
 - [Ninja generator](https://ninja-build.org/) - `highly recommended`
 - C compiler
 - Conan 1.48.1 or higher (optional, error-prone, not recommended)
+
+### Windows MinGW
+Install additional packages:
+```bash
+pacman -S libtool m4 mingw-w64-x86_64-gsl
+```
 
 ### Conan installation
 Conan integration was introduced to this project only for making development easier but it is highly recommended to install the GSL natively (with apt/yum/dnf/pacman).
@@ -110,7 +116,7 @@ Troubleshooting:
 
 ### Tested C compilers
 Linux - GCC 7.5.0, GCC 8.4.0, Clang 10.0.0
-Windows - MinGW64 GCC 11.2.0
+Windows - MinGW64 GCC 11.3.0
 Windows - MSVC2019 `does not work` due to some header files used by the project (i.e. sys/time.h)
 
 ### Steps
@@ -118,6 +124,8 @@ Windows - MSVC2019 `does not work` due to some header files used by the project 
 cd <folder-with-this-readme>
 mkdir build
 cd build
+# on Linux, run this additional step:
+conan install .. -b missing
 # -G Ninja can be omitted
 cmake -G Ninja .. # for static libdieharder or:
 cmake -DBUILD_SHARED_LIBS=ON .. # for shared libdieharder

@@ -1,5 +1,71 @@
 #pragma once
 
+#define HAVE_CONFIG_H
+
+#if __has_include (<windows.h>)
+#define HAVE_WINDOWS_H
+#endif
+
+#if __has_include (<sys/utsname.h>)
+#define HAVE_SYS_UTSNAME_H
+#endif
+
+#if __has_include(<unistd.h>)
+#define HAVE_UNISTD_H
+#endif
+
+#if __has_include(<dlfcn.h>)
+#define HAVE_DLFCN_H
+#endif
+
+#if __has_include(<gmp.h>)
+#define HAVE_GMP_H
+#endif
+
+#if __has_include(<inttypes.h>)
+#define HAVE_INTTYPES_H
+#endif
+
+#define HAVE_LONG_LONG
+
+#if __has_include(<mathlink.h>)
+#define HAVE_MATHEMATICA
+#endif
+
+#if __has_include(<memory.h>)
+#define HAVE_MEMORY_H
+#endif
+
+#if __has_include(<stdint.h>)
+#define HAVE_STDINT_H
+#define HAVE_UINT32_T
+#define HAVE_UINT8_T
+#endif
+
+#if __has_include(<stdlib.h>)
+#define HAVE_STDLIB_H
+#endif
+
+#if __has_include(<strings.h>)
+#define HAVE_STRINGS_H
+#endif
+
+#if __has_include(<string.h>)
+#define HAVE_STRING_H
+#endif
+
+#if __has_include(<sys/stat.h>)
+#define HAVE_SYS_STAT_H
+#endif
+
+#if __has_include(<sys/types.h>)
+#define HAVE_SYS_TYPES_H
+#endif
+
+#if !__has_include(<sys/types.h>)
+typedef unsigned int size_t;
+#endif
+
 #cmakedefine PACKAGE_VERSION "@PACKAGE_VERSION@"
 #cmakedefine PACKAGE_NAME "@PACKAGE_NAME@"
 #cmakedefine PACKAGE_STRING "@PACKAGE_STRING@"

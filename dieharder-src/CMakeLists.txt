@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.17)
 
 # tell CMake to search for Find<Package>.cmake files also in build directory
 # needed for conan integration
