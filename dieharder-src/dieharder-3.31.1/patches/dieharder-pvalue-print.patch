@@ -1,0 +1,54 @@
+diff --git a/dieharder-src/dieharder-3.31.1/dieharder/output.c b/dieharder-src/dieharder-3.31.1/dieharder/output.c
+index cb152ea..9b6eb68 100644
+--- a/dieharder-src/dieharder-3.31.1/dieharder/output.c
++++ b/dieharder-src/dieharder-3.31.1/dieharder/output.c
+@@ -521,6 +521,23 @@ void output_table_line(Dtest *dtest,Test **test)
+      field++;
+    }
+ 
++   /*
++    * Added by Lubo Obratil.
++    * So that we can inspect p-values more closely.
++    * Values are wrapped in '+' characters so that
++    * they can be easily grep'd out of report.
++    */
++   if(tflag & TPSAMPLE_VALS) {
++       fprintf(stdout , "\n#=============================================================================#\n");
++       fprintf(stdout , "#                          Values of test p-values                            #\n");
++       fprintf(stdout , "#=============================================================================#\n");
++       size_t iter = 0;
++       for(iter = 0 ; iter < test[i]->psamples ; ++iter) {
++           fprintf(stdout , "++++%.8f++++\n" , test[i]->pvalues[iter]);
++       }
++       fprintf(stdout , "#=============================================================================#\n");
++   }
++
+    /*
+     * No separator at the end, just EOL
+     */
+diff --git a/dieharder-src/dieharder-3.31.1/dieharder/output.h b/dieharder-src/dieharder-3.31.1/dieharder/output.h
+index c6cb9c6..da4854d 100644
+--- a/dieharder-src/dieharder-3.31.1/dieharder/output.h
++++ b/dieharder-src/dieharder-3.31.1/dieharder/output.h
+@@ -21,10 +21,11 @@
+    TSEED = 4096,
+    TRATE = 8192,
+    TNUM = 16384,
+-   TNO_WHITE = 32768
++   TNO_WHITE = 32768,
++   TPSAMPLE_VALS = 65536
+  } Table;
+ 
+-#define TCNT 16
++#define TCNT 17
+ 
+  /*
+   * These should have a maximum length one can use in strncmp().
+@@ -49,5 +50,6 @@
+  "seed",
+  "rate",
+  "show_num",
+- "no_whitespace"
++ "no_whitespace",
++ "psample_values"
+  };
