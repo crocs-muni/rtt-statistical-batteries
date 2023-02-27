@@ -9,7 +9,7 @@ It is highly recommended to use this set as the batteries are modified to be ful
 * **NIST Statistical Test Suite** [Official page](http://csrc.nist.gov/groups/ST/toolkit/rng/documentation_software.html)  
 Official implementation is not used due to being too slow. Instead optimized version is used: [NIST-STS-optimised](https://github.com/sysox/NIST-STS-optimised).
 * **Dieharder: A Random Number Test Suite** [Official page](http://www.phy.duke.edu/~rgb/General/dieharder.php)  
-Slightly modified version of Dieharder 3.31.1 is used. Modifications affect only battery output format, not the results itself.
+Debian modified version of Dieharder 3.31.1 is used: [Dieharder git](https://github.com/eddelbuettel/dieharder).
 * **TestU01** [Official page](http://simul.iro.umontreal.ca/testu01/tu01.html)  
 This battery is shipped only as a library, we have custom command-line interface implemented.
 
