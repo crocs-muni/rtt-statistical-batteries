@@ -522,23 +522,6 @@ void output_table_line(Dtest *dtest,Test **test)
    }
 
    /*
-    * Added by Lubo Obratil.
-    * So that we can inspect p-values more closely.
-    * Values are wrapped in '+' characters so that
-    * they can be easily grep'd out of report.
-    */
-   if(tflag & TPSAMPLE_VALS) {
-       fprintf(stdout , "\n#=============================================================================#\n");
-       fprintf(stdout , "#                          Values of test p-values                            #\n");
-       fprintf(stdout , "#=============================================================================#\n");
-       size_t iter = 0;
-       for(iter = 0 ; iter < test[i]->psamples ; ++iter) {
-           fprintf(stdout , "++++%.8f++++\n" , test[i]->pvalues[iter]);
-       }
-       fprintf(stdout , "#=============================================================================#\n");
-   }
-
-   /*
     * No separator at the end, just EOL
     */
    fprintf(stdout,"\n");
