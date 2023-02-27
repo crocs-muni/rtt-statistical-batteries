@@ -26,8 +26,7 @@ VERSION=@VERSION@
 # SRCINCLUDES = $(shell ls *.h  2>&1 | sed -e "/\/bin\/ls:/d")
 bin_PROGRAMS = dieharder
 man1_MANS = dieharder.1
-dieharder_CFLAGS= -Wall -fcommon
-dieharder_LDADD = ../libdieharder/libdieharder.la -lgsl -lgslcblas -lm
+dieharder_LDADD = ../libdieharder/libdieharder.la
 dieharder_SOURCES = \
 	add_ui_rngs.c \
 	add_ui_tests.c \
@@ -66,8 +65,8 @@ DEFINES = -DVERSION=$(VERSION)
 # CC = gcc
 
 # Compile flags (use fairly standard -O3 as default)
-AM_CPPFLAGS = -I ${top_srcdir}/include $(DEFINES) -I ${includedir}
-AM_CFLAGS = -O3 -fcommon
+AM_CPPFLAGS = -I ${top_srcdir}/include $(DEFINES)
+AM_CFLAGS = -O3
 
 # Load flags (optional)
 # To build a completely static dieharder, uncomment the following line.

@@ -96,9 +96,9 @@ AC_TYPE_SIZE_T
 AC_C_VOLATILE
 AC_C_INLINE
 
-DIEHARDER_CFLAGS="-I$includedir"
-dieharder_CFLAGS="-std=c99 -Wall -pedantic -I$includedir"
-libdieharder_lo_CFLAGS="-Wall -pedantic -I$includedir"
+DIEHARDER_CFLAGS=""
+dieharder_CFLAGS="-std=c99 -Wall -pedantic"
+libdieharder_lo_CFLAGS="-Wall -pedantic"
 DIEHARDER_LIBS="-L$libdir -ldieharder"
 ACLOCAL_AMFLAGS="-I m4"
 
@@ -115,6 +115,7 @@ AC_SUBST(ACLOCAL_AMFLAGS)
 #   -lgsl -lgslcblas
 # for the SECOND test, required (in that order) to succeed.
 #==================================================================
+AC_CHECK_LIB([m],[log])
 AC_CHECK_HEADER([gsl/gsl_sf_gamma.h],,[AC_MSG_ERROR([Couldn't find GSL headers.  Please install the gsl-devel package.])])
 AC_CHECK_LIB([gslcblas], [main],,[AC_MSG_ERROR([Couldn't find libgsl. Please install the gsl package.])])
 AC_CHECK_LIB([gsl],[gsl_sf_gamma])
