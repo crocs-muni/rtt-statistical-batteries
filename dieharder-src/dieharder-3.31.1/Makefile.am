@@ -88,7 +88,7 @@ $(INCTIME):
 	(cd include; \
 	make)
 
-$(PROGTIME):
+$(PROGTIME): $(LIBTIME)
 	(cd $(PROGRAM); \
 	make)
 
@@ -294,3 +294,6 @@ rdhprep:
 rdh:	$(RDHPKG)
 	R CMD INSTALL $(RDHPKG)
 
+# manual is not in SUBDIRS, need to clean it separately
+distclean-local:
+	rm manual/Makefile

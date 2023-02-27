@@ -81,13 +81,21 @@ void output(Dtest *dtest,Test **test)
   * rewinds, period.
   */
  if(strncmp("file_input",gsl_rng_name(rng),10) == 0){
-   /*
-    * This needs its own output flag and field.  I'm losing it for now.
-   if(!quiet){
-     fprintf(stdout,"# %u rands were used in this test\n",file_input_get_rtot(rng));
+   if(tflag & TFILE_RNG_STAT) {
+     if(strncmp("file_input_raw",gsl_rng_name(rng),14) == 0){
+       fprintf(stdout,"# The %s %s %lu rands (%llu bytes) were used\n",
+               filename, gsl_rng_name(rng),file_input_get_rtot(rng),
+               (unsigned long long)file_input_get_rtot(rng) * sizeof(uint));
+     } else {
+       fprintf(stdout,"# The file %s %s %lu rands were used\n",
+               filename, gsl_rng_name(rng),file_input_get_rtot(rng));
+     }
+     if(file_input_get_rewind_cnt(rng) == 0){
+       fprintf(stdout,"# The file %s was rewound %u times\n",
+               gsl_rng_name(rng),file_input_get_rewind_cnt(rng));
+     }
      fflush(stdout);
    }
-    */
    if(file_input_get_rewind_cnt(rng) != 0){
      fprintf(stderr,"# The file %s was rewound %u times\n",gsl_rng_name(rng),file_input_get_rewind_cnt(rng));
      fflush(stderr);
@@ -519,6 +527,17 @@ void output_table_line(Dtest *dtest,Test **test)
        fprintf(stdout,"%10lu",seed);
      }
      field++;
+   }
+
+   if(tflag & TPSAMPLE_VALS) {
+       fprintf(stdout , "\n#=============================================================================#\n");
+       fprintf(stdout , "#                          Values of test p-values                            #\n");
+       fprintf(stdout , "#=============================================================================#\n");
+       size_t iter = 0;
+       for(iter = 0 ; iter < test[i]->psamples ; ++iter) {
+           fprintf(stdout, "%c%10.8f%c\n", table_separator, test[i]->pvalues[iter], table_separator);
+       }
+       fprintf(stdout , "#=============================================================================#\n");
    }
 
    /*
