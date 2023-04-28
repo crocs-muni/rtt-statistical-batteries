@@ -168,4 +168,3 @@ void unif01_DeleteFileStreamGen(unif01_Gen * gen) {
     }
     free(gen);
 }
-
