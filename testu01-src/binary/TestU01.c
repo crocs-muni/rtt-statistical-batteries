@@ -3,12 +3,7 @@
 #include "TestU01Settings.h"
 #include "FileStreamGen.h"
 
-//#define TESTING
-
 int main(int argc , char * argv[]) {
-#ifdef TESTING
-#else
-    /* Simple main function. So elegant. */
     TestU01Settings * settings = initSettings(argc , argv);
     if(!settings) {
         fprintf(stderr , "[ERROR] CLI arguments parsing failure.\n");
@@ -20,5 +15,4 @@ int main(int argc , char * argv[]) {
 
     deleteSettings(settings);
     return 0;
-#endif
 }
