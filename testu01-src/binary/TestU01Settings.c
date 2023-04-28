@@ -509,7 +509,7 @@ void tu01_execSmallCrushTest(const TestU01Settings * settings) {
         } else if (settings->testConstant <= sc_sknuth_Gap) {
             doTest = do_sknuth_Gap;
         } else if (settings->testConstant <= sc_sknuth_SimpPoker) {
-            doTest = do_sknuth_Gap;
+            doTest = do_sknuth_SimpPoker;
         } else if (settings->testConstant <= sc_sknuth_CouponCollector) {
             doTest = do_sknuth_CouponCollector;
         } else if (settings->testConstant <= sc_sknuth_MaxOft) {
