@@ -118,37 +118,3 @@ int do_sstring_HammingIndep(const TestU01Settings * settings , unif01_Gen * gene
 int do_sstring_Run(const TestU01Settings * settings , unif01_Gen * generator);
 
 int do_sstring_AutoCor(const TestU01Settings * settings , unif01_Gen * generator);
-
-void print_double(double num);
-
-void print_1stlvl_statcoll_Collector(const statcoll_Collector * result);
-
-void print_1stlvl_sres_Basic(const sres_Basic * result);
-
-void print_1stlvl_sres_Chi2(const sres_Chi2 * result);
-
-void print_1stlvl_sres_Disc(const sres_Disc * result);
-
-void print_1stlvl_sknuth_Res1(const sknuth_Res1 * result);
-
-void print_1stlvl_sknuth_Res2(const sknuth_Res2 * result);
-
-void print_1stlvl_snpair_Res(const snpair_Res * result);
-
-void print_1stlvl_smarsa_Res(const smarsa_Res * result);
-
-void print_1stlvl_smarsa_Res2(const smarsa_Res2 * result);
-
-void print_1stlvl_sres_Poisson(const sres_Poisson * result);
-
-void print_1stlvl_swalk_Res(const swalk_Res * result);
-
-void print_1stlvl_scomp_Res(const scomp_Res * result);
-
-void print_1stlvl_sspectral_Res(const sspectral_Res * result);
-
-void print_1stlvl_sstring_Res(const sstring_Res * result);
-
-void print_1stlvl_sstring_Res2(const sstring_Res2 * result);
-
-void print_1stlvl_sstring_Res3(const sstring_Res3 * result);
