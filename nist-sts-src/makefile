@@ -1,5 +1,5 @@
 CC = gcc
-GCCFLAGS = -c -Wall
+GCCFLAGS = -c -Wall -g
 ROOTDIR = .
 SRCDIR = $(ROOTDIR)/src
 OBJDIR = $(ROOTDIR)/obj
@@ -17,10 +17,10 @@ OBJ = $(OBJDIR)/assess.o $(OBJDIR)/frequency.o $(OBJDIR)/blockFrequency.o \
       $(OBJDIR)/BMA.o $(OBJDIR)/BM.o $(OBJDIR)/LUTs.o $(OBJDIR)/main.o  $(OBJDIR)/tools.o
 
 assess: $(OBJ)
-	$(CC) -o $@ $(OBJ) -lm
+	$(CC) -g -o $@ $(OBJ) -lm
 
 $(OBJDIR)/assess.o: $(SRCDIR)/assess.c defs.h decls.h utilities.h
-	$(CC) -o $@ -c $(SRCDIR)/assess.c
+	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/assess.c
 
 $(OBJDIR)/frequency.o: $(SRCDIR)/frequency.c defs.h externs.h
 	$(CC) -o $@ $(GCCFLAGS) $(SRCDIR)/frequency.c
