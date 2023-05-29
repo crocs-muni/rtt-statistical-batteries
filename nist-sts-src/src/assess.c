@@ -288,7 +288,6 @@ partitionResultFile(int numOfFiles, int numOfSequences, int option, int testName
 	int		i, k, m, j, start, end, num, numread;
 	float	c;
 	FILE	**fp = (FILE **)calloc(numOfFiles + 1, sizeof(FILE *));
-	int		*results = (int *)calloc(numOfFiles, sizeof(int *));
 	char	*s[MAXFILESPERMITTEDFORPARTITION];
 	char	resultsDir[200];
 
