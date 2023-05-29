@@ -106,6 +106,31 @@ main(int argc, char *argv[])
 			tp.fast = 1;
 			cmdFlags.argCounter++;
 		}
+		if (!strcmp(argv[i], "-onlymem") || !strcmp(argv[i], "--onlymem")){
+			cmdFlags.output = 0;
+			cmdFlags.argCounter++;
+
+		}
+		if (!strcmp(argv[i], "-fileoutput") || !strcmp(argv[i], "--fileoutput")){
+			cmdFlags.output = 1;
+			cmdFlags.argCounter++;
+		}
+		if (!strcmp(argv[i], "-ascii") || !strcmp(argv[i], "--ascii")){
+			cmdFlags.fileFormat = 0;
+			cmdFlags.argCounter++;
+		}
+		if (!strcmp(argv[i], "-binary") || !strcmp(argv[i], "--binary")){
+			cmdFlags.fileFormat = 1;
+			cmdFlags.argCounter++;
+		}
+		if (!strcmp(argv[i], "-defaultpar") || !strcmp(argv[i], "--defaultpar")){
+			cmdFlags.fixArguments = 1;
+			cmdFlags.argCounter++;
+		}
+
+		if (i == (argc - 1))
+			break;
+
 		if (!strcmp(argv[i], "-file") || !strcmp(argv[i], "--file")) {
 			cmdFlags.fileGen = 1;
 			option = 0;
@@ -156,31 +181,10 @@ main(int argc, char *argv[])
 			cmdFlags.fixArguments = 1;
 			cmdFlags.argCounter = cmdFlags.argCounter + 2;
 		}
-		if (!strcmp(argv[i], "-defaultpar") || !strcmp(argv[i], "--defaultpar")){
-			cmdFlags.fixArguments = 1;
-			cmdFlags.argCounter++;
-		}
 		if (!strcmp(argv[i], "-streams") || !strcmp(argv[i], "--streams")){
 			tp.numOfBitStreams = atoi(argv[++i]);
 			cmdFlags.bitStreams = 1;
 			cmdFlags.argCounter = cmdFlags.argCounter + 2;
-		}
-		if (!strcmp(argv[i], "-onlymem") || !strcmp(argv[i], "--onlymem")){
-			cmdFlags.output = 0;
-			cmdFlags.argCounter++;
-
-		}
-		if (!strcmp(argv[i], "-fileoutput") || !strcmp(argv[i], "--fileoutput")){
-			cmdFlags.output = 1;
-			cmdFlags.argCounter++;
-		}
-		if (!strcmp(argv[i], "-ascii") || !strcmp(argv[i], "--ascii")){
-			cmdFlags.fileFormat = 0;
-			cmdFlags.argCounter++;
-		}
-		if (!strcmp(argv[i], "-binary") || !strcmp(argv[i], "--binary")){
-			cmdFlags.fileFormat = 1;
-			cmdFlags.argCounter++;
 		}
 	}
 	if (cmdFlags.argCounter != argc - 1 || tp.n == 0){
