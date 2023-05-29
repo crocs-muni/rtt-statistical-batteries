@@ -421,14 +421,14 @@ OverlappingTemplateMatchings4(int m, int n)
 		window = get_nth_block4(array, i);
 
 		for (; i < (block + 1)*M - m + 1 - 8; i += 8) {
-			if ((window & mask) == sequence) ++W_obs; window >>= 1;
-			if ((window & mask) == sequence) ++W_obs; window >>= 1;
-			if ((window & mask) == sequence) ++W_obs; window >>= 1;
-			if ((window & mask) == sequence) ++W_obs; window >>= 1;
-			if ((window & mask) == sequence) ++W_obs; window >>= 1;
-			if ((window & mask) == sequence) ++W_obs; window >>= 1;
-			if ((window & mask) == sequence) ++W_obs; window >>= 1;
-			if ((window & mask) == sequence) ++W_obs;
+			if ((window & mask) == sequence) { ++W_obs; } window >>= 1;
+			if ((window & mask) == sequence) { ++W_obs; } window >>= 1;
+			if ((window & mask) == sequence) { ++W_obs; } window >>= 1;
+			if ((window & mask) == sequence) { ++W_obs; } window >>= 1;
+			if ((window & mask) == sequence) { ++W_obs; } window >>= 1;
+			if ((window & mask) == sequence) { ++W_obs; } window >>= 1;
+			if ((window & mask) == sequence) { ++W_obs; } window >>= 1;
+			if ((window & mask) == sequence) { ++W_obs; }
 			window = *(unsigned int*)(++pbyte);
 		}
 
