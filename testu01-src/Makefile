@@ -2,6 +2,8 @@ export LD_LIBRARY_PATH=${PWD}/install/lib
 export LIBRARY_PATH=${PWD}/install/lib
 export C_INCLUDE_PATH=${PWD}/install/include
 
+export CFLAGS=-g -O2 -Wno-stringop-overflow
+
 all: binary testu01
 
 binary: testu01
