@@ -10,6 +10,6 @@ binary: testu01
 	cd binary && make && make clean
 
 testu01: force 
-	if [ ! -d install ]; then cd TestU01-1.2.3 && autoreconf -i && ./configure --prefix=`pwd`/../install && make && make install && make clean; fi
+	if [ ! -d install ]; then cd TestU01-1.2.3 && autoreconf -i -f && ./configure --prefix=`pwd`/../install && make && make install && make clean; fi
 
 force: ;
