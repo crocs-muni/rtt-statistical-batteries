@@ -12,4 +12,4 @@ TestU01: $(OBJ)
 .PHONY: clean
 
 clean:
-	rm -f *.o
+	rm -f *.o TestU01
