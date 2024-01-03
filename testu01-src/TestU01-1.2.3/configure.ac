@@ -4,7 +4,7 @@
 # AC_PREREQ(2.57)
 AC_INIT(TestU01, 1.2.3, lecuyer@iro.umontreal.ca)
 AC_CONFIG_SRCDIR([mylib/num.c])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_HEADER([include/gdefconf.h])
 

@@ -426,9 +426,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(top_srcdir)/include/Makefile.def
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu testu01/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign testu01/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu testu01/Makefile
+	  $(AUTOMAKE) --foreign testu01/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
