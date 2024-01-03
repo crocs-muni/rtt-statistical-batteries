@@ -28,7 +28,7 @@ ln -s nist-sts-src/assess nist-sts
 cd testu01-src
 make
 cd ..
-ln -s testu01-src/binary/TestU01 testu01
+ln -s testu01-src/install/bin/TestU01 testu01
 
 printf "\n\nInstallation complete.\n"
 
