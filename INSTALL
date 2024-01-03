@@ -1,13 +1,17 @@
 #! /bin/bash
 set -e
 
+distro=$(cat /etc/*release | grep "^ID=" | sed s/ID=//)
 
 # Installing required packages for build
-sudo apt-get install libgsl0-dev --yes
-sudo apt-get install build-essential --yes
-sudo apt-get install autotools-dev --yes
-sudo apt-get install automake --yes
-sudo apt-get install libtool --yes
+if [ "${distro}" = "fedora" ]; then
+sudo dnf install make automake libtool gcc gcc-c++
+sudo dnf install gsl-devel
+else
+# Installing required packages for build
+sudo apt-get install --yes build-essential autotools-dev automake libtool
+sudo apt-get install --yes libgsl0-dev
+fi
 
 # Dieharder installation
 cd dieharder-src
