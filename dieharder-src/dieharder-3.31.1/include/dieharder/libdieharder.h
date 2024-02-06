@@ -1,3 +1,6 @@
+#ifndef _LIBDIEHARDER_H_
+#define _LIBDIEHARDER_H_
+
 /*
  *========================================================================
  * See copyright in copyright.h and the accompanying file COPYING
@@ -26,7 +29,15 @@
 
 /* This turns on M_PI in math.h */
 #define __USE_BSD 1
+#ifdef __CYGWIN__
+#undef __BSD_VISIBLE
+#define __BSD_VISIBLE 1
+#endif /* __CYGWIN__ */
 #include <math.h>
+#ifdef __CYGWIN__
+#undef __BSD_VISIBLE
+#define __BSD_VISIBLE 0
+#endif /* __CYGWIN__ */
 #include <limits.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
@@ -105,6 +116,7 @@
  double chisq_poisson(unsigned int *observed,double lambda,int kmax,unsigned int nsamp);
  double chisq_binomial(double *observed,double prob,unsigned int kmax,unsigned int nsamp);
  double chisq_pearson(double *observed,double *expected,int kmax);
+ double chisq_uint_uniform_gtest(uint *observed,long numItems,int kmax);
  double sample(void *testfunc());
  double kstest(double *pvalue,int count);
  double kstest_kuiper(double *pvalue,int count);
@@ -151,7 +163,6 @@
   *========================================================================
   */
  extern unsigned int all;              /* Flag to do all tests on selected generator */
- extern unsigned int binary;           /* Flag to output rands in binary (with -o -f) */
  extern unsigned int bits;             /* bitstring size (in bits) */
  extern unsigned int diehard;          /* Diehard test number */
  extern unsigned int generator;        /* GSL generator id number to be tested */
@@ -301,3 +312,7 @@ typedef struct {
   double c[RGB_MINIMUM_DISTANCE_MAXDIM];
 } dTuple;
  
+#ifdef __CYGWIN__
+typedef       unsigned int    uint;
+#endif /* __CYGWIN__ */
+#endif /* _LIBDIEHARDER_H_ */
