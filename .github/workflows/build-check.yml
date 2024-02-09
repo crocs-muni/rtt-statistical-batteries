@@ -1,0 +1,18 @@
+name: Build check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run INSTALL and build
+      run: ./INSTALL
+    - name: make clean
+      run: make clean
+    - name: make static build
+      run: make static
