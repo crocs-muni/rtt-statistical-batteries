@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 set -e
 
 distro=$(cat /etc/*release | grep "^ID=" | sed s/ID=//)
@@ -13,26 +13,7 @@ sudo apt-get install --yes build-essential autotools-dev automake libtool
 sudo apt-get install --yes libgsl0-dev
 fi
 
-# Dieharder installation
-cd dieharder-src
-make
-cd ..
-ln -s dieharder-src/install/bin/dieharder dieharder
+make all
 
-# NIST STS installation
-cd nist-sts-src
-mkdir -p obj
-make
-cd experiments
-bash create-dir-script
-cd ../..
-ln -s nist-sts-src/assess nist-sts
-
-# TestU01 installation
-cd testu01-src
-make
-cd ..
-ln -s testu01-src/install/bin/TestU01 testu01
-
-printf "\n\nInstallation complete.\n"
+printf "\nInstallation complete.\n"
 
